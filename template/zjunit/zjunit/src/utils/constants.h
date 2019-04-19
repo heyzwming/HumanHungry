@@ -25,8 +25,8 @@
 #define __CONSTANTS_H__
 #include "vector.h"
 
-const int MAX_ROBOTS = 12;
-const int MAX_TEAM_ROBOTS = 6;
+const int MAX_ROBOTS = 8;
+const int MAX_TEAM_ROBOTS = 4;
 const int MAX_ROBOT_SIZE = 9;
 const double BALL_SIZE = 5;
 const int SEGMENT_NUM = 4;
