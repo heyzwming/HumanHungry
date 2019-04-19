@@ -16,13 +16,14 @@ ReceiveBall::~ReceiveBall()
 
 PlayerTask ReceiveBall::plan(int runner_id){
 	PlayerTask task;
+	WorldModel worldModel;
 	//接球需要的参数
-	const point2f& ball = worldModel::getInstance()->get_ball_pos();
-	const point2f& vel = worldModel::getInstance()->get_ball_vel();
-	const point2f& receiver = worldModel::getInstance()->get_our_player_pos(runner_id);
+	const point2f& ball = worldModel.get_ball_pos();
+	const point2f& vel = worldModel.get_ball_vel();
+	const point2f& receiver = worldModel.get_our_player_pos(runner_id);
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
-	const float& receiver_dir = worldModel::getInstance()->get_our_player_dir(runner_id);
-	point2f reciver_head = receiver + Maths::vector2polar(ROBOT_HEAD , receiver_dir);
+	const float& receiver_dir = worldModel.get_our_player_dir(runner_id);
+	point2f reciver_head = receiver + Maths::polar2vector(ROBOT_HEAD , receiver_dir);
 	bool close_receiver = (receiver - ball).length() < 50;
 	bool head_toward_ball = false;
 	bool ball_moveto_head = false;

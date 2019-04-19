@@ -46,7 +46,7 @@ public:
 	void set_opp_goalie(int goalie_id){ opp_goalie = goalie_id; }
 	void set_ball(Ball* b){ match_ball = b; }
 	const BallVision& get_ball()const{ return match_ball->get_ball_vision(); }
-	const point2f& get_ball_pos(int c)const{ return match_ball->get_pos(c); }
+	const point2f& get_ball_pos(int c)const{ return match_ball->get_pos(c); }	//获得上一帧球的位置
 	const point2f& get_ball_pos()const{ return match_ball->get_pos(); }
 	const point2f& get_ball_vel()const{ return match_ball->get_vel(); }
 	const int  robots_size()const { return max_robots; }

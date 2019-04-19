@@ -1,6 +1,7 @@
 #ifndef GORECEIVEPOS_H
 #define GORECEIVEPOS_H
-#include "strategy/task/PlayerSkill.h"
+//#include "utils/PlayerSkill.h"
+#include "utils/PlayerTask.h"
 class GoReceivePos
 {
 public:

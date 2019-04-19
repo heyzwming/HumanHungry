@@ -1,38 +1,10 @@
-﻿  GetBall.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\getball.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\getball.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerTask.h”: No such file or directory
-  goalie.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\goalie.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\goalie.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerSkill.h”: No such file or directory
-  GoReceivePos.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\goreceivepos.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\utils\vector.h(662): warning C4244: “参数”: 从“num”转换到“num”，可能丢失数据
-          with
-          [
-              num=double
-          ]
-          and
-          [
-              num=float
-          ]
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\goreveivepos.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerSkill.h”: No such file or directory
-  GotoPos.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\gotopos.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerTask.h”: No such file or directory
-  NormalDef.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\normaldef.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\normaldef.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerTask.h”: No such file or directory
-  PassBall.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\passball.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\passball.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerTask.h”: No such file or directory
-  PenaltyDef.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\penaltydef.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerTask.h”: No such file or directory
-  PenaltyKick.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\penaltykick.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerTask.h”: No such file or directory
-  ReceiveBall.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\receiveball.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\receiveball.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerTask.h”: No such file or directory
-  RefDef.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\refdef.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerTask.h”: No such file or directory
-  Shoot.cpp
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\shoot.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-c:\!soccor\som v3.3.3\team_blue\robocup\template\zjunit\zjunit\src\shoot.h(3): fatal error C1083: 无法打开包括文件: “strategy/task/PlayerTask.h”: No such file or directory
+﻿    正在创建库 C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\template\zjunit\x64\Release\zjunit.lib 和对象 C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\template\zjunit\x64\Release\zjunit.exp
+def.obj : error LNK2001: 无法解析的外部符号 "class Vector::vector2d<float> __cdecl Maths::polar2vector(float,float)" (?polar2vector@Maths@@YA?AV?$vector2d@M@Vector@@MM@Z)
+GetBall.obj : error LNK2001: 无法解析的外部符号 "public: float __cdecl WorldModel::get_our_player_dir(int)const " (?get_our_player_dir@WorldModel@@QEBAMH@Z)
+GetBall.obj : error LNK2001: 无法解析的外部符号 "public: class Vector::vector2d<float> const & __cdecl WorldModel::get_our_player_pos(int)const " (?get_our_player_pos@WorldModel@@QEBAAEBV?$vector2d@M@Vector@@H@Z)
+GetBall.obj : error LNK2001: 无法解析的外部符号 "public: __cdecl WorldModel::~WorldModel(void)" (??1WorldModel@@QEAA@XZ)
+GetBall.obj : error LNK2001: 无法解析的外部符号 "public: __cdecl WorldModel::WorldModel(void)" (??0WorldModel@@QEAA@XZ)
+GoReceivePos.obj : error LNK2001: 无法解析的外部符号 "public: class Vector::vector2d<float> const & __cdecl WorldModel::get_opp_player_pos(int)const " (?get_opp_player_pos@WorldModel@@QEBAAEBV?$vector2d@M@Vector@@H@Z)
+PassBall.obj : error LNK2001: 无法解析的外部符号 "public: class PlayerVision const & __cdecl WorldModel::get_our_player(int)const " (?get_our_player@WorldModel@@QEBAAEBVPlayerVision@@H@Z)
+PenaltyDef.obj : error LNK2001: 无法解析的外部符号 "public: float __cdecl WorldModel::get_opp_player_dir(int)const " (?get_opp_player_dir@WorldModel@@QEBAMH@Z)
+C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\template\zjunit\x64\Release\zjunit.dll : fatal error LNK1120: 8 个无法解析的外部命令

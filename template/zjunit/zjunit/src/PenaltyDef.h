@@ -1,6 +1,6 @@
 #ifndef PENALTY_H
 #define PENALTY_H
-#include "strategy/task/PlayerTask.h"
+#include "utils/PlayerTask.h"
 class PenaltyDef
 {
 public:

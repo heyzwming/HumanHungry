@@ -20,22 +20,23 @@ RefDef::~RefDef()
 
 PlayerTask RefDef::plan(int id, string role){
 	//防守需要的参数
+	WorldModel worldModel;
 	const point2f& goal_center = FieldPoint::Goal_Center_Point;
 	const point2f& arc_center_right = FieldPoint::Penalty_Arc_Center_Right;
 	const point2f& arc_center_left = FieldPoint::Penalty_Arc_Center_Left;
-	const point2f& ball = worldModel::getInstance()->get_ball_pos();
-	const point2f& ref_player = worldModel::getInstance()->get_our_player_pos(id);
+	const point2f& ball = worldModel.get_ball_pos();
+	const point2f& ref_player = worldModel.get_our_player_pos(id);
 	const point2f& opp_goal = -goal_center;
-	const float ref_dir = worldModel::getInstance()->get_our_player_dir(id);
+	const float ref_dir = worldModel.get_our_player_dir(id);
 	const float ball_to_goal_dir = (goal_center - ball).angle();
-	const Vehicle* opp_tem = worldModel::getInstance()->get_opp_team();
-	const bool* exist_id = worldModel::getInstance()->get_opp_exist_id();
+	const Vehicle* opp_tem = worldModel.get_opp_team();
+	const bool* exist_id = worldModel.get_opp_exist_id();
 	float dist = 0;
 	int def_receive_ball =-1;
 	//在for循环中找出拿球的对方球员车号给def_receive_ball
 	for (int i = 0; i < MAX_ROBOTS; i++){
 		if (exist_id[i]){
-			const point2f& point = worldModel::getInstance()->get_opp_player_pos(i);
+			const point2f& point = worldModel.get_opp_player_pos(i);
 			if ((point - opp_goal).length() < PENALTY_AREA_R)
 				continue;
 			else
@@ -49,7 +50,7 @@ PlayerTask RefDef::plan(int id, string role){
 		}
 	}
 	if (def_receive_ball == -1) cout << " warning no opp robots receive ball" << endl;
-	const point2f& opp_receive_player = worldModel::getInstance()->get_opp_player_pos(def_receive_ball);
+	const point2f& opp_receive_player = worldModel.get_opp_player_pos(def_receive_ball);
 	//得到对方拿球小车到我球门角度
 	float opp_receive_goal = (goal_center - opp_receive_player).angle();
 	BallArea area;
@@ -81,20 +82,20 @@ PlayerTask RefDef::plan(int id, string role){
 	PlayerTask task;
 	//前锋Kicker的防守，卡住对方拿球小车射门方向
 	if (role == "Kicker"){
-		task.target_pos = opp_receive_player + Maths::vector2polar(RuleParam::Stop_Dist*2, opp_receive_goal);
+		task.target_pos = opp_receive_player + Maths::polar2vector(RuleParam::Stop_Dist*2, opp_receive_goal);
 		task.orientate = anglemod(opp_receive_goal + PI);
 	}
 	//中场Receiver的防守，卡住小球射门方向
 	else if (role == "Receiver")
 	{
 		if (have_enough_dist){
-			task.target_pos = ball + Maths::vector2polar(RuleParam::Stop_Dist, ball_to_goal_dir);
+			task.target_pos = ball + Maths::polar2vector(RuleParam::Stop_Dist, ball_to_goal_dir);
 			task.orientate = anglemod(ball_to_goal_dir + PI);
 		}
 		else
 		{
 			float goal_to_ball_dir = (ball - goal_center).angle();
-			task.target_pos = goal_center + Maths::vector2polar(95,goal_to_ball_dir);
+			task.target_pos = goal_center + Maths::polar2vector(95,goal_to_ball_dir);
 			task.orientate = goal_to_ball_dir;
 		}
 	}

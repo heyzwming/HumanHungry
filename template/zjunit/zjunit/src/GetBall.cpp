@@ -16,7 +16,8 @@ int do_spiral_max_cnt = 70;
 float away_ball_dist_x = 20;//这个值越大 拿球越平滑
 GetBall::GetBall()
 {	
-	isSimulation = worldModel::getInstance()->get_simulation();
+	WorldModel worldModel;
+	isSimulation = worldModel.get_simulation();
 	isSimulation ? get_ball_buf = -4 : get_ball_buf = 5;
 	isSimulation ? away_ball_dist_x = 20 : away_ball_dist_x = 40;
 }
@@ -31,10 +32,11 @@ bool GetBall::toward_opp_goal(float dir){
 }
 
 float GetBall::ball_x_angle(){
+	WorldModel worldModel;
 	vector<point2f> ball_points;
 	ball_points.resize(8);
 	for (int i = 0; i < 8; i++){
-		const point2f& temp_points = worldModel::getInstance()->get_ball_pos(i);
+		const point2f& temp_points = worldModel.get_ball_pos(i);
 		ball_points.push_back(temp_points);
 	}
 	return Maths::least_squares(ball_points);
@@ -43,23 +45,24 @@ float GetBall::ball_x_angle(){
 PlayerTask GetBall::plan(int robot_id , int receiver_id){
 	//创建PlayerTask对象
 	PlayerTask task;
+	WorldModel worldModel;
 	//以下为执行拿球需要的参数，相关常量查看constaants.h
 	//获得小球当前图像帧坐标位置，重点：小球的坐标信息都以图像帧为最小单位从视觉机接收并存储，可以把球坐标看成是一个个数组，数组索引是图像帧号，数组元素是坐标信息
-	const point2f& ball = worldModel::getInstance()->get_ball_pos();
+	const point2f& ball = worldModel.get_ball_pos();
 	//获得小球当前帧的上一帧图像坐标信息
-	const point2f& last_ball = worldModel::getInstance()->get_ball_pos(1);
+	const point2f& last_ball = worldModel.get_ball_pos(1);
 	//获得我方receiver_id小车坐标位置信息
-	const point2f& receive_ball_player = worldModel::getInstance()->get_our_player_pos(receiver_id);
+	const point2f& receive_ball_player = worldModel.get_our_player_pos(receiver_id);
 	//获得我方robot_id小车坐标信息
-	const point2f& get_ball_player = worldModel::getInstance()->get_our_player_pos(robot_id);
+	const point2f& get_ball_player = worldModel.get_our_player_pos(robot_id);
 	//敌方球门中点
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
 	//我方receier_id小车朝向信息，注意：小车朝向为车头垂直方向与场地x轴正方向逆时针夹角
-	const float rece_dir = worldModel::getInstance()->get_our_player_dir(receiver_id);
+	const float rece_dir = worldModel.get_our_player_dir(receiver_id);
 	//获得以receive_ball_player为原点的极坐标，ROBOY_HEAD为极坐标length,rece_dir为极坐标angle
-	const point2f& rece_head_pos = receive_ball_player + Maths::vector2polar(ROBOT_HEAD,rece_dir);
+	const point2f& rece_head_pos = receive_ball_player + Maths::polar2vector(ROBOT_HEAD,rece_dir);
 	//获得我方robot_id小车朝向信息
-	const float dir = worldModel::getInstance()->get_our_player_dir(robot_id);
+	const float dir = worldModel.get_our_player_dir(robot_id);
 	//获得receive_ball_player到ball向量的角度，注意：所有角度计算为向量与场地x轴正方向逆时针夹角
 	float receive2ball = (ball - receive_ball_player).angle();
 	//获得对方球门到球的向量角度
@@ -86,7 +89,7 @@ PlayerTask GetBall::plan(int robot_id , int receiver_id){
 	bool across_ball;
 	bool ball_move2target;
 	float ball_moving_dir = (ball - last_ball).angle();
-	point2f ball_with_vel = ball + Maths::vector2polar(ball_moving_dist, ball_moving_dir);
+	point2f ball_with_vel = ball + Maths::polar2vector(ball_moving_dist, ball_moving_dir);
 	if (!ball_moving)
 		//小球位移为当前位置
 		ball_with_vel = ball;
@@ -103,7 +106,7 @@ PlayerTask GetBall::plan(int robot_id , int receiver_id){
 	//判断小球与get_ball_player车的位置关系执行拿球
 		if (!ball_x_boundary_right){
 				//给robot_id小车设置任务中的目标点坐标，就是让小车跑到某个点，该点以ball_with_vel为极坐标原点
-				task.target_pos = ball_with_vel + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, opp_goal2ball);
+				task.target_pos = ball_with_vel + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, opp_goal2ball);
 		}
 		else
 		{
@@ -143,14 +146,14 @@ PlayerTask GetBall::plan(int robot_id , int receiver_id){
 		else
 		{
 			
-			task.target_pos = ball_with_vel + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, receive2ball);
+			task.target_pos = ball_with_vel + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, receive2ball);
 		}
 		task.orientate = (rece_head_pos - ball).angle();
 	}
 	//判断小球在拿球车吸球嘴附近执行拿球
 	if (ball_beside_player_mouth){
 		//
-		task.target_pos = ball + Maths::vector2polar(20, anglemod(dir + PI));
+		task.target_pos = ball + Maths::polar2vector(20, anglemod(dir + PI));
 	}
 	return task;
 

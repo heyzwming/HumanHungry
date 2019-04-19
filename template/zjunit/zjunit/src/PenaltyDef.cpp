@@ -23,13 +23,14 @@ PenaltyDef::~PenaltyDef()
 
 //获得离我球门最近的对方球员车号
 int PenaltyDef::opp_penalty_player(){
+	WorldModel worldModel;
 	int opp_penalty_id = -1;
-	const bool* exist_id = worldModel::getInstance()->get_opp_exist_id();
+	const bool* exist_id = worldModel.get_opp_exist_id();
 	const point2f& our_goal = FieldPoint::Goal_Center_Point;
 	float dist = 9999;
 	for (int i = 0; i < MAX_ROBOTS; i++){
 		if (exist_id[i]){
-			const point2f& pos = worldModel::getInstance()->get_opp_player_pos(i);
+			const point2f& pos = worldModel.get_opp_player_pos(i);
 			float goal_opp_dist = (pos - our_goal).length();
 			if (goal_opp_dist<dist){
 				dist = goal_opp_dist;
@@ -51,8 +52,9 @@ point2f PenaltyDef::def_pos(const point2f& p, float dir){
 
 PlayerTask PenaltyDef::plan(){
 	PlayerTask task;
+	WorldModel worldModel;
 	int opp_kicker = opp_penalty_player();
-	const point2f& ball = worldModel::getInstance()->get_ball_pos();
+	const point2f& ball = worldModel.get_ball_pos();
 	const point2f& our_goal = FieldPoint::Goal_Center_Point;
 	if (opp_kicker == -1) {
 		task.target_pos = our_goal + point2f(10,0);
@@ -60,8 +62,8 @@ PlayerTask PenaltyDef::plan(){
 		cout << "no opp penalty kicker" << endl;
 		return task;
 	}
-	const point2f& penalty_kicker = worldModel::getInstance()->get_opp_player_pos(opp_kicker);
-	float opp_dir = worldModel::getInstance()->get_opp_player_dir(opp_kicker);
+	const point2f& penalty_kicker = worldModel.get_opp_player_pos(opp_kicker);
+	float opp_dir = worldModel.get_opp_player_dir(opp_kicker);
 	task.target_pos = def_pos(penalty_kicker,opp_dir);
 	task.orientate = (ball - task.target_pos).angle();
 	return task;

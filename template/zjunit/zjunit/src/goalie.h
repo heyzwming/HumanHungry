@@ -1,6 +1,7 @@
 #ifndef GOALIE_H
 #define GOALIE_H
-#include "strategy/task/PlayerSkill.h"
+//#include "utils/PlayerSkill.h"
+#include "utils/PlayerTask.h"
 class Goalie
 {
 public:

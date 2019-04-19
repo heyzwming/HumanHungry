@@ -1,6 +1,6 @@
 #ifndef NORMALDEF_H
 #define NORMALDEF_H
-#include "strategy/task/PlayerTask.h"
+#include "utils/PlayerTask.h"
 class NormalDef
 {
 public:

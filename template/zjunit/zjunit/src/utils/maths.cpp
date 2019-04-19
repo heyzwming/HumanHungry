@@ -4,7 +4,7 @@ namespace FieldPoint{
 	point2f Penalty_Kick_Point(-FIELD_LENGTH / 2 + PENALTY_KICKER_L, 0.0);
 	point2f Goal_Left_Point(-FIELD_LENGTH_H, -GOAL_WIDTH_H);
 	point2f Goal_Right_Point(-FIELD_LENGTH_H, GOAL_WIDTH_H);
-	point2f Goal_Right_Point(-FIELD_LENGTH_H, GOAL_WIDTH_H);
+//	point2f Goal_Right_Point(-FIELD_LENGTH_H, GOAL_WIDTH_H);
 	point2f Goal_Center_Left_One_Point(-FIELD_LENGTH / 2, -PENALTY_BISECTOR);
 	point2f Goal_Center_Left_Two_Point(-FIELD_LENGTH / 2, -PENALTY_BISECTOR * 2);
 	point2f Goal_Center_Right_One_Point(-FIELD_LENGTH / 2, PENALTY_BISECTOR);
@@ -50,7 +50,7 @@ namespace FieldPoint{
 		 float ang_deta = Maths::normalize(angle - ang_step);
 		 float dist_deta = dist - dist_step;
 		 if (dist_deta < spiral_center_size + spiral_buff) dist_deta = spiral_center_size + spiral_buff;
-		 spiral_point = spiral_center + Maths::vector2polar(dist_deta,ang_deta);
+		 spiral_point = spiral_center + Maths::polar2vector(dist_deta,ang_deta);
 		 return spiral_point;
 	 }
 

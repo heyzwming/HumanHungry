@@ -1,6 +1,6 @@
 #ifndef PENALTYKICK_H
 #define PENALTYKICK_H
-#include "strategy/task/PlayerTask.h"
+#include "utils/PlayerTask.h"
 
 class PenaltyKick
 {

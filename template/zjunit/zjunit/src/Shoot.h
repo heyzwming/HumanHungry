@@ -1,6 +1,6 @@
 #ifndef SHOOT_H
 #define SHOOT_H
-#include "strategy/task/PlayerTask.h"
+#include "utils/PlayerTask.h"
 enum ShootMethods
 {
 	None,

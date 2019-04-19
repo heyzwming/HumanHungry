@@ -12,13 +12,14 @@ GoReceivePos::~GoReceivePos()
 }
 //敌方小车在我方小车和球之间阻挡，return true
 bool GoReceivePos::opp_block_shoot(const point2f& player,const point2f& ball, int& block_id){
+	WorldModel worldModel;
 	//初始化判断变量is_block
 	bool is_block = false;
-	const bool* exist_id = worldModel::getInstance()->get_opp_exist_id();
+	const bool* exist_id = worldModel.get_opp_exist_id();
 	for (int i = 0; i < MAX_ROBOTS; i++){
 		//判断敌方车号
 		if (exist_id[i]){
-			const point2f& pos = worldModel::getInstance()->get_opp_player_pos(i);
+			const point2f& pos = worldModel.get_opp_player_pos(i);
 			//point_on_segment(v0, v1, p, flages),求p点到v0v1线段上的最近点
 			point2f nearest_p = Vector::point_on_segment(player, ball, pos, true);
 			float dist = (nearest_p - pos).length();
@@ -34,10 +35,11 @@ bool GoReceivePos::opp_block_shoot(const point2f& player,const point2f& ball, in
 
 PlayerTask GoReceivePos::plan(int id){
 	PlayerTask task;
+	WorldModel worldModel;
 	//获取执行接球点跑位需要的参数，部分参数注解可参考GetBall.cpp
 	const point2f& opp = -FieldPoint::Goal_Center_Point;
-	const point2f& ball = worldModel::getInstance()->get_ball_pos();
-	const point2f& runner = worldModel::getInstance()->get_our_player_pos(id);
+	const point2f& ball = worldModel.get_ball_pos();
+	const point2f& runner = worldModel.get_our_player_pos(id);
 	const point2f& our_goal = FieldPoint::Goal_Center_Point;
 	int block_id = -1;
 	//convert是反转参数，当ball在右半场时，convert为-1，当ball在左半场，convert为1

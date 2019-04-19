@@ -30,7 +30,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 	{
 	case RightArc:
 		task.orientate = (ball - goal).angle();
-		task.target_pos = goal + Maths::vector2polar(PENALTY_AREA_R + MAX_ROBOT_SIZE + PENALTY_AREA_R / 2, task.orientate);
+		task.target_pos = goal + Maths::polar2vector(PENALTY_AREA_R + MAX_ROBOT_SIZE + PENALTY_AREA_R / 2, task.orientate);
 		break;
 	case MiddleRectangle:
 		task.orientate = (ball - goal).angle();
@@ -38,7 +38,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 		break;
 	case LeftArc:
 		task.orientate = (ball - goal).angle();
-		task.target_pos = goal + Maths::vector2polar(PENALTY_AREA_R + MAX_ROBOT_SIZE + PENALTY_AREA_R / 2, task.orientate);
+		task.target_pos = goal + Maths::polar2vector(PENALTY_AREA_R + MAX_ROBOT_SIZE + PENALTY_AREA_R / 2, task.orientate);
 		break;
 	default:
 		break;

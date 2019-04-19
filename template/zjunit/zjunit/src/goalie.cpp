@@ -14,10 +14,11 @@ Goalie::~Goalie()
 PlayerTask Goalie::plan(int id){
 	//创建PlayerTask对象
 	PlayerTask task;
+	WorldModel worldModel;
 	//执行守门员防守需要的参数，部分参数可以看GetBAll.cpp中注释，相关常量查看constants.h
-	const point2f& golie_pos = worldModel::getInstance()->get_our_player_pos(id);
-	const point2f& ball = worldModel::getInstance()->get_ball_pos();
-	const float dir = worldModel::getInstance()->get_our_player_dir(id);
+	const point2f& golie_pos = worldModel.get_our_player_pos(id);
+	const point2f& ball = worldModel.get_ball_pos();
+	const float dir = worldModel.get_our_player_dir(id);
 	const point2f& goal = FieldPoint::Goal_Center_Point;
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
 	bool ball_inside_penalty = is_inside_penalty(ball);
@@ -30,13 +31,13 @@ PlayerTask Goalie::plan(int id){
 			task.isChipKick = true;
 		}
 		task.orientate = (ball - golie_pos).angle();
-		task.target_pos = ball + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE - 2, task.orientate);
+		task.target_pos = ball + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE - 2, task.orientate);
 	}
 	//小球不在禁区内执行守门员防守
 	else
 	{
 		task.orientate = (ball - goal).angle();
-		task.target_pos = goal + Maths::vector2polar(30,task.orientate);
+		task.target_pos = goal + Maths::polar2vector(30,task.orientate);
 	}
 	return task;
 }

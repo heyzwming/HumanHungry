@@ -35,24 +35,25 @@ public:
 	}
 	~PlayerTask(){};
 	int flag;
-	RobotRole role;                                             //球员角色
-	point2f target_pos;											// 全局目标点
-	double orientate;												// 全局目标到点朝向
-	point2f global_vel;											// 全局目标到点平动速度	
-	double rot_vel;													// 全局目标到点转动速度
-	int rot_dir;														// 旋转的方向
+	RobotRole role;							// 球员角色
+	point2f target_pos;						// 全局目标点
+	double orientate;						// 全局目标到点朝向
+	point2f global_vel;						// 全局目标到点平动速度	
+	double rot_vel;							// 全局目标到点转动速度
+	int rot_dir;							// 旋转的方向
+
 	/// 运动参数 ： 用于底层运动控制 ，指定标签辅助
-	double maxAcceleration;										// 最大加速度
-	double maxDeceleration;										// 最大减速度
+	double maxAcceleration;					// 最大加速度
+	double maxDeceleration;					// 最大减速度
 
 	/// 踢球参数 ： 用于平射挑射控制 ，默认使用
-	bool needKick;													// 踢球动作执行开关
-	bool isPass;													// 是否进行传球
-	bool needCb;
-	bool isChipKick;												// 挑球还是平射
-	double kickPrecision;											// 踢球朝向精度
-	double kickPower;												// 踢球力度
-	double chipKickPower;											// 挑球力度	
+	bool needKick;								// 踢球动作执行开关
+	bool isPass;								// 是否进行传球
+	bool needCb;								// 吸球动作执行开关
+	bool isChipKick;							// 跳球动作执行开关
+	double kickPrecision;						// 踢球朝向精度
+	double kickPower;							// 踢球力度
+	double chipKickPower;						// 挑球力度	
 };
 
 class CTaskMeditator

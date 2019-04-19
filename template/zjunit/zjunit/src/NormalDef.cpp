@@ -2,6 +2,7 @@
 #include "utils/maths.h"
 #include "def.h"
 #include "utils/playerTask.h"
+#include "utils/WorldModel.h"
 enum PenaltyArea
 {
 	RightArc,
@@ -17,6 +18,7 @@ NormalDef::~NormalDef()
 }
 
 PlayerTask NormalDef::plan(int robot_id){
+	WorldModel worldModel;
 	//创建PlayerTask对象task，task对象是一个任务方法集合
 	PlayerTask task;
 	//以下为执行防守需要的参数，部分参数解释可以参看GetBall.cpp
@@ -25,7 +27,7 @@ PlayerTask NormalDef::plan(int robot_id){
 	const point2f& arc_center_left = FieldPoint::Penalty_Arc_Center_Left;
 	const point2f& rectangle_left = FieldPoint::Penalty_Rectangle_Left;
 	const point2f& rectangle_right = FieldPoint::Penalty_Rectangle_Right;
-	const point2f& ball = worldModel::getInstance()->get_ball_pos();
+	const point2f& ball = worldModel.get_ball_pos();
 	//area为枚举变量，根据不同的ball位置，设置不同的枚举值
 	PenaltyArea area;
 	if (ball.y > arc_center_right.y)
@@ -40,7 +42,7 @@ PlayerTask NormalDef::plan(int robot_id){
 	case RightArc:
 		//任务小车的朝向角及目标点
 		task.orientate = (ball - goal).angle();
-		task.target_pos = goal + Maths::vector2polar(PENALTY_AREA_R + MAX_ROBOT_SIZE+PENALTY_AREA_R/2, task.orientate);
+		task.target_pos = goal + Maths::polar2vector(PENALTY_AREA_R + MAX_ROBOT_SIZE+PENALTY_AREA_R/2, task.orientate);
 		break;
 	case MiddleRectangle:
 		task.orientate = (ball - goal).angle();
@@ -49,7 +51,7 @@ PlayerTask NormalDef::plan(int robot_id){
 		break;
 	case LeftArc:
 		task.orientate = (ball - goal).angle();
-		task.target_pos = goal + Maths::vector2polar(PENALTY_AREA_R + MAX_ROBOT_SIZE + PENALTY_AREA_R / 2, task.orientate);
+		task.target_pos = goal + Maths::polar2vector(PENALTY_AREA_R + MAX_ROBOT_SIZE + PENALTY_AREA_R / 2, task.orientate);
 		break;
 	default:
 		break;
