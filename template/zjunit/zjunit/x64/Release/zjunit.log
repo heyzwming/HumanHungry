@@ -1,0 +1,22 @@
+﻿  def.cpp
+c:\soccor\zjunit\zjunit\src\def.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\soccor\zjunit\zjunit\src\utils\vector.h(662): warning C4244: “参数”: 从“num”转换到“num”，可能丢失数据
+          with
+          [
+              num=double
+          ]
+          and
+          [
+              num=float
+          ]
+c:\soccor\zjunit\zjunit\src\def.cpp(4): warning C4190: “player_plan”有指定的 C 链接，但返回了与 C 不兼容的 UDT“PlayerTask”
+  c:\soccor\zjunit\zjunit\src\utils\playertask.h(29): note: 参见“PlayerTask”的声明
+c:\soccor\zjunit\zjunit\src\def.cpp(33): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\soccor\zjunit\zjunit\src\def.cpp(41): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+    正在创建库 C:\soccor\zjunit\x64\Release\zjunit.lib 和对象 C:\soccor\zjunit\x64\Release\zjunit.exp
+  正在生成代码
+  0 of 41 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  zjunit.vcxproj -> C:\soccor\zjunit\x64\Release\zjunit.dll
