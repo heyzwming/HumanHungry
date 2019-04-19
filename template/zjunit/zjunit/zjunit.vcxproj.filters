@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="official_Task">
+      <UniqueIdentifier>{c2f9ac9b-a620-48d4-ad3f-7d4a4df437f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\utils\ball.h">
@@ -63,12 +66,78 @@
     <ClInclude Include="src\def.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\GetBall.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\goalie.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GoReveivePos.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GotoPos.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\NormalDef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PassBall.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PenaltyDef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PenaltyKick.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReceiveBall.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RefDef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shoot.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\utils\maths.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\def.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GetBall.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\goalie.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GoReceivePos.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GotoPos.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NormalDef.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PassBall.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PenaltyDef.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PenaltyKick.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReceiveBall.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RefDef.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shoot.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
