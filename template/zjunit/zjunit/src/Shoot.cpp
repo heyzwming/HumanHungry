@@ -11,7 +11,8 @@
 #include "shoot.h"
 #include "GetBall.h"
 //#include "Halt.h"
-#include "util/maths.h"
+#include "utils/maths.h"
+#include "def.h"
 //#include "maths.h"
 //#include "/utils/maths.h"
 #include <math.h>
@@ -48,11 +49,14 @@ PlayerTask Shoot::do_chase_ball(int runner_id){
 //先停车如果小球在车头吸球嘴上，就射门
 PlayerTask Shoot::do_wait_touch(int runner_id){
 	PlayerTask task;
-	const point2f& pos = worldModel::getInstance()->get_our_player_pos(runner_id);
+	const point2f& pos = WorldModel::get_our_player_pos(runner_id);
+	//const point2f& get_our_player_pos(int id)const;
+
 	const point2f& ball = worldModel::getInstance()->get_ball_pos();
 	const float& player_dir = worldModel::getInstance()->get_our_player_dir(runner_id);
 	//创建一个HaltRobot对象halt，halt.plan方法返回一个PlayerTask任务对象task
 	HaltRobot halt;
+	
 	task = halt.plan(runner_id);
 	//设置task中的吸球开关为true，小车吸球
 	task.needCb = true;

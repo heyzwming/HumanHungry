@@ -1,4 +1,5 @@
 #include "GotoPos.h"
+#include "def.h"
 GotoPos::GotoPos()
 {
 }

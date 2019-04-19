@@ -4,6 +4,7 @@ namespace FieldPoint{
 	point2f Penalty_Kick_Point(-FIELD_LENGTH / 2 + PENALTY_KICKER_L, 0.0);
 	point2f Goal_Left_Point(-FIELD_LENGTH_H, -GOAL_WIDTH_H);
 	point2f Goal_Right_Point(-FIELD_LENGTH_H, GOAL_WIDTH_H);
+	point2f Goal_Right_Point(-FIELD_LENGTH_H, GOAL_WIDTH_H);
 	point2f Goal_Center_Left_One_Point(-FIELD_LENGTH / 2, -PENALTY_BISECTOR);
 	point2f Goal_Center_Left_Two_Point(-FIELD_LENGTH / 2, -PENALTY_BISECTOR * 2);
 	point2f Goal_Center_Right_One_Point(-FIELD_LENGTH / 2, PENALTY_BISECTOR);

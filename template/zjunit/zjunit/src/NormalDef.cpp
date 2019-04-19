@@ -1,5 +1,7 @@
 #include "NormalDef.h"
-#include "util/maths.h"
+#include "utils/maths.h"
+#include "def.h"
+#include "utils/playerTask.h"
 enum PenaltyArea
 {
 	RightArc,

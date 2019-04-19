@@ -1,5 +1,7 @@
 #include "PenaltyDef.h"
-#include "ParamReader.h"
+#include "def.h"
+#include "utils/maths.h"
+//#include "ParamReader.h"
 
 namespace{
 	float goalie_penalty_def_buf = 20;

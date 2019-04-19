@@ -1,6 +1,7 @@
-#include "util/maths.h"
+#include "utils/maths.h"
 #include "GoReveivePos.h"
 #include <time.h>
+#include "def.h"
 GoReceivePos::GoReceivePos()
 {
 	srand((int)time(NULL));

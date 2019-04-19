@@ -1,7 +1,9 @@
 #include "GetBall.h"
-#include "util/maths.h"
-#include "util/constants.h"
-#include "./worldModel/worldmodel.h"
+#include "utils/maths.h"
+#include "utils/constants.h"
+//#include "./worldModel/worldmodel.h"
+#include "utils/worldmodel.h"
+#include "def.h"
 double spiral_buff = 8.0;
 double get_ball_buf = -4;
 double do_spiral_dist = 30;

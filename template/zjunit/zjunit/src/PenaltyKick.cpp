@@ -1,6 +1,8 @@
 #include "PenaltyKick.h"
-#include "ParamReader.h"
-#include<time.h> 
+#include "def.h"
+#include "utils/maths.h"
+//#include "ParamReader.h"
+#include <time.h> 
 namespace{
 	float penalty_kick_random_range = 30;
 	float penalty_kick_get_ball_buf = -2;

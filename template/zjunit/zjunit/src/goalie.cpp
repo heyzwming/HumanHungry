@@ -1,5 +1,7 @@
 #include "goalie.h"
 #include "GetBall.h"
+#include "def.h"
+#include "utils/maths.h"
 Goalie::Goalie()
 {
 }
