@@ -1,0 +1,60 @@
+﻿  def.cpp
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\def.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\vector.h(662): warning C4244: “参数”: 从“num”转换到“num”，可能丢失数据
+          with
+          [
+              num=double
+          ]
+          and
+          [
+              num=float
+          ]
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\def.cpp(4): warning C4190: “player_plan”有指定的 C 链接，但返回了与 C 不兼容的 UDT“PlayerTask”
+  c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\playertask.h(29): note: 参见“PlayerTask”的声明
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\def.cpp(33): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\def.cpp(41): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  maths.cpp
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\vector.h(662): warning C4244: “参数”: 从“num”转换到“num”，可能丢失数据
+          with
+          [
+              num=double
+          ]
+          and
+          [
+              num=float
+          ]
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\maths.cpp(26): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\maths.cpp(28): warning C4305: “-=”: 从“double”到“float”截断
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\maths.cpp(30): warning C4305: “+=”: 从“double”到“float”截断
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\maths.cpp(40): warning C4244: “参数”: 从“const double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\maths.cpp(48): warning C4305: “初始化”: 从“double”到“float”截断
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\maths.cpp(92): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\maths.cpp(93): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\util.h(121): warning C4244: “-=”: 从“double”转换到“real”，可能丢失数据
+          with
+          [
+              real=float
+          ]
+  c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\maths.cpp(59): note: 参见对正在编译的函数 模板 实例化“real angle_mod<num>(real)”的引用
+          with
+          [
+              real=float,
+              num=float
+          ]
+c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\vector.h(513): warning C4244: “参数”: 从“double”转换到“const num”，可能丢失数据
+          with
+          [
+              num=float
+          ]
+  c:\!soccor\som v3.3.3\team_blue\robocup\zjunit\zjunit\src\utils\maths.cpp(125): note: 参见对正在编译的函数 模板 实例化“vector Vector::point_on_segment<point2f>(const vector,const vector,const vector,bool)”的引用
+          with
+          [
+              vector=point2f
+          ]
+    正在创建库 C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\zjunit\x64\Release\zjunit.lib 和对象 C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\zjunit\x64\Release\zjunit.exp
+  正在生成代码
+  41 of 41 functions (100.0%) were compiled.
+    16 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  zjunit.vcxproj -> C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\zjunit\x64\Release\zjunit.dll

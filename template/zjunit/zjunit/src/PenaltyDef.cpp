@@ -6,28 +6,33 @@
 namespace{
 	float goalie_penalty_def_buf = 20;
 }
-/*
+
 PenaltyDef::PenaltyDef(){
 	//srand((int)time(NULL));
 
-	DECLARE_PARAM_READER_BEGIN(PlayBotSkillParam)
-	READ_PARAM(goalie_penalty_def_buf)
-	DECLARE_PARAM_READER_END
+	//DECLARE_PARAM_READER_BEGIN(PlayBotSkillParam)
+	//READ_PARAM(goalie_penalty_def_buf)
+	//DECLARE_PARAM_READER_END
 
 }
 
 PenaltyDef::~PenaltyDef()
 {
 }
-*/
 
-//获得离我球门最近的对方球员车号
+
+//获得离我球门最近的对方球员编号，即对方点球球员编号
 int PenaltyDef::opp_penalty_player(){
 	WorldModel worldModel;
-	int opp_penalty_id = -1;
-	const bool* exist_id = worldModel.get_opp_exist_id();
+
+	int opp_penalty_id = -1;	// 初始化对方点球球员编号为-1
+
+	const bool* exist_id = worldModel.get_opp_exist_id();	// 布尔数组  获得在场球员的编号 
 	const point2f& our_goal = FieldPoint::Goal_Center_Point;
 	float dist = 9999;
+
+	// MAX_ROBOTS : 场上最多的球员数
+	// 获得对方点球手编号和距离
 	for (int i = 0; i < MAX_ROBOTS; i++){
 		if (exist_id[i]){
 			const point2f& pos = worldModel.get_opp_player_pos(i);
@@ -42,9 +47,17 @@ int PenaltyDef::opp_penalty_player(){
 }
  //计算防守位置
 point2f PenaltyDef::def_pos(const point2f& p, float dir){
+
+	// FIELD_LENGTH_H = 300			半场长度
+	// goalie_penalty_def_buf = 20	球门内宽度
+	// -FIELD_LENGTH_H + goalie_penalty_def_buf   -300+20  为点球防守初始站位
 	float x = -FIELD_LENGTH_H + goalie_penalty_def_buf;
 	float y = p.y + tanf(dir)*(x - p.x);
+
+	// 三目运算符  如果y>0 则把1赋值给convert 否则把-1赋值给convert
 	int convert = y > 0 ? 1 : -1;
+
+	// TODO: ???
 	if (y > 30 || y < -30)
 		y = 30 * convert;
 	return point2f(x,y);
@@ -53,18 +66,20 @@ point2f PenaltyDef::def_pos(const point2f& p, float dir){
 PlayerTask PenaltyDef::plan(){
 	PlayerTask task;
 	WorldModel worldModel;
+
 	int opp_kicker = opp_penalty_player();
 	const point2f& ball = worldModel.get_ball_pos();
 	const point2f& our_goal = FieldPoint::Goal_Center_Point;
-	if (opp_kicker == -1) {
+
+	if (opp_kicker == -1) { // 没有检测到对方点球球员  直接返回task
 		task.target_pos = our_goal + point2f(10,0);
 		task.orientate = (task.target_pos - our_goal).angle();
 		cout << "no opp penalty kicker" << endl;
 		return task;
 	}
-	const point2f& penalty_kicker = worldModel.get_opp_player_pos(opp_kicker);
-	float opp_dir = worldModel.get_opp_player_dir(opp_kicker);
-	task.target_pos = def_pos(penalty_kicker,opp_dir);
+	const point2f& penalty_kicker = worldModel.get_opp_player_pos(opp_kicker);	// 获得对方点球球员编号
+	float opp_dir = worldModel.get_opp_player_dir(opp_kicker);					// 对方点球球员的角度
+	task.target_pos = def_pos(penalty_kicker,opp_dir);		// 计算防守位置
 	task.orientate = (ball - task.target_pos).angle();
 	return task;
 }

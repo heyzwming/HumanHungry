@@ -1,0 +1,92 @@
+﻿  def.cpp
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\def.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\vector.h(662): warning C4244: “参数”: 从“num”转换到“num”，可能丢失数据
+          with
+          [
+              num=double
+          ]
+          and
+          [
+              num=float
+          ]
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\def.cpp(33): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\def.cpp(41): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+  PenaltyKick.cpp
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\penaltykick.cpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\vector.h(662): warning C4244: “参数”: 从“num”转换到“num”，可能丢失数据
+          with
+          [
+              num=double
+          ]
+          and
+          [
+              num=float
+          ]
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\penaltykick.cpp(90): warning C4190: “plan”有指定的 C 链接，但返回了与 C 不兼容的 UDT“PlayerTask”
+  c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\playertask.h(29): note: 参见“PlayerTask”的声明
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\penaltykick.cpp(182): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\penaltykick.cpp(217): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\util.h(130): warning C4244: “-=”: 从“double”转换到“real”，可能丢失数据
+          with
+          [
+              real=float
+          ]
+  c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\penaltykick.cpp(172): note: 参见对正在编译的函数 模板 实例化“real anglemod<float>(real)”的引用
+          with
+          [
+              real=float
+          ]
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\vector.h(513): warning C4244: “参数”: 从“double”转换到“const num”，可能丢失数据
+          with
+          [
+              num=float
+          ]
+  c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\penaltykick.cpp(209): note: 参见对正在编译的函数 模板 实例化“vector Vector::point_on_segment<point2f>(const vector,const vector,const vector,bool)”的引用
+          with
+          [
+              vector=point2f
+          ]
+  maths.cpp
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\vector.h(662): warning C4244: “参数”: 从“num”转换到“num”，可能丢失数据
+          with
+          [
+              num=double
+          ]
+          and
+          [
+              num=float
+          ]
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\maths.cpp(26): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\maths.cpp(28): warning C4305: “-=”: 从“double”到“float”截断
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\maths.cpp(30): warning C4305: “+=”: 从“double”到“float”截断
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\maths.cpp(40): warning C4244: “参数”: 从“const double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\maths.cpp(48): warning C4305: “初始化”: 从“double”到“float”截断
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\maths.cpp(92): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\maths.cpp(93): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\util.h(121): warning C4244: “-=”: 从“double”转换到“real”，可能丢失数据
+          with
+          [
+              real=float
+          ]
+  c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\maths.cpp(59): note: 参见对正在编译的函数 模板 实例化“real angle_mod<num>(real)”的引用
+          with
+          [
+              real=float,
+              num=float
+          ]
+c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\vector.h(513): warning C4244: “参数”: 从“double”转换到“const num”，可能丢失数据
+          with
+          [
+              num=float
+          ]
+  c:\!soccor\som v3.3.3\team_blue\robocup\official_penaltykick_test\zjunit\src\utils\maths.cpp(125): note: 参见对正在编译的函数 模板 实例化“vector Vector::point_on_segment<point2f>(const vector,const vector,const vector,bool)”的引用
+          with
+          [
+              vector=point2f
+          ]
+    正在创建库 C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\Official_PenaltyKick_Test\x64\Release\zjunit.lib 和对象 C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\Official_PenaltyKick_Test\x64\Release\zjunit.exp
+def.obj : error LNK2001: 无法解析的外部符号 "class Vector::vector2d<float> __cdecl Maths::polar2vector(float,float)" (?polar2vector@Maths@@YA?AV?$vector2d@M@Vector@@MM@Z)
+PenaltyKick.obj : error LNK2001: 无法解析的外部符号 "public: float __cdecl WorldModel::get_our_player_dir(int)const " (?get_our_player_dir@WorldModel@@QEBAMH@Z)
+PenaltyKick.obj : error LNK2001: 无法解析的外部符号 "public: class Vector::vector2d<float> const & __cdecl WorldModel::get_opp_player_pos(int)const " (?get_opp_player_pos@WorldModel@@QEBAAEBV?$vector2d@M@Vector@@H@Z)
+PenaltyKick.obj : error LNK2001: 无法解析的外部符号 "public: class Vector::vector2d<float> const & __cdecl WorldModel::get_our_player_pos(int)const " (?get_our_player_pos@WorldModel@@QEBAAEBV?$vector2d@M@Vector@@H@Z)
+C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\Official_PenaltyKick_Test\x64\Release\zjunit.dll : fatal error LNK1120: 4 个无法解析的外部命令
