@@ -1,9 +1,8 @@
-﻿生成启动时间为 2019/4/20 20:29:22。
+﻿生成启动时间为 2019/4/21 16:23:14。
      1>项目“C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\myskill.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         C:\Visual Studio 2013\VC\bin\CL.exe /c /I"C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\src\worldmodel_lib" /Zi /nologo /W0 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D MYSKILL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\PenaltyDef.cpp src\utils\maths.cpp
+         C:\Visual Studio 2013\VC\bin\CL.exe /c /I"C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\src\worldmodel_lib" /Zi /nologo /W0 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D MYSKILL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\PenaltyDef.cpp
          PenaltyDef.cpp
-         maths.cpp
        Link:
          C:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\Release\myskill.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\src\worldmodel_lib" worldmodel_lib.lib opencv_world343d.lib opencv_world343.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\Release\myskill.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\Release\myskill.lib" /MACHINE:X86 /SAFESEH /DLL Release\PenaltyDef.obj
          Release\maths.obj
@@ -15,4 +14,4 @@
 
 生成成功。
 
-已用时间 00:00:05.47
+已用时间 00:00:01.26

@@ -80,17 +80,14 @@ rand() 产生的随机数在每次运行的时候都是与上一次相同的。
 */
 
 #include "PenaltyKick.h"
-//#include "def.h"
 #include "utils/maths.h"
 //#include "ParamReader.h"
 #include <time.h> 
-
 #include "utils/PlayerTask.h"
 #include "utils/WorldModel.h"
+
 //用户注意；接口需要如下声明
-//extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
- //PlayerTask PenaltyKick::plan(const WorldModel* model, int robot_id);
-//extern "C"_declspec(dllexport) PlayerTask plan(const WorldModel* model, int robot_id);
+extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 
 namespace{
 	float penalty_kick_random_range = 30;
@@ -99,18 +96,11 @@ namespace{
 /*
 PenaltyKick::PenaltyKick()	// 构造函数
 {
-	WorldModel worldModel;
-	/* 初始化随机数发生数 void srand(unsigned int seed);
 
-	srand()用来设置rand()产生随机数时的随机数种子，如果每次 seed 都设相同值，rand() 所产生的随机数值每次就会一样。
-
-	rand() 产生的随机数在每次运行的时候都是与上一次相同的。
-	
-	若要不同, 用函数 srand() 初始化它。可以利用 srand((int)(time(NULL)) 的方法，产生不同的随机数种子，因为每一次运行程序的时间是不同的。
-	
-	*/
 //	srand((int)time(NULL));
-	// TODO: ???未定义标识符 暂时注释掉这部分代码
+
+// TODO: ???未定义标识符 暂时注释掉这部分代码
+
 //	DECLARE_PARAM_READER_BEGIN(PlayBotSkillParam)
 //	READ_PARAM(penalty_kick_random_range)
 //	READ_PARAM(penalty_kick_get_ball_buf)
@@ -124,26 +114,24 @@ PenaltyKick::~PenaltyKick()
 }
 */
 
-
 //获得对方守门员编号
 int opp_goalie(const WorldModel* model){
-//	WorldModel worldModel;
+	int opp_goalie_id = -1;			// 对方守门员编号 初始为-1
 
-	// 对方守门员编号
-	int opp_goalie_id = -1;
 	// get_opp_exist_id 获得场上对方球员编号
-	// 返回布尔类型数组  长度为6  1号球员对应下标0 ，2号球员对应下标1
+	// 返回布尔类型数组  长度为6  1号球员对应数组中的下标0 ，2号球员对应下标1
 	const bool* exist_id = model->get_opp_exist_id();
+
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;	// opp_goal: 对方球门二维坐标位置
-	float dist = 9999;	// ?
+	float dist = 9999;	// 对方球员与球门的距离  初始值  在for循环中将进行更新
 
 	// 在罚点球的情况下 ： 只有一名点球球员和一名点球防守球员
-	for (int i = 0; i < MAX_ROBOTS; i++){	// 对场上每一个机器人(4V4 最多8个)遍历
+	for (int i = 0; i < MAX_ROBOTS; i++){	// 对场上每一个机器人(4V4 最多8个)遍历 （保险起见遍历12次）  获取距离球门点最近的对方队员的编号
 		if (exist_id[i]){		// 如果该编号的球员上场了
 			const point2f& pos = model->get_opp_player_pos(i);	// 获得该球员位置
-			// 球员与对方球门的距离
+			// 对方球员与对方球门的距离
 			float goal_opp_dist = (pos - opp_goal).length();	
-			if (goal_opp_dist<dist){	// 如果球员与球门的距离小于 dist  
+			if (goal_opp_dist<dist){	// 如果对方球员与球门的距离小于 dist  
 				dist = goal_opp_dist;	// 更新dist
 				opp_goalie_id = i;		// 获得对方守门员编号
 			};
@@ -153,29 +141,41 @@ int opp_goalie(const WorldModel* model){
 }
 
 
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id){
+PlayerTask player_plan(const WorldModel* model, int robot_id){
 	PlayerTask task;
-//	WorldModel worldModel;
 
-	int opp_goalie_num = opp_goalie(model);
+	/* 初始化随机数发生数 void srand(unsigned int seed);
 
-	const point2f& ball =model->get_ball_pos();
-	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
-	const point2f& player =model->get_our_player_pos(robot_id);
+	srand()用来设置rand()产生随机数时的随机数种子，如果每次 seed 都设相同值，rand() 所产生的随机数值每次就会一样。
 
-	const float dir =model->get_our_player_dir(robot_id);
+	rand() 产生的随机数在每次运行的时候都是与上一次相同的。
 
-	// 判断是否 控到球 判断方法：球员与球的距离 和 角度
+	若要不同, 用函数 srand() 初始化它。可以利用 srand((int)(time(NULL)) 的方法，产生不同的随机数种子，因为每一次运行程序的时间是不同的。
+
+	*/
+
+	srand((int)time(NULL));
+
+	int opp_goalie_num = opp_goalie(model);	// 获得对方守门员的编号
+
+	const point2f& ball = model->get_ball_pos();	// 球的坐标
+	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;	// 对方球门
+	const point2f& player = model->get_our_player_pos(robot_id);	// 我方点球球员的坐标
+
+	const float dir = model->get_our_player_dir(robot_id);			// 我方点球球员的朝向角度
+
+	// 判断是否 控到球 
+	// 判断方法：球员与球的距离 和 角度
 	bool get_ball = (ball - player).length() < get_ball_threshold - 3.5 && (fabs(anglemod(dir - (ball - player).angle())) < PI / 6);
 
-	if (get_ball){	// 如果控到球
+	if (get_ball){	// 如果控到球  设置射门的力度为127，模式为平射
 		task.kickPower = 127;
 		task.isChipKick = false;
 		task.needKick = true;
 	}
 
-	// TODO: 不理解这段判断语句的意义
-	if (opp_goalie_num == -1){	// 如果没有检测到对方守门员的编号  直接return返回task
+	// 如果没有守门员直接对准球门中心  射门
+	if (opp_goalie_num == -1){	// 如果没有检测到对方守门员的编号  直接return返回task（在这个task中 目标点为球门中心  力度为127 模式为平射）
 		task.target_pos = ball + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + penalty_kick_get_ball_buf, (ball - opp_goal).angle());
 		task.orientate = (opp_goal - ball).angle();
 		return task;
@@ -186,7 +186,8 @@ extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, i
 	int choose_cnt = 0;					// 计数器 对于点球方向的随机选择 的次数
 	bool choose_succeed = false;		// 随机选择 生成 是否成功
 
-	point2f choose_p, nearest_p;		// ?
+	point2f choose_p;		// choose_p为随机生成的点球射门目标点
+	point2f nearest_p;		// ?
 	choose_p.x = FIELD_LENGTH_H;
 
 	// TODO: 对于随机生成点球方向的部分没有完全理解  2019.4.19 22:40

@@ -1,16 +1,16 @@
 #include "maths.h"
 namespace FieldPoint{
-	point2f Goal_Center_Point(-FIELD_LENGTH / 2, 0.0);
-	point2f Penalty_Kick_Point(-FIELD_LENGTH / 2 + PENALTY_KICKER_L, 0.0);
-	point2f Goal_Left_Point(-FIELD_LENGTH_H, -GOAL_WIDTH_H);
-	point2f Goal_Right_Point(-FIELD_LENGTH_H, GOAL_WIDTH_H);
-	point2f Goal_Center_Left_One_Point(-FIELD_LENGTH / 2, -PENALTY_BISECTOR);
-	point2f Goal_Center_Left_Two_Point(-FIELD_LENGTH / 2, -PENALTY_BISECTOR * 2);
-	point2f Goal_Center_Right_One_Point(-FIELD_LENGTH / 2, PENALTY_BISECTOR);
-	point2f Goal_Center_Right_Two_Point(-FIELD_LENGTH / 2, PENALTY_BISECTOR * 2);
-	point2f Goal_Penalty_Area_L_Right(-FIELD_LENGTH, PENALTY_AREA_L / 2);
-	point2f Goal_Penalty_Area_L_Left(-FIELD_LENGTH, -PENALTY_AREA_L / 2);
-	point2f Penalty_Area_L_A(PENALTY_AREA_R - FIELD_LENGTH_H, PENALTY_AREA_L / 2);
+	point2f Goal_Center_Point(-FIELD_LENGTH / 2, 0.0);								// （-605/2， 0）	球门线中心
+	point2f Penalty_Kick_Point(-FIELD_LENGTH / 2 + PENALTY_KICKER_L, 0.0);			// （-605/2+75，0）	点球状态下 球的放置点 
+	point2f Goal_Left_Point(-FIELD_LENGTH_H, -GOAL_WIDTH_H);						// （-605/2，-70/2）	球门一侧的点
+	point2f Goal_Right_Point(-FIELD_LENGTH_H, GOAL_WIDTH_H);						// （-605/2， 70/2）	球门一侧的点
+	point2f Goal_Center_Left_One_Point(-FIELD_LENGTH / 2, -PENALTY_BISECTOR);		// （-605/2，-70/4）
+	point2f Goal_Center_Left_Two_Point(-FIELD_LENGTH / 2, -PENALTY_BISECTOR * 2);	// （-605/2，-70/2）
+	point2f Goal_Center_Right_One_Point(-FIELD_LENGTH / 2, PENALTY_BISECTOR);		// （-605/2， 70/4）
+	point2f Goal_Center_Right_Two_Point(-FIELD_LENGTH / 2, PENALTY_BISECTOR * 2);	// （-605/2， 70/2）
+	point2f Goal_Penalty_Area_L_Right(-FIELD_LENGTH, PENALTY_AREA_L / 2);			// （-605  ， 35/2）？？？这个点有点奇怪
+	point2f Goal_Penalty_Area_L_Left(-FIELD_LENGTH, -PENALTY_AREA_L / 2);			// （-605  ，-35/2）
+	point2f Penalty_Area_L_A(PENALTY_AREA_R - FIELD_LENGTH_H, PENALTY_AREA_L / 2);	// （80-605/2，35/2）
 	point2f Penalty_Area_L_B(PENALTY_AREA_R - FIELD_LENGTH_H, -PENALTY_AREA_L / 2);
 	point2f Penalty_Arc_Center_Right(-FIELD_LENGTH_H, PENALTY_AREA_L/2);
 	point2f Penalty_Arc_Center_Left(-FIELD_LENGTH_H,-PENALTY_AREA_L/2);
