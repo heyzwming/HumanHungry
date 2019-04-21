@@ -73,18 +73,19 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MYSKILL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\src\worldmodel_lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\src\worldmodel_lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\src\worldmodel_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)\src\worldmodel_lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>worldmodel_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\myskill.h" />
     <ClInclude Include="src\PenaltyDef.h" />
     <ClInclude Include="src\utils\ball.h" />
     <ClInclude Include="src\utils\basevision.h" />
@@ -103,6 +104,7 @@
     <ClInclude Include="src\utils\worldmodel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\myskill.cpp" />
     <ClCompile Include="src\PenaltyDef.cpp" />
     <ClCompile Include="src\utils\maths.cpp" />
   </ItemGroup>

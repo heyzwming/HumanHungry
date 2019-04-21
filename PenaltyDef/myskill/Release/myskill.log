@@ -1,5 +1,5 @@
-﻿生成启动时间为 2019/4/20 19:39:56。
-     1>项目“C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\myskill.vcxproj”在节点 2 上(Rebuild 个目标)。
+﻿生成启动时间为 2019/4/20 20:29:22。
+     1>项目“C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\myskill.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          C:\Visual Studio 2013\VC\bin\CL.exe /c /I"C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\src\worldmodel_lib" /Zi /nologo /W0 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D MYSKILL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\PenaltyDef.cpp src\utils\maths.cpp
          PenaltyDef.cpp
@@ -11,8 +11,8 @@
          已完成代码的生成
      1>worldmodel_lib.lib(worldmodel.obj) : warning LNK4099: 未找到 PDB“vc120.pdb”(使用“worldmodel_lib.lib(worldmodel.obj)”或在“C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\Release\vc120.pdb”中寻找)；正在链接对象，如同没有调试信息一样
          myskill.vcxproj -> C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\Release\myskill.dll
-     1>已完成生成项目“C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\myskill.vcxproj”(Rebuild 个目标)的操作。
+     1>已完成生成项目“C:\!soccor\SOM v3.3.3\Team_BLUE\RoboCup\PenaltyDef\myskill\myskill.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:01.36
+已用时间 00:00:05.47

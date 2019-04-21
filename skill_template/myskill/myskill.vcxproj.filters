@@ -63,12 +63,18 @@
     <ClInclude Include="src\PenaltyDef.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="src\myskill.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\utils\maths.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="src\PenaltyDef.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\myskill.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

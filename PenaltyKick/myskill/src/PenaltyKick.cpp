@@ -86,11 +86,11 @@ rand() 产生的随机数在每次运行的时候都是与上一次相同的。
 #include <time.h> 
 
 #include "utils/PlayerTask.h"
-#include "utils/worldmodel.h"
+#include "utils/WorldModel.h"
 //用户注意；接口需要如下声明
 //extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
  //PlayerTask PenaltyKick::plan(const WorldModel* model, int robot_id);
-extern "C"_declspec(dllexport) PlayerTask plan(const WorldModel* model, int robot_id);
+//extern "C"_declspec(dllexport) PlayerTask plan(const WorldModel* model, int robot_id);
 
 namespace{
 	float penalty_kick_random_range = 30;
@@ -126,21 +126,21 @@ PenaltyKick::~PenaltyKick()
 
 
 //获得对方守门员编号
-int opp_goalie(){
-	WorldModel worldModel;
+int opp_goalie(const WorldModel* model){
+//	WorldModel worldModel;
 
 	// 对方守门员编号
 	int opp_goalie_id = -1;
 	// get_opp_exist_id 获得场上对方球员编号
 	// 返回布尔类型数组  长度为6  1号球员对应下标0 ，2号球员对应下标1
-	const bool* exist_id = worldModel.get_opp_exist_id();
+	const bool* exist_id = model->get_opp_exist_id();
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;	// opp_goal: 对方球门二维坐标位置
 	float dist = 9999;	// ?
 
 	// 在罚点球的情况下 ： 只有一名点球球员和一名点球防守球员
 	for (int i = 0; i < MAX_ROBOTS; i++){	// 对场上每一个机器人(4V4 最多8个)遍历
 		if (exist_id[i]){		// 如果该编号的球员上场了
-			const point2f& pos = worldModel.get_opp_player_pos(i);	// 获得该球员位置
+			const point2f& pos = model->get_opp_player_pos(i);	// 获得该球员位置
 			// 球员与对方球门的距离
 			float goal_opp_dist = (pos - opp_goal).length();	
 			if (goal_opp_dist<dist){	// 如果球员与球门的距离小于 dist  
@@ -153,17 +153,17 @@ int opp_goalie(){
 }
 
 
-extern "C"_declspec(dllexport) PlayerTask plan(const WorldModel* model, int robot_id){
+extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id){
 	PlayerTask task;
-	WorldModel worldModel;
+//	WorldModel worldModel;
 
-	int opp_goalie_num = opp_goalie();
+	int opp_goalie_num = opp_goalie(model);
 
-	const point2f& ball = worldModel.get_ball_pos();
+	const point2f& ball =model->get_ball_pos();
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
-	const point2f& player = worldModel.get_our_player_pos(robot_id);
+	const point2f& player =model->get_our_player_pos(robot_id);
 
-	const float dir = worldModel.get_our_player_dir(robot_id);
+	const float dir =model->get_our_player_dir(robot_id);
 
 	// 判断是否 控到球 判断方法：球员与球的距离 和 角度
 	bool get_ball = (ball - player).length() < get_ball_threshold - 3.5 && (fabs(anglemod(dir - (ball - player).angle())) < PI / 6);
@@ -181,7 +181,7 @@ extern "C"_declspec(dllexport) PlayerTask plan(const WorldModel* model, int robo
 		return task;
 	};
 
-	const point2f& opp = worldModel.get_opp_player_pos(opp_goalie_num);		//对方守门员位置
+	const point2f& opp =model->get_opp_player_pos(opp_goalie_num);		//对方守门员位置
 	
 	int choose_cnt = 0;					// 计数器 对于点球方向的随机选择 的次数
 	bool choose_succeed = false;		// 随机选择 生成 是否成功
