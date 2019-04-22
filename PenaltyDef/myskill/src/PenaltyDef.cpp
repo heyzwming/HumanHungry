@@ -1,7 +1,7 @@
 #include "PenaltyDef.h"
 //#include "def.h"
-#include "utils\PlayerTask.h"
-#include "utils\worldmodel.h"
+#include "utils/PlayerTask.h"
+#include "utils/worldmodel.h"
 #include "utils/maths.h"
 
 using namespace std;
@@ -108,7 +108,7 @@ point2f def_pos(const point2f& p, float dir){
 	// 三目运算符  如果y>0 则把1赋值给convert 否则把-1赋值给convert
 	int convert = y > 0 ? 1 : -1;
 
-	// TODO: ???
+	//TODO:???
 	if (y > 30 || y < -30)
 		y = 30 * convert;
 	return point2f(x,y);
