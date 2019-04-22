@@ -7,7 +7,7 @@
 
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id);
 
-double spiral_buff = 8.0;
+double spiral_buff = 8.0;		// spiral 螺旋/盘绕
 double get_ball_buf = -4;
 double do_spiral_dist = 30;
 double do_spiral_buff = 0;
@@ -33,7 +33,7 @@ GetBall::~GetBall()
 
 void get_ball(const WorldModel* model){
 
-	isSimulation = model->get_simulation();
+	isSimulation = model->get_simulation();		// isSimulation 模拟
 	isSimulation ? get_ball_buf = -4 : get_ball_buf = 5;
 	isSimulation ? away_ball_dist_x = 20 : away_ball_dist_x = 40;
 }
@@ -56,17 +56,13 @@ float ball_x_angle(const WorldModel* model){
 }
 
 
-
-
 //robot_id为拿球小车车号，receiver_id为接球小车车号
-
-
-
 PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	//创建PlayerTask对象
 	PlayerTask task;
-	//以下为执行拿球需要的参数，相关常量查看constaants.h
-	//获得小球当前图像帧坐标位置，重点：小球的坐标信息都以图像帧为最小单位从视觉机接收并存储，可以把球坐标看成是一个个数组，数组索引是图像帧号，数组元素是坐标信息
+	// 以下为执行拿球需要的参数，相关常量查看constaants.h
+	// 获得小球当前图像帧坐标位置
+	// 重点：小球的坐标信息都以图像帧为最小单位从视觉机接收并存储，可以把球坐标看成是一个个数组，数组索引是图像帧号，数组元素是坐标信息
 	const point2f& ball = model->get_ball_pos();
 	//获得小球当前帧的上一帧图像坐标信息
 	const point2f& last_ball = model->get_ball_pos(1);
@@ -76,7 +72,8 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	const point2f& get_ball_player = model->get_our_player_pos(robot_id);
 	//敌方球门中点
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
-	//我方receier_id小车朝向信息，注意：小车朝向为车头垂直方向与场地x轴正方向逆时针夹角
+	//我方receier_id小车朝向信息，
+	//注意：小车朝向为车头垂直方向与场地x轴正方向逆时针夹角
 	const float rece_dir = model->get_our_player_dir(receiver_id);
 	//获得以receive_ball_player为原点的极坐标，ROBOY_HEAD为极坐标length,rece_dir为极坐标angle
 	const point2f& rece_head_pos = receive_ball_player + Maths::vector2polar(ROBOT_HEAD, rece_dir);

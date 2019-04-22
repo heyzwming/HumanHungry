@@ -2,12 +2,10 @@
 #include "GoReveivePos.h"
 #include <time.h>
 #include "utils\worldmodel.h"
-//#include "def.h"
 
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 
 /*
-
 GoReceivePos::GoReceivePos()
 {
 	srand((int)time(NULL));
@@ -16,16 +14,15 @@ GoReceivePos::GoReceivePos()
 GoReceivePos::~GoReceivePos()
 {
 }
-
 */
-
 
 //敌方小车在我方小车和球之间阻挡，return true
 bool opp_block_shoot(const WorldModel* model, const point2f& player, const point2f& ball, int& block_id){
-//	WorldModel worldModel;
 	//初始化判断变量is_block
 	bool is_block = false;
+	// 获得对方球员的上场信息  返回一个布尔数组指针
 	const bool* exist_id = model->get_opp_exist_id();
+
 	for (int i = 0; i < MAX_ROBOTS; i++){
 		//判断敌方车号
 		if (exist_id[i]){
