@@ -1,8 +1,8 @@
 #include "GetBall.h"
 #include "utils/maths.h"
 #include "utils/constants.h"
-#include "utils\PlayerTask.h"
-#include "utils\worldmodel.h"
+#include "utils/PlayerTask.h"
+#include "utils/worldmodel.h"
 //#include "def.h"
 
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id);
@@ -16,7 +16,7 @@ double vision_error = 3;
 bool isSimulation = false;
 int do_spiral_max_cnt = 70;
 #define frame_rate  60.0
-float away_ball_dist_x = 20;//这个值越大 拿球越平滑
+float away_ball_dist_x = 20;	//这个值越大 拿球越平滑
 
 /*
 GetBall::GetBall()
@@ -33,7 +33,12 @@ GetBall::~GetBall()
 
 void get_ball(const WorldModel* model){
 
+	// 判断/获得是否处于 模拟状态
 	isSimulation = model->get_simulation();		// isSimulation 模拟
+
+	// A ? B : C   三目运算符，当条件 A 成立，则返回 B 语句，否则返回 C 语句
+	// 若是，令get_ball_buf为-4, away_ball_dist_x 为20。
+	// 若不是，令为 5 和 40。
 	isSimulation ? get_ball_buf = -4 : get_ball_buf = 5;
 	isSimulation ? away_ball_dist_x = 20 : away_ball_dist_x = 40;
 }
@@ -46,12 +51,17 @@ bool toward_opp_goal(float dir){
 
 float ball_x_angle(const WorldModel* model){
 
+	// vector<point2f> 以二维（浮点）坐标点为类型的 vector向量   
+	// 一个存储球二维浮点型坐标点的数组
 	vector<point2f> ball_points;
-	ball_points.resize(8);
+	ball_points.resize(8);	// 数组的大小改为8个元素
+
+	// 迭代8次，将8次获取到的球的坐标存入 ball_points 向量
 	for (int i = 0; i < 8; i++){
 		const point2f& temp_points = model->get_ball_pos(i);
 		ball_points.push_back(temp_points);
 	}
+	// TODO: 未知返回值
 	return Maths::least_squares(ball_points);
 }
 
@@ -64,39 +74,56 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	// 获得小球当前图像帧坐标位置
 	// 重点：小球的坐标信息都以图像帧为最小单位从视觉机接收并存储，可以把球坐标看成是一个个数组，数组索引是图像帧号，数组元素是坐标信息
 	const point2f& ball = model->get_ball_pos();
+
 	//获得小球当前帧的上一帧图像坐标信息
 	const point2f& last_ball = model->get_ball_pos(1);
+
 	//获得我方receiver_id小车坐标位置信息
 	const point2f& receive_ball_player = model->get_our_player_pos(receiver_id);
+
 	//获得我方robot_id小车坐标信息
 	const point2f& get_ball_player = model->get_our_player_pos(robot_id);
+
 	//敌方球门中点
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
+
 	//我方receier_id小车朝向信息，
 	//注意：小车朝向为车头垂直方向与场地x轴正方向逆时针夹角
 	const float rece_dir = model->get_our_player_dir(receiver_id);
+
 	//获得以receive_ball_player为原点的极坐标，ROBOY_HEAD为极坐标length,rece_dir为极坐标angle
 	const point2f& rece_head_pos = receive_ball_player + Maths::vector2polar(ROBOT_HEAD, rece_dir);
+
 	//获得我方robot_id小车朝向信息
 	const float dir = model->get_our_player_dir(robot_id);
+
 	//获得receive_ball_player到ball向量的角度，注意：所有角度计算为向量与场地x轴正方向逆时针夹角
 	float receive2ball = (ball - receive_ball_player).angle();
+
 	//获得对方球门到球的向量角度
 	float opp_goal2ball = (ball - opp_goal).angle();
+
 	//获得ball到对方球门的向量角度
 	float ball2opp_goal = (opp_goal - ball).angle();
+
 	//获得对方球门到球的向量长度
 	float ball_away_goal = (ball - opp_goal).length();
+
 	//获得球到get_ball_player的向量长度
 	float player_away_ball = (get_ball_player - ball).length();
+
 	//获得对方球门到get_ball_player的长度
 	float player_away_goal = (get_ball_player - opp_goal).length();
+
 	//获得球当前坐标到上一坐标位置向量的长度
 	float ball_moving_dist = (ball - last_ball).length();
+
 	//判断dir与对方球门的角度关系，看toward_opp_goal函数
 	bool is_toward_opp_goal = toward_opp_goal(dir);
+
 	//判断小车是否在球与对方球门之间
 	bool ball_behind_player = ball_away_goal + BALL_SIZE + MAX_ROBOT_SIZE> player_away_goal;
+
 	//判断小球是否运动
 	bool ball_moving = (ball_moving_dist < 0.8) ? false : true;
 	//判断get_ball_player小车到ball向量角绝对值是否小于75度
