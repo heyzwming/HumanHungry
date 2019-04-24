@@ -1,4 +1,3 @@
---desc: 黄队点球
 kickerdir = function()
 	return CRole2BallDir("Kicker")
 end
