@@ -1,2 +1,3 @@
 # RoboCup
-ZJUNIT‘s RoboCup 
+
+Our target is International RoboCup!
