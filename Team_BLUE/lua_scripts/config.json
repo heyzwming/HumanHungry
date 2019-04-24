@@ -1,5 +1,5 @@
 {
-    "IS_TEST_MODE": true,
+    "IS_TEST_MODE": false,
     "OPPONENT_NAME": "Other",
     "gBayesPlayTable": "Nor/NormalPlayDefend",
     "gNormalPlay": "NormalPlayDefend",
@@ -19,8 +19,20 @@
         "penaltykick"
     ],
     "gRefPlayTable": [
-        "Ref/GameStop/Ref_Stop",
+        "Ref/BackDef/Ref_BackDef",
+        "Ref/BackKick/Ref_BackKick",
+        "Ref/CornerDef/Ref_CornerDef",
+        "Ref/CornerKick/Ref_CornerKick",
+        "Ref/FrontDef/Ref_FrontDef",
+        "Ref/FrontKick/Ref_FrontKick",
+        "Ref/KickOff/Ref_KickOff",
+        "Ref/KickOffDef/Ref_KickOffDef",
+        "Ref/MiddleDef/Ref_MiddleDef",
+        "Ref/MiddleKick/Ref_MiddleKick",
         "Nor/NormalPlayDefend",
+        "Ref/PenaltyDef/Ref_PenaltyDef",
+        "Ref/PenaltyKick/Ref_PenaltyKick",
+        "Ref/GameStop/Ref_Stop",
         "Ref/Ref_Halt"
     ],
     "gRoleFixNum": {
@@ -35,6 +47,6 @@
         "GoalieSkill",
         "DefenderSkill"
     ],
-    "gTestPlay": "KickerSkill_PenaltyKick",
-    "gTestPlayTable": "Ref/PenaltyKick/KickerSkill_PenaltyKick"
+    "gTestPlay": "",
+    "gTestPlayTable": ""
 }
