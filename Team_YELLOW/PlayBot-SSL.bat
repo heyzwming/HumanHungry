@@ -1,0 +1,1 @@
+PlayBot-SSL.exe>bot.txt 2>&1
