@@ -1,51 +1,41 @@
 #include "PassBall.h"
-//#include "rolematch/MunkresMatch.h"
 #include "utils/maths.h"
 #include "utils/constants.h"
-//#include "def.h"
-#include "utils\worldmodel.h"
+#include "utils/worldmodel.h"
 //#include "ParamReader.h"
 #include <iostream>
 using namespace std;
 
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int runner_id, int reveiver_id);
 
-float head_len = 7.0;
 #define fast_pass 3
+float head_len = 7.0;
+
 namespace{
 	bool isSimulation = false;
 	float param = 2;
 }
-/*
-PassBall::PassBall()
-{
 
-}
-
-PassBall::~PassBall()
-{
-
-}
-*/
-//判断是否可以传球
+// 判断是否可以传球
 bool is_ready_pass(const point2f& ball ,const point2f& passer, const point2f& receiver){
-	//接球车到球矢量角度
+	// 接球球员到球的矢量角度
 	float receiver_to_ball = (ball - receiver).angle();
-	//球到传球车矢量角度
+	// 球到传球球员的矢量角度
 	float ball_to_passer= (passer - ball).angle();
-	//两个矢量角度之差小于某个值，判断是否可以传球
+	
+	// 两个矢量角度之差小于某个值，判断是否可以传球
 	bool pass = fabs(receiver_to_ball - ball_to_passer) < 0.5;
 	return pass;
 }
-//runner_id 传球车号 reveiver_id 接球车号
+// runner_id 传球球员号码 reveiver_id 接球球员号码
 PlayerTask player_plan(const WorldModel* model, int runner_id, int reveiver_id){
-//	WorldModel worldModel;
 	PlayerTask task;
-	//获取执行传球需要用到的参数，部分参数解释可以参考GetBall.cpp
-	//获取reveiver_id小车的视觉信息
+
+	//获取reveiver_id球员的视觉信息
 	const PlayerVision& rece_msg = model->get_our_player(reveiver_id);
-	//获取runner_id小车的视觉信息
+	//获取runner_id球员的视觉信息
 	const PlayerVision& excute_msg = model->get_our_player(runner_id);
+
 	float rece_dir = rece_msg.player.orientation;
 	float excute_dir = excute_msg.player.orientation;
  	const point2f& rece_pos = rece_msg.player.pos;
@@ -58,6 +48,7 @@ PlayerTask player_plan(const WorldModel* model, int runner_id, int reveiver_id){
 	float pass_dir = (receive_head - ball).angle();
 	//判断球是否在小车控球嘴上，从两个参数着手：1.判断ball到车的距离是否小于某个值，2.车头方向和车到球矢量角度之差值是否小于某个值
 	bool get_ball = (ball - excute_pos).length() < get_ball_threshold-1.5  && (fabs(anglemod(excute_dir - (ball - excute_pos).angle())) < PI / 6);
+
 	//如果reveiver_id和runner_id是同一车，则直接射门
 	if (reveiver_id == runner_id){
 		if (get_ball){
@@ -95,9 +86,5 @@ PlayerTask player_plan(const WorldModel* model, int runner_id, int reveiver_id){
 	
 	
 }
-
-
-
-
 
 

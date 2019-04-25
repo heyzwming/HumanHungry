@@ -36,7 +36,7 @@ const int SEGMENT_NUM = 4;
 const double FIELD_LENGTH = 605;
 const double FIELD_WIDTH = 405;
 const double FIELD_LENGTH_H = (FIELD_LENGTH/2);
-const double FIELD_WIDTH_H = (FIELD_WIDTH/2);
+const double FIELD_WIDTH_H = (FIELD_WIDTH/2);	
 
 const double GOAL_WIDTH = 70;
 const double GOAL_DEPTH = 18;

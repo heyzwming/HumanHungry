@@ -57,6 +57,14 @@ point2f def_pos(const WorldModel* model, const point2f& p, float dir){
 	//获得小球当前帧的上一帧图像坐标信息
 	const point2f& last_ball = model->get_ball_pos(1);
 
+	//获得球当前坐标到上一坐标位置向量的长度
+	float ball_moving_dist = (ball - last_ball).length();
+
+	//判断小球是否运动
+	bool ball_is_moving = (ball_moving_dist < 0.8) ? false : true;
+
+
+
 	/* 在点球开始前 根据点球球员的方向 计算出大致的截球点 */
 
 
@@ -70,7 +78,7 @@ point2f def_pos(const WorldModel* model, const point2f& p, float dir){
 	/* 判断 当前帧 点球球员有无将球点出 若无 则守门员待在 门框内  return 守门员初始点x,y */
 
 	// TODO: 禁止！ 多出口（return）的函数
-	if ( fabs((last_ball - ball).x) > 1  ){		// 球被踢出
+	if (ball_is_moving){		// 球被踢出
 
 		/* 根据球 当前帧 和上一帧 的位置 计算出移动方向 并更新截球点 return 截球点x,y */
 		
@@ -80,32 +88,19 @@ point2f def_pos(const WorldModel* model, const point2f& p, float dir){
 		//(last_ball-ball).angle()
 
 
+		// 三目运算符  如果y>0 则把1赋值给convert 否则把-1赋值给convert
+		int convert = y > 0 ? 1 : -1;
+
+		// 即使 计算出 点球的入射点大于球门，即小球不可能射入球门，则装装样子，让守门员向球门边缘移动
+		if (y > 30 || y < -30)
+			y = 30 * convert;
+
 		return point2f(x, y);	// 返回/前往 计算出的截球点
 	}
 	else{	// 未将球点出
 		return point2f(stayX, stayY);	// 呆在初始点
 	}
 
-
-
-
-
-
-
-
-	
-
-
-
-
-	
-	// 三目运算符  如果y>0 则把1赋值给convert 否则把-1赋值给convert
-	int convert = y > 0 ? 1 : -1;
-
-	//TODO:???
-	if (y > 30 || y < -30)
-		y = 30 * convert;
-		
 	return point2f(x,y);
 }	
 

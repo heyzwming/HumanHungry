@@ -49,7 +49,7 @@ public:
 	bool needKick;													// 踢球动作执行开关
 	bool isPass;													// 是否进行传球
 	bool needCb;
-	bool isChipKick;												// 挑球还是平射
+	bool isChipKick;												// 挑球开关
 	double kickPrecision;											// 踢球朝向精度
 	double kickPower;												// 踢球力度
 	double chipKickPower;											// 挑球力度	

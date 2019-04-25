@@ -1,3 +1,26 @@
+#bin
+#platforms
+#logger.xml
+#lua5.1.dll
+#msvcp120.dll
+#msvcr120.dll
+#Qt5Core.dll
+#Qt5Gui.dll
+#Qt5Network.dll
+#Qt5Widgets.dll
+#Qt5Xml.dll
+#Ref_BackKick_test.lua
+#serial.txt
+#soccer_planner_conf.json
+#SoccerPlanner3.exe
+#soccerplanner3_zh.qm
+#UpdateTool.exe
+#version.json
+#说明.txt
+
+
+
+
 # Prerequisites
 #*.d
 

@@ -66,6 +66,41 @@ float ball_x_angle(const WorldModel* model){
 }
 
 
+
+/*
+
+在 player_plan 中，究竟通过WorldModel* model 获得了多少信息
+
+1、小球当前图像帧坐标位置				ball 
+2、小球当前帧的上一帧图像坐标信息		last_ball
+3、我方receiver球员坐标位置信息		receive_ball_player
+4、我方robot_id小车坐标信息			get_ball_player
+5、敌方球门中点			opp_goal
+6、我方receier_id小车朝向信息， rece_dir
+7、获得以receive_ball_player为原点的极坐标，ROBOY_HEAD为极坐标length,rece_dir为极坐标angle		
+   rece_head_pos = receive_ball_player + Maths::vector2polar(ROBOT_HEAD, rece_dir);
+8、获得我方robot_id小车朝向信息	dir
+9、获得receive_ball_player到ball向量的角度，注意：所有角度计算为向量与场地x轴正方向逆时针夹角
+   receive2ball
+10、获得对方球门到球的向量角度  opp_goal2ball
+11、获得ball到对方球门的向量角度	ball2opp_goal
+12、获得对方球门到球的向量长度	ball_away_goal
+13、获得球到get_ball_player的向量长度 player_away_ball
+14、获得对方球门到get_ball_player的长度 player_away_goal
+15、获得球当前坐标到上一坐标位置向量的长度 ball_moving_dist
+16、判断dir与对方球门的角度关系，看toward_opp_goal函数 is_toward_opp_goal
+17、判断小车是否在球与对方球门之间  ball_behind_player = ball_away_goal + BALL_SIZE + MAX_ROBOT_SIZE> player_away_goal;
+18、判断小球是否运动  ball_moving = (ball_moving_dist < 0.8) ? false : true;
+19、
+20、
+
+	
+
+
+*/
+
+
+
 //robot_id为拿球小车车号，receiver_id为接球小车车号
 PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	//创建PlayerTask对象
@@ -126,79 +161,100 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 
 	//判断小球是否运动
 	bool ball_moving = (ball_moving_dist < 0.8) ? false : true;
+
 	//判断get_ball_player小车到ball向量角绝对值是否小于75度
 	bool player_toward_ball = fabs((ball - get_ball_player).angle() - dir) < (PI / 2 - PI / 12) ? true : false;
 	bool direct_get_ball = !ball_moving;
 	bool across_ball;
 	bool ball_move2target;
 	float ball_moving_dir = (ball - last_ball).angle();
+
+	// 小球在当前帧与上一帧的位移  =  球的位置 + 极坐标（球当前帧和上一帧的移动距离，移动方向）转成的二维向量坐标
 	point2f ball_with_vel = ball + Maths::vector2polar(ball_moving_dist, ball_moving_dir);
-	if (!ball_moving)
-		//小球位移为当前位置
+
+
+
+	
+	if (!ball_moving)	// 小球没有移动
+		
+		//小球的位移为当前位置
 		ball_with_vel = ball;
-	float ball_to_player = (get_ball_player - ball_with_vel).angle();
-	//球车方向和小车方向的夹角，其中球车方向为小球与小车中心点的矢量方向、小车方向为垂直车头方向
+
+	//  小球位移后的坐标 指向 robot_id 球员坐标 的向量的角度
+	// 这个 变量 没有被用到？？？
+	float ball_to_player_dir = (get_ball_player - ball_with_vel).angle();
+
+
+	//球车方向(ball - get_ball_player).angle()和小车方向dir的夹角，
+	//其中球车方向为小球与小车中心点的矢量方向、小车方向为垂直车头方向
 	float ball_player_dir_angle = (ball - get_ball_player).angle() - dir;
+
 	//判断小球是否在吸球嘴附近
 	bool ball_beside_player_mouth = (ball - get_ball_player).length() < 14 && fabs(ball_player_dir_angle) > PI / 4 && fabs(ball_player_dir_angle)<PI/2;
-	if (receiver_id == robot_id){
-	//判断x轴方向get_ball_Player小车与球的位置关系，小车在球上侧，返回true	
-	bool ball_x_boundary_right = (ball.x - 2) < get_ball_player.x ? true : false;
-	//判断y轴方向get_ball_player小车与球的位置关系，小车在球左侧，返回true
-	bool ball_y_boundary_right = (ball.y - 2) < get_ball_player.y ? true : false;
-	//判断小球与get_ball_player车的位置关系执行拿球
-		if (!ball_x_boundary_right){
-				//给robot_id小车设置任务中的目标点坐标，就是让小车跑到某个点，该点以ball_with_vel为极坐标原点
-			task.target_pos = ball_with_vel + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, opp_goal2ball);
-		}
-		else
-		{
-			if (ball_y_boundary_right)
-				//给robot_id小车设置任务中的目标点坐标，直接设置x,y
-				task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y + 35);
-			else
-				task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y - 35);
 
-		}
-		task.orientate = (opp_goal - ball).angle();
+
+	if (receiver_id == robot_id){	// 如果传入的两个参数相同，则朝向球门GetBall拿球
+
+		//判断x轴方向get_ball_Player小车与球的位置关系，小车在球上侧，返回true	
+		// 换一个说法： 球员比球更接近对方球门 则返回true
+		bool ball_x_boundary_right = (ball.x - 2) < get_ball_player.x ? true : false;
+		//判断y轴方向get_ball_player小车与球的位置关系，球在robot_id球员的左侧，返回true
+		bool ball_y_boundary_right = (ball.y - 2) < get_ball_player.y ? true : false;
+
+
+		//判断小球与get_ball_player车的位置关系执行拿球
+			if (!ball_x_boundary_right){	// 如果球比球员更接近对方球门
+					//给robot_id小车设置任务中的目标点坐标，就是让小车跑到某个点，该点以ball_with_vel为极坐标原点  
+					// TODO: get_ball_buf 还是不是知道是什么，maybe 拿球缓冲距离？？
+					// 拿球点为：球的位移+沿着 对方球门指向球 方向 球的半径+球员半径 + 拿球缓冲区 长度的位置
+				task.target_pos = ball_with_vel + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, opp_goal2ball);
+			}else{							// 球员比球更接近对方球门
+				if (ball_y_boundary_right)	// 球在球员左边
+					//给robot_id小车设置任务中的目标点坐标，直接设置x,y
+					// x: 球的位移的x轴 - away_ball_dist_x  TODO: 原因？这个值越大，拿球越平滑
+					// TODO: 当球员比球更接近对方球门时拿球的地点计算。
+					task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y + 35);
+				else						// 球在球员右边
+					task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y - 35);
+			}
+			task.orientate = (opp_goal - ball).angle(); // 方向为 球到对方球门的向量的方向
 	}
-	else
-	{   //判断球与get_ball_palyer、receive_ball_player之间的位置关系，如果x轴方向球在两车下侧，得到true
+	else				// GetBall球员朝向传球球员 接球
+	{   
+		// TODO: 这一句和下面一句不是累赘嘛？
+		//判断球与get_ball_palyer、receive_ball_player之间的位置关系，如果x轴方向球在两车下侧，得到true
 		bool all_on_ball_x_boundary_left = (ball.x - 2) < get_ball_player.x && (ball.x - 2) < receive_ball_player.x;
 		//如果x轴方向球在两车上侧，得到true
 		bool all_on_ball_x_boundary_right = (ball.x - 2) > get_ball_player.x && (ball.x - 2) > receive_ball_player.x;
+
 		//判断y轴方向get_ball_player小车与球的位置关系，小车在球左侧，得到true
 		bool executer_onball_y_boundary_right = (ball.y - 2) < get_ball_player.y ? true : false;
+		
 		//判断小球与拿球车、接球车之间的位置关系执行拿球
-		if (all_on_ball_x_boundary_right){
-			if (executer_onball_y_boundary_right)
+		if (all_on_ball_x_boundary_right){	// x轴方向 球比两球员离对方球门更近
+			if (executer_onball_y_boundary_right)	// y轴方向 球员在球左侧
 				//设置task任务目标点坐标
 				task.target_pos.set(ball_with_vel.x + away_ball_dist_x, ball_with_vel.y + 35);
 			else
 				task.target_pos.set(ball_with_vel.x + away_ball_dist_x, ball_with_vel.y - 35);
 			
-		}
-		else if (all_on_ball_x_boundary_left)
-		{
-			if (executer_onball_y_boundary_right)
+		}else if (all_on_ball_x_boundary_left){	// 两球员离球门更近
+			if (executer_onball_y_boundary_right)		// 球员在球的左侧
 				task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y + 35);
 			else
 				task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y - 35);
 
-		}
-		else
-		{
-			
+		}else{		// 球在两个球员之间
 			task.target_pos = ball_with_vel + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, receive2ball);
 		}
 		task.orientate = (rece_head_pos - ball).angle();
 	}
-	//判断小球在拿球车吸球嘴附近执行拿球
+
+	//判断小球在GetBall拿球车吸球嘴附近
 	if (ball_beside_player_mouth){
-		//
+		//执行拿球
 		task.target_pos = ball + Maths::vector2polar(20, anglemod(dir + PI));
 	}
 	return task;
 
 }
-

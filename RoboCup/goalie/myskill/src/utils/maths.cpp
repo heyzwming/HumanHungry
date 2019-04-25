@@ -1,6 +1,6 @@
 #include "maths.h"
 namespace FieldPoint{
-	point2f Goal_Center_Point(-FIELD_LENGTH / 2, 0.0);
+	point2f Goal_Center_Point(-FIELD_LENGTH / 2, 0.0);	// 己方球门中心点
 	point2f Penalty_Kick_Point(-FIELD_LENGTH / 2 + PENALTY_KICKER_L, 0.0);
 	point2f Goal_Left_Point(-FIELD_LENGTH_H, -GOAL_WIDTH_H);
 	point2f Goal_Right_Point(-FIELD_LENGTH_H, GOAL_WIDTH_H);
@@ -12,8 +12,8 @@ namespace FieldPoint{
 	point2f Goal_Penalty_Area_L_Left(-FIELD_LENGTH, -PENALTY_AREA_L / 2);
 	point2f Penalty_Area_L_A(PENALTY_AREA_R - FIELD_LENGTH_H, PENALTY_AREA_L / 2);
 	point2f Penalty_Area_L_B(PENALTY_AREA_R - FIELD_LENGTH_H, -PENALTY_AREA_L / 2);
-	point2f Penalty_Arc_Center_Right(-FIELD_LENGTH_H, PENALTY_AREA_L/2);
-	point2f Penalty_Arc_Center_Left(-FIELD_LENGTH_H,-PENALTY_AREA_L/2);
+	point2f Penalty_Arc_Center_Right(-FIELD_LENGTH_H, PENALTY_AREA_L/2);	// 球门右侧
+	point2f Penalty_Arc_Center_Left(-FIELD_LENGTH_H,-PENALTY_AREA_L/2);	// 球门左侧
 	point2f Penalty_Rectangle_Left(-FIELD_LENGTH_H + PENALTY_AREA_R, -PENALTY_AREA_L / 2);
 	point2f Penalty_Rectangle_Right(-FIELD_LENGTH_H + PENALTY_AREA_R, PENALTY_AREA_L / 2);
 }
