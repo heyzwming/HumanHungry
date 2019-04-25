@@ -43,5 +43,21 @@
             // goal 我方球门中心点
             task.target_pos = goal + Maths::polar2vector(PENALTY_AREA_R + MAX_ROBOT_SIZE + PENALTY_AREA_R/2, task.orientate);	// 罚球区右边界80 + 最大机器人半径9 + 罚球区右边界80/2
 
+14) PassBall.cpp 中 #define fast_pass 3  这个宏定义 的意义是什么   传球的距离？还是助跑？
+    task.target_pos = ball + Maths::polar2vector(fast_pass, opp_goal_to_ball);
+
+    助跑？：
+    	//判断并执行传球
+ 	if (is_ready_pass(ball,excute_pos,rece_pos) ){	// 准备好传球了
+		if (get_ball){		// 如果拿到了球，设置传球的属性
+			task.kickPower = 50;
+			task.needKick = true;
+			task.isChipKick = false;
+		}
+		task.target_pos = ball + Maths::polar2vector(fast_pass, rece_to_ball);
+		//printf("kicke ball\n");
+		}
+
+    task.target_pos = ball + Maths::polar2vector(fast_pass, rece_to_ball);这行代码没有else  传入的fast_pass是助跑的意思吗？
 
 

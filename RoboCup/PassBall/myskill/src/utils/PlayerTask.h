@@ -34,7 +34,7 @@ public:
 		memcpy(this,&task,sizeof(PlayerTask));
 	}
 	~PlayerTask(){};
-	int flag;
+	int flag;									// flag = 1 表示小车加速度*2
 	RobotRole role;                                             //球员角色
 	point2f target_pos;											// 全局目标点
 	double orientate;												// 全局目标到点朝向

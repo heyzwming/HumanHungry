@@ -45,41 +45,49 @@ PlayerTask player_plan(const WorldModel* model, int runner_id, int reveiver_id){
 	float ball_to_our_goal = (FieldPoint::Goal_Center_Point - ball).angle();
 	float rece_to_ball = (ball - rece_pos).angle();
 	point2f receive_head = rece_pos + Maths::polar2vector(head_len, rece_msg.player.orientation);
-	float pass_dir = (receive_head - ball).angle();
+	float pass_dir = (receive_head - ball).angle();	// 传球方向  球指向接球球员的头
+
 	//判断球是否在小车控球嘴上，从两个参数着手：1.判断ball到车的距离是否小于某个值，2.车头方向和车到球矢量角度之差值是否小于某个值
 	bool get_ball = (ball - excute_pos).length() < get_ball_threshold-1.5  && (fabs(anglemod(excute_dir - (ball - excute_pos).angle())) < PI / 6);
 
 	//如果reveiver_id和runner_id是同一车，则直接射门
 	if (reveiver_id == runner_id){
-		if (get_ball){
+		if (get_ball){		// 如果球被控住
 			//执行平击踢球，力度为最大127
 			task.kickPower = 127;
 			//踢球开关
 			task.needKick = true;
 			//挑球开关
 			task.isChipKick = false;
+		}else{		// 没控住球 执行拿球，并指向对方球门，对方球门到球矢量的角度
+			float opp_goal_to_ball = (ball - opp_goal).angle();
+			task.target_pos = ball + Maths::polar2vector(fast_pass, opp_goal_to_ball);
+			task.orientate = (opp_goal - ball).angle();
+			return task;
 		}
 		//执行拿球，并指向对方球门，对方球门到球矢量的角度
+		/*
 		float opp_goal_to_ball = (ball - opp_goal).angle();
 		task.target_pos = ball + Maths::polar2vector(fast_pass, opp_goal_to_ball);
 		task.orientate = (opp_goal - ball).angle();
-		return task;
+		return task;	
+		*/
 	}
+
 	//判断并执行传球
- 	if (is_ready_pass(ball,excute_pos,rece_pos) ){
-		if (get_ball){
+ 	if (is_ready_pass(ball,excute_pos,rece_pos) ){	// 准备好传球了
+		if (get_ball){		// 如果拿到了球，设置传球的属性
 			task.kickPower = 50;
 			task.needKick = true;
 			task.isChipKick = false;
 		}
 		task.target_pos = ball + Maths::polar2vector(fast_pass, rece_to_ball);
 		//printf("kicke ball\n");
-	}
-	else
-	{
+		}
+		else{		// 没有准备好传球，则改变位置		目标位置改为  球的坐标 + 极坐标（球的半径 + 球员半径，接球球员指向球的方向  ）转成的二维向量坐标
 		task.target_pos = ball + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE +12, rece_to_ball);
-	}
-	task.orientate = pass_dir;
+		}
+	task.orientate = pass_dir;		//pass_dir = (receive_head - ball).angle();
 	//flag = 1表示小车加速度*2
 	task.flag = 1;
 	return task;

@@ -1,31 +1,23 @@
 #include "ReceiveBall.h"
 #include "utils/maths.h"
-//#include "GetBall.h"
-//#include "PassBall.h"
 #include "utils/WorldModel.h"
-//#include "def.h"
 //#include "rolematch/MunkresMatch.h"
+
 #define BALL_VISION_ERROR 2.5
+
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int runner_id);
-/*ReceiveBall::ReceiveBall()
-{
-}
-
-ReceiveBall::~ReceiveBall()
-{
-}*/
-
 
 PlayerTask player_plan(const WorldModel* model, int runner_id){
 	PlayerTask task;
-//	WorldModel worldModel;
+
 	//接球需要的参数
 	const point2f& ball = model->get_ball_pos();
-	const point2f& vel = model->get_ball_vel();
-	const point2f& receiver = model->get_our_player_pos(runner_id);
+	const point2f& vel = model->get_ball_vel();											// 获得场上球员的速度信息 
+	const point2f& receiver = model->get_our_player_pos(runner_id);						// 获得接球球员的位置 
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
-	const float& receiver_dir = model->get_our_player_dir(runner_id);
-	point2f reciver_head = receiver + Maths::polar2vector(ROBOT_HEAD , receiver_dir);
+	const float& receiver_dir = model->get_our_player_dir(runner_id);					// 接球运动员的朝向 
+	point2f reciver_head = receiver + Maths::polar2vector(ROBOT_HEAD , receiver_dir);	// 接球球员的头部坐标
+
 	bool close_receiver = (receiver - ball).length() < 50;
 	bool head_toward_ball = false;
 	bool ball_moveto_head = false;
@@ -38,11 +30,13 @@ PlayerTask player_plan(const WorldModel* model, int runner_id){
 	task.orientate = (opp_goal - receiver).angle();
 	task.target_pos = task_point;
 	
-	/*if (close_receiver&&!head_toward_ball&&!ball_moveto_head){
+	/*
+	if (close_receiver&&!head_toward_ball&&!ball_moveto_head){
 		GetBall get_ball;
 		task = get_ball.plan(runner_id, runner_id);
 		return task;
-	}*/
+	}
+	*/
 
 	return task;
 }
