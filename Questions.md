@@ -60,4 +60,6 @@
 
     task.target_pos = ball + Maths::polar2vector(fast_pass, rece_to_ball);这行代码没有else  传入的fast_pass是助跑的意思吗？
 
+15) 在原来的task函数包中的（面向对象的源码）单例模式，因为我把整个程序该成了面向过程的，去掉了单例模式有影响吗？
+
 
