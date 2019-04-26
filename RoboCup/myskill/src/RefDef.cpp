@@ -13,8 +13,6 @@
 ************************************************************/
 
 #include "RefDef.h"
-#include "utils/WorldModel.h"
-#include "utils/maths.h"
 //#include "utils/singleton.h"
 
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int id, string role);
@@ -24,7 +22,7 @@ enum BallArea
 	Middle,
 	Right
 };
-// role 传入的参数  执行该.dll的角色名
+
 PlayerTask player_plan(const WorldModel* model, int id, string role){	// role 传入的参数  执行该.dll的角色名
 	PlayerTask task;
 	//防守需要的参数
@@ -42,37 +40,40 @@ PlayerTask player_plan(const WorldModel* model, int id, string role){	// role �
 	
 	const bool* exist_id = model->get_opp_exist_id();
 	
-	float dist = 0;
+	// TODO: 如果后面改成了 < 号 那这个dist的初始值应该设为很大
+	//float dist = 0;
+	float dist = 9999;
+
+	int opp_hold_ball_player =-1;		// 对方拿球球员
 	
-	int def_receive_ball =-1;		// 对方拿球球员
-	
-	//在for循环中找出拿球的对方球员车号 给def_receive_ball
-	for (int i = 0; i < MAX_ROBOTS; i++){
-		if (exist_id[i]){
-			const point2f& point = model->get_opp_player_pos(i);
-			if ((point - opp_goal).length() < PENALTY_AREA_R)	// 如果对方球员的位置 到 对方球门的距离 小于 PENALTY_AREA_R 80	   即跳过对方守门员
+	//在for循环中找出拿球的对方球员车号 赋值给opp_hold_ball_player
+	for (int i = 0; i < MAX_ROBOTS; i++){	
+		if (exist_id[i]){		// 该号码球员存在
+			const point2f& opp_player_pos = model->get_opp_player_pos(i);
+			if ((opp_player_pos - opp_goal).length() < PENALTY_AREA_R)	// 如果对方球员的位置 到 对方球门的距离 小于 禁区半径PENALTY_AREA_R 80	   即跳过对方守门员
 				continue;
 			else	// 该球员不是守门员
-			{
-				// 球和对方球员的距离
-				float player_ball_dist = (ball - point).length();	
-				// 如果对方球员与球的距离 大于 dist（初始为0） 则更新dist和def_receive_ball（球员号码）
-				if (player_ball_dist > dist){
+			{	
+				float player_ball_dist = (ball - opp_player_pos).length();	// 球和对方球员的距离
+				// 如果对方球员与球的距离 大于 dist（初始为0） 则更新dist和opp_hold_ball_player（球员号码）
+				// TODO: 这里应该是<号吧？  当球和球员的距离小于dist 这时候才更新dist和持球球员的编号
+				//if (player_ball_dist > dist){
+				if (player_ball_dist < dist){
 					dist = player_ball_dist;
-					def_receive_ball = i;
+					opp_hold_ball_player = i;
 				}		
 			}
 		}
 	}
 
-	if (def_receive_ball == -1) cout << " warning no opp robots receive ball" << endl;
+	if (opp_hold_ball_player == -1) cout << " warning no opp robots receive ball" << endl;
 	
-	// 对方拿球球员
-	const point2f& opp_receive_player = model->get_opp_player_pos(def_receive_ball);
+	// 对方拿球球员的坐标
+	const point2f& opp_hold_ball_player_pos = model->get_opp_player_pos(opp_hold_ball_player);
 	//得到对方拿球小车到我球门角度
-	float opp_receive_goal = (goal_center - opp_receive_player).angle();
+	float opp_receive_goal = (goal_center - opp_hold_ball_player_pos).angle();
 
-	BallArea area;	// left  middle  right
+	BallArea area;	// left  middle  right	左半场 中半场 右半场
 
 	if (ball.y + 2  > arc_center_right.y)
 		area = Right;
@@ -107,7 +108,7 @@ PlayerTask player_plan(const WorldModel* model, int id, string role){	// role �
 	//前锋Kicker的防守，卡住对方拿球小车射门方向
 	if (role == "Kicker"){		// 前锋Kicker的防守战术
 		// 目标点为 对方拿球球员 + 极坐标（Stop_Dist*2 (即50 * 2) ，对方拿球球员到我方球门角度 ）转二维向量
-		task.target_pos = opp_receive_player + Maths::polar2vector(RuleParam::Stop_Dist*2, opp_receive_goal);
+		task.target_pos = opp_hold_ball_player_pos + Maths::polar2vector(RuleParam::Stop_Dist*2, opp_receive_goal);
 		task.orientate = anglemod(opp_receive_goal + PI);
 	}
 	

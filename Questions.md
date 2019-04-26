@@ -76,5 +76,8 @@
 28) GetBall.cpp中的变量，例如spiral_buff、get_ball_buf等
 29) GetBall.cpp 中开头有个函数（我改名成了isSimulate）叫void get_ball(const WorldModel* model)。目的是判断是否是模拟状态，有什么意义？
 30) Receiver_id 和 GetBall_id的含义有点模糊
+31) 在宁大选拔题中，可以在纯lua程序中实现跑位和拿球、射门吗
+32) play脚本怎么写，怎么在play脚本中完成衔接task的脚本
+33) 像RefDef.cpp一样有3个参数的player_plan函数接口和有2个参数的player_plan在被lua调用的时候有什么区别
 
 

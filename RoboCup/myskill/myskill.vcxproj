@@ -85,19 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\GetBall.h" />
-    <ClInclude Include="src\goalie.h" />
-    <ClInclude Include="src\GoReveivePos.h" />
-    <ClInclude Include="src\GotoPos.h" />
-    <ClInclude Include="src\myskill.h" />
-    <ClInclude Include="src\NormalDef.h" />
-    <ClInclude Include="src\PassBall.h" />
-    <ClInclude Include="src\PenaltyDef.h" />
-    <ClInclude Include="src\PenaltyDef2.h" />
-    <ClInclude Include="src\PenaltyKick.h" />
-    <ClInclude Include="src\ReceiveBall.h" />
     <ClInclude Include="src\RefDef.h" />
-    <ClInclude Include="src\Shoot.h" />
     <ClInclude Include="src\utils\ball.h" />
     <ClInclude Include="src\utils\basevision.h" />
     <ClInclude Include="src\utils\constants.h" />
@@ -115,19 +103,7 @@
     <ClInclude Include="src\utils\worldmodel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GetBall.cpp" />
-    <ClCompile Include="src\goalie.cpp" />
-    <ClCompile Include="src\GoReceivePos.cpp" />
-    <ClCompile Include="src\GotoPos.cpp" />
-    <ClCompile Include="src\myskill.cpp" />
-    <ClCompile Include="src\NormalDef.cpp" />
-    <ClCompile Include="src\PassBall.cpp" />
-    <ClCompile Include="src\PenaltyDef.cpp" />
-    <ClCompile Include="src\PenaltyDef2.cpp" />
-    <ClCompile Include="src\PenaltyKick.cpp" />
-    <ClCompile Include="src\ReceiveBall.cpp" />
     <ClCompile Include="src\RefDef.cpp" />
-    <ClCompile Include="src\Shoot.cpp" />
     <ClCompile Include="src\utils\maths.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

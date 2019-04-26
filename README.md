@@ -1,7 +1,10 @@
 # RoboCup
 
-Our target is International RoboCup and Star sea !
+Our target is International RoboCup and star sea !
 
+# 工作流（Workflow）
+
+采用[**特征分支工作流**](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81)
 
 # 注意！
 
@@ -86,6 +89,9 @@ end,
 
 name = "Ref_KickDef"
 ```
+19) 我们的状态机模型是怎么被决策子系统理解并执行的呢？这就要依赖子系统lua架构中的SelectPlay.lua 和Play.lua 这两个脚本程序。其中的SelectPlay.lua 实现了“正常比赛”战术脚本和其他“场景”战术脚本之间的选择，Play.lua 实现状态机模型的解析，使决策子系统能理解我们写的战术脚本并正常调用战术脚本。所以，不建议用户修改SelectPlay.lua和Play.lua，会造成不可知的异常问题。
+20) 每个接口函数只能给指定的角色使用。函数中的参数就是读者的自定义skill 名称。例如：Tier=task.TierTask（“myDef”），就是将myDef 这个skill 给后卫使用。
+21) 注意分清楚 官方task的调用框架和自定义task(.dll)的调用框架。
 
 # 如何更新fork项目的更新
 
@@ -145,9 +151,15 @@ upstream    https://github.com/wabish/fork-demo.git (push)
 
 ## common
 
+所有正式脚本的存放目录。
+
 ### lua_scripts
 
+所有的lua脚本都被放置在这个目录下。
+
 #### oppnent
+
+在这个文件夹下的都是在SOM系统下生成的战术包名称。
 
 #### play
 
