@@ -19,7 +19,7 @@ Our target is International RoboCup and Star sea !
 6) 结合`二次开发手册`（PDF的搜索功能`Ctrl` + `F`）查阅官方函数的功能。
 7) 部分变量中出现的 `arc` 是 弧 的意思，多出现在禁区相关的变量/常量/宏定义中。
 8) 在原来的task函数包中的vector2polar我都已经修改成了polar2vector，如果有遗漏的vector2polar 可以查看定义，这个函数的意思其实是将极坐标转换成二维坐标
-9) 
+9) 在整合版的skill工程文件中，如果将一个.cpp文件或者.h文件选中，`右键` -> `从项目中排除` ，在生成.dll文件的时候就不会编译这些被排除的文件。
 
 
 # 如何更新fork项目的更新
@@ -70,7 +70,7 @@ upstream    https://github.com/wabish/fork-demo.git (push)
 
 由于项目已经配置了上游项目的地址，所以如果 fork 的项目再次更新，重复步骤 2、3、4即可。
 
-## 不用命令行的方法
+## 不用命令行方法
 
 参考[不用命令行的方法](https://jinlong.github.io/2015/10/12/syncing-a-fork/)
 
@@ -82,3 +82,11 @@ upstream    https://github.com/wabish/fork-demo.git (push)
 
 
 # 更新日志
+
+## 4.25 
+
+更新了所有的官方task函数包的注释。
+
+## 4.26
+
+1) 将多个skill (vs2013)工程整合到了一个RoboCup工程文件下，通过vs2013中项目的包含和排除来进行有选择性的编译
