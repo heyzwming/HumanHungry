@@ -1,5 +1,6 @@
 function TierSkill(task)
 cpp_door = function()
+	-- 传入参数 （显式声明本地变量）
 	local name
 	local posX
 	local posY

@@ -7,7 +7,7 @@ gNormalPlay = "NormalPlayDefend"--= %NORMAL_PLAY_NAME%
 --IS_SIM = CIsSim()
 --print(IS_SIM,"sim")
 --role num
-gRoleFixNum = {
+gRoleFixNum = {		-- 角色固定号码
 	["Kicker"]   = {},
 	["Middle"]   = {},
 	["Goalie"]   = {},

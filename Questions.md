@@ -61,5 +61,16 @@
     task.target_pos = ball + Maths::polar2vector(fast_pass, rece_to_ball);这行代码没有else  传入的fast_pass是助跑的意思吗？
 
 15) 在原来的task函数包中的（面向对象的源码）单例模式，因为我把整个程序该成了面向过程的，去掉了单例模式有影响吗？
+16) 在lua_scripts中 对应 二次开发手册 6.1.7 - 6.1.19部分的lua程序  例如 stop.lua中的返回值CRobotStop(..)是什么作用？什么意义。
+17) 在lua层的哪里执行射门操作？因为在C++中只是设置了task的数据成员，并返回了PlayerTask类的task对象。
+18) 在SOM中的一些txt需要关注吗？有什么具体的含义吗？例如SOM v3.3.3\Team_BLUE\ball fast\fastMatrices60.txt等
+19) ~\SOM v3.3.3\Team_BLUE\params\KickParam.cfg 
+20) 希望能对SOM系统下的lua有个简单的介绍
+21) log 输出调试的什么意思
+22) 如何调试？
+23) 很多.lua都是空的 我想直到我们的开发流程  比如 先完善skill.cpp  再 写task  再 写 play  这些内容具体应该写在哪些地方（文件夹下）
+24) lua层没讲清楚，包括task.lua 这个文件应该是作为task. ....的接口吧
+25) 在二次开发手册的实战案例里，task.GetBall 这个GetBall应该是在哪个文件被声明定义的？如果我想要改/或者说增加这样的判断函数，要在哪里改，改哪些文件。
+26) lua层可以直接调用的基础函数在哪。如果我们自己写这样的基础函数要怎么写，放在哪个文件夹下。
 
 
