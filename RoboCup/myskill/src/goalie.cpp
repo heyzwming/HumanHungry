@@ -1,6 +1,21 @@
+/************************************************************
+* 守门员函数函数名：		goalie								*
+*															*
+* 实现功能： 只限守门员在禁区内防守							*
+*															*
+* 具体描述： 												*
+*															*
+*															*
+* 返回值：			PlayerTask								*
+*															*
+* 说明：														*
+*															*
+************************************************************/
+
+
 #include "goalie.h"
 #include "utils/maths.h"
-#include "utils\worldmodel.h"
+#include "utils/worldmodel.h"
 
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 

@@ -1,21 +1,15 @@
 /********************************************************************  
 *																	*
-*  函数名：			Shoot(role_name_)								*
+*  射门函数函数名：			Shoot									*
 *  实现功能：		射门，朝向位置是按照场上球门的位置做相应的逻辑获得的	*
 *																	*
-*  输入参数：		参数名 		参数类型 		参数说明				*
-*																	*
-*  				   role_name_ 	 string 		参数为执行者角色名	*
 *																	*
 *  返回参数			无												*
 *																	*
 ********************************************************************/
 
 #include "shoot.h"
-//#include "GetBall.h"
-//#include "GetBall.cpp"
 #include "utils/maths.h"
-//#include "def.h"
 #include <math.h>
 #include "utils/WorldModel.h"
 

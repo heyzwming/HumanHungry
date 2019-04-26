@@ -1,4 +1,16 @@
-
+/************************************************************
+* 定点球射门函数函数名： GoReceivePos							*
+*															*
+* 实现功能： 跑到一个定点球附近然后射门							*
+*															*
+* 具体描述： 												*
+*															*
+*															*
+* 返回值：			PlayerTask								*
+*															*
+* 说明：														*
+*															*
+************************************************************/
 /************************************
 									*
 1.机器人运动到球一定半径范围停止		*
@@ -61,8 +73,8 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 	ball_near orbit;	// orbit 轨道、范围 	枚举类型	outOfOrbit  |  onOrbit  |  shoot
 	
 	// 球的坐标+ 极坐标转换成二维向量（长度circleR=30，方向(ball-opp_goal).angle() 由对方球门指向球的向量的角度）
-	// 在 球外半径为30的轨道上 的 射门准备点 = 球的坐标 + 沿目标点（对方球门中心）指向球的方向 长度为30的矢量（并用vector2polar讲极坐标值转换成二维向量值）
-	point2f shootPosOnOrbit = ball + Maths::vector2polar(circleR,(ball-opp_goal).angle());
+	// 在 球外半径为30的轨道上 的 射门准备点 = 球的坐标 + 沿目标点（对方球门中心）指向球的方向 长度为30的矢量（并用polar2vector讲极坐标值转换成二维向量值）
+	point2f shootPosOnOrbit = ball + Maths::polar2vector(circleR,(ball-opp_goal).angle());
 
 	// TODO: 没理解这句内容
 	// 射门方向 = | 球指向kicker的角度 - 对方球门中心指向球的角度 |
@@ -85,10 +97,10 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 
 	// = 球的位置 + 沿 球指向kicker的方向 球的安全半径距离30 的二维坐标
 	// kicker 在安全轨迹上的 踢球准备点  
-	point2f robotBallAcrossCirclePoint = ball + Maths::vector2polar(circleR, (kicker - ball).angle());
+	point2f robotBallAcrossCirclePoint = ball + Maths::polar2vector(circleR, (kicker - ball).angle());
 
 	// = 球的坐标 + 沿 目标点到球的位置 的方向 球的安全半径距离30 的二维坐标
-	point2f AntishootPosOnOrbit = ball + Maths::vector2polar(circleR, (opp_goal - ball).angle());
+	point2f AntishootPosOnOrbit = ball + Maths::polar2vector(circleR, (opp_goal - ball).angle());
 
 	// 沿球到kicker方向的 向量
 	point2f BallToRobot = kicker - ball;
@@ -152,18 +164,18 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 
 			if (add){	
 				//+
-				task.target_pos = ball + Maths::vector2polar(circleR, BallToRobot.angle() + DetAngle);
+				task.target_pos = ball + Maths::polar2vector(circleR, BallToRobot.angle() + DetAngle);
 				task.orientate = toOppGoalDir;
 			}
 			else{
 				//-
-				task.target_pos = ball + Maths::vector2polar(circleR, BallToRobot.angle() - DetAngle);
+				task.target_pos = ball + Maths::polar2vector(circleR, BallToRobot.angle() - DetAngle);
 				task.orientate = toOppGoalDir;
 			}
 			break;
 
 		case shoot: 
-			task.target_pos = ball + Maths::vector2polar(5, (ball - opp_goal).angle());
+			task.target_pos = ball + Maths::polar2vector(5, (ball - opp_goal).angle());
 			task.orientate = toOppGoalDir;
 			task.needKick = true;
 			task.flag = 1;

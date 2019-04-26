@@ -72,5 +72,9 @@
 24) lua层没讲清楚，包括task.lua 这个文件应该是作为task. ....的接口吧
 25) 在二次开发手册的实战案例里，task.GetBall 这个GetBall应该是在哪个文件被声明定义的？如果我想要改/或者说增加这样的判断函数，要在哪里改，改哪些文件。
 26) lua层可以直接调用的基础函数在哪。如果我们自己写这样的基础函数要怎么写，放在哪个文件夹下。
+27) 写.dll的C++文件的接口，函数名必须为player_plan吗？传入参数必须只有2个吗（const WorldModel* model, int robot_id）
+28) GetBall.cpp中的变量，例如spiral_buff、get_ball_buf等
+29) GetBall.cpp 中开头有个函数（我改名成了isSimulate）叫void get_ball(const WorldModel* model)。目的是判断是否是模拟状态，有什么意义？
+30) Receiver_id 和 GetBall_id的含义有点模糊
 
 

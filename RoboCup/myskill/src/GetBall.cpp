@@ -1,24 +1,22 @@
 /************************************************************
-*  函数名： GetBall(Role_name_)							*
+* 拿球函数函数名： GetBall									*
 *															*
-* 实现功能： 根据场上小球的不同位置配合拿球				*
+* 实现功能： 根据场上小球的不同位置配合拿球						*
 *															*
-* 传入参数：	  参数名			参数类型		参数说明				*
-* 			role_name_       string     参数为执行者角色名	*
+* 具体描述： 												*
 *															*
-* 返回值：			无										*
 *															*
-* 说明： 罚点球时只有一名点球球员和一名点球防守球员				*
+* 返回值：			PlayerTask								*
+*															*
+* 说明： 点球大战罚点球时只有一名点球球员和一名点球防守球员		*
 *															*
 ************************************************************/
-
 
 #include "GetBall.h"
 #include "utils/maths.h"
 #include "utils/constants.h"
 #include "utils/PlayerTask.h"
 #include "utils/worldmodel.h"
-//#include "def.h"
 
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id);
 
@@ -46,8 +44,8 @@ GetBall::~GetBall()
 {
 }*/
 
-void get_ball(const WorldModel* model){
-
+//void get_ball(const WorldModel* model){
+void isSimulate(const WorldModel* model){		// 在这个文件里并没有被调用
 	// 判断/获得是否处于 模拟状态
 	isSimulation = model->get_simulation();		// isSimulation 模拟
 
@@ -93,7 +91,7 @@ float ball_x_angle(const WorldModel* model){
 5、敌方球门中点			opp_goal
 6、我方receier_id小车朝向信息， rece_dir
 7、获得以receive_ball_player为原点的极坐标，ROBOY_HEAD为极坐标length,rece_dir为极坐标angle		
-   rece_head_pos = receive_ball_player + Maths::vector2polar(ROBOT_HEAD, rece_dir);
+   rece_head_pos = receive_ball_player + Maths::polar2vector(ROBOT_HEAD, rece_dir);
 8、获得我方robot_id小车朝向信息	dir
 9、获得receive_ball_player到ball向量的角度，注意：所有角度计算为向量与场地x轴正方向逆时针夹角
    receive2ball
@@ -142,7 +140,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	const float rece_dir = model->get_our_player_dir(receiver_id);
 
 	//获得以receive_ball_player为原点的极坐标，ROBOY_HEAD为极坐标length,rece_dir为极坐标angle
-	const point2f& rece_head_pos = receive_ball_player + Maths::vector2polar(ROBOT_HEAD, rece_dir);
+	const point2f& rece_head_pos = receive_ball_player + Maths::polar2vector(ROBOT_HEAD, rece_dir);
 
 	//获得我方robot_id小车朝向信息
 	const float dir = model->get_our_player_dir(robot_id);
@@ -185,11 +183,9 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	float ball_moving_dir = (ball - last_ball).angle();
 
 	// 小球在当前帧与上一帧的位移  =  球的位置 + 极坐标（球当前帧和上一帧的移动距离，移动方向）转成的二维向量坐标
-	point2f ball_with_vel = ball + Maths::vector2polar(ball_moving_dist, ball_moving_dir);
+	point2f ball_with_vel = ball + Maths::polar2vector(ball_moving_dist, ball_moving_dir);
 
 
-
-	
 	if (!ball_moving)	// 小球没有移动
 		
 		//小球的位移为当前位置
@@ -198,7 +194,6 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	//  小球位移后的坐标 指向 robot_id 球员坐标 的向量的角度
 	// 这个 变量 没有被用到？？？
 	float ball_to_player_dir = (get_ball_player - ball_with_vel).angle();
-
 
 	//球车方向(ball - get_ball_player).angle()和小车方向dir的夹角，
 	//其中球车方向为小球与小车中心点的矢量方向、小车方向为垂直车头方向
@@ -222,7 +217,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 					//给robot_id小车设置任务中的目标点坐标，就是让小车跑到某个点，该点以ball_with_vel为极坐标原点  
 					// TODO: get_ball_buf 还是不是知道是什么，maybe 拿球缓冲距离？？
 					// 拿球点为：球的位移+沿着 对方球门指向球 方向 球的半径+球员半径 + 拿球缓冲区 长度的位置
-				task.target_pos = ball_with_vel + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, opp_goal2ball);
+				task.target_pos = ball_with_vel + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, opp_goal2ball);
 			}else{							// 球员比球更接近对方球门
 				if (ball_y_boundary_right)	// 球在球员左边
 					//给robot_id小车设置任务中的目标点坐标，直接设置x,y
@@ -260,7 +255,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 				task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y - 35);
 
 		}else{		// 球在两个球员之间
-			task.target_pos = ball_with_vel + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, receive2ball);
+			task.target_pos = ball_with_vel + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, receive2ball);
 		}
 		task.orientate = (rece_head_pos - ball).angle();
 	}
@@ -268,7 +263,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	//判断小球在GetBall拿球车吸球嘴附近
 	if (ball_beside_player_mouth){
 		//执行拿球
-		task.target_pos = ball + Maths::vector2polar(20, anglemod(dir + PI));
+		task.target_pos = ball + Maths::polar2vector(20, anglemod(dir + PI));
 	}
 	return task;
 

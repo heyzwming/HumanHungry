@@ -31,13 +31,13 @@ namespace FieldPoint{
 		 return theta;
 	 }
 
-	 inline point2f vector2polar(float length, float dir){
+	 inline point2f polar2vector(float length, float dir){
 		 return point2f(length*cos(dir), length*sin(dir));
 	 }
 
 	 point2f circle_segment_intersection(const point2f& start_point, const double circle_r, const  point2f& end_point){
 		 float orientation_ang = (end_point - start_point).angle();
-		 return start_point + vector2polar(circle_r, orientation_ang);
+		 return start_point + polar2vector(circle_r, orientation_ang);
 	 }
 
 	 point2f archimedes_spiral(const point2f& spiral_center, float spiral_center_size, const point2f& pos, float spiral_buff){
@@ -49,7 +49,7 @@ namespace FieldPoint{
 		 float ang_deta = Maths::normalize(angle - ang_step);
 		 float dist_deta = dist - dist_step;
 		 if (dist_deta < spiral_center_size + spiral_buff) dist_deta = spiral_center_size + spiral_buff;
-		 spiral_point = spiral_center + Maths::vector2polar(dist_deta,ang_deta);
+		 spiral_point = spiral_center + Maths::polar2vector(dist_deta,ang_deta);
 		 return spiral_point;
 	 }
 

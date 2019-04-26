@@ -1,10 +1,8 @@
 /************************************************************
-*  函数名： PenaltyKick(Role_name_)							*
+* 点球进攻函数函数名： PenaltyKick							*
 *															*
 * 实现功能： 罚点球，在接受到罚点球命令后随机计算点球方向执行点球	*
 *															* 
-* 传入参数：	  参数名			参数类型		参数说明				* 
-* 			role_name_       string     参数为执行者角色名	*
 *															*
 * 返回值：			无										*
 *															*
@@ -178,7 +176,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 
 	// 如果没有守门员直接对准球门中心  射门
 	if (opp_goalie_num == -1){	// 如果没有检测到对方守门员的编号  直接return返回task（在这个task中 目标点为球门中心  力度为127 模式为平射）
-		task.target_pos = ball + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + penalty_kick_get_ball_buf, (ball - opp_goal).angle());
+		task.target_pos = ball + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + penalty_kick_get_ball_buf, (ball - opp_goal).angle());
 		task.orientate = (opp_goal - ball).angle();
 		return task;
 	};
@@ -214,7 +212,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 		choose_cnt++;
 	}
 	// 目标点
-	task.target_pos = ball + Maths::vector2polar(BALL_SIZE / 2 + MAX_ROBOT_SIZE + penalty_kick_get_ball_buf, (ball - choose_p).angle());
+	task.target_pos = ball + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + penalty_kick_get_ball_buf, (ball - choose_p).angle());
 	task.orientate = (choose_p - ball).angle();
 	return task;
 }

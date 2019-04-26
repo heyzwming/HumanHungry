@@ -64,7 +64,7 @@ namespace Maths{
 
 	float normalize(float theta);
 
-    point2f vector2polar(float length, float dir);
+    point2f polar2vector(float length, float dir);
 	point2f circle_segment_intersection(const point2f& start_point, const double circle_r, const  point2f& end_point);
 
 	point2f archimedes_spiral(const point2f& spiral_center, float spiral_center_size, const point2f& pos, float spiral_buff);
