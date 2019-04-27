@@ -109,7 +109,7 @@ PlayerTask player_plan(const WorldModel* model, int id, string role){	// role �
 	if (role == "Kicker"){		// 前锋Kicker的防守战术
 		// 目标点为 对方拿球球员 + 极坐标（Stop_Dist*2 (即50 * 2) ，对方拿球球员到我方球门角度 ）转二维向量
 		task.target_pos = opp_hold_ball_player_pos + Maths::polar2vector(RuleParam::Stop_Dist*2, opp_receive_goal);
-		task.orientate = anglemod(opp_receive_goal + PI);
+		task.orientate = anglemod(opp_receive_goal + PI);	// 
 	}
 	
 	//中场Receiver的防守，卡住小球射门方向

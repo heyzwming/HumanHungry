@@ -123,7 +123,7 @@ real angle_mod(real a)
 
 // Returns angle within [-PI,PI]
 template <class real>
-real anglemod(real a)
+real anglemod(real a)		// 实数  一个pi = 3.14  输入 4 趋于返回一个[-pi,pi]范围的角度
 {
 	a -= M_2PI * rint(a / M_2PI);
 

@@ -72,4 +72,7 @@
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Library Include="src\worldmodel_lib\worldmodel_lib.lib" />
+  </ItemGroup>
 </Project>

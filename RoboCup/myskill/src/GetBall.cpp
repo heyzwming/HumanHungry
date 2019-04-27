@@ -11,6 +11,12 @@
 * 说明： 点球大战罚点球时只有一名点球球员和一名点球防守球员		*
 *															*
 ************************************************************/
+// 单例： 类  对象  让一个类只生成一个对象  让所有对这个类的调用都找到这个单例对象
+// worldModel::getInstance()->  ....  是一个worldModel:: 
+// 对于 从底层拿出来的 worldModel 只可以存在一个对象
+// worldModel 在.lib
+
+// 如果机器人跑到0，0 点   说明找不到dll  或者 dll出错
 
 #include "GetBall.h"
 #include "utils/maths.h"
@@ -29,7 +35,7 @@ double vision_error = 3;
 bool isSimulation = false;
 int do_spiral_max_cnt = 70;
 #define frame_rate  60.0
-float away_ball_dist_x = 20;	//这个值越大 拿球越平滑
+float away_ball_dist_x = 20;	//这个值越大 拿球越平滑	接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整
 
 /*
 GetBall::GetBall()
@@ -126,6 +132,8 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	//获得小球当前帧的上一帧图像坐标信息
 	const point2f& last_ball = model->get_ball_pos(1);
 
+	// 注意！get_ball_vel()    
+
 	//获得我方receiver_id小车坐标位置信息
 	const point2f& receive_ball_player = model->get_our_player_pos(receiver_id);
 
@@ -137,6 +145,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 
 	//我方receier_id小车朝向信息，
 	//注意：小车朝向为车头垂直方向与场地x轴正方向逆时针夹角
+	// 歧义  
 	const float rece_dir = model->get_our_player_dir(receiver_id);
 
 	//获得以receive_ball_player为原点的极坐标，ROBOY_HEAD为极坐标length,rece_dir为极坐标angle
@@ -223,7 +232,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 					//给robot_id小车设置任务中的目标点坐标，直接设置x,y
 					// x: 球的位移的x轴 - away_ball_dist_x  TODO: 原因？这个值越大，拿球越平滑
 					// TODO: 当球员比球更接近对方球门时拿球的地点计算。
-					task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y + 35);
+					task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y + 35);		// set 设置位置
 				else						// 球在球员右边
 					task.target_pos.set(ball_with_vel.x - away_ball_dist_x, ball_with_vel.y - 35);
 			}

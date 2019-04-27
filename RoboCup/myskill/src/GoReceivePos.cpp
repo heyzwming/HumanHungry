@@ -61,6 +61,7 @@ PlayerTask player_plan(const WorldModel* model, int id){
 
 	//convert是反转参数，当ball在右半场时，convert为-1，当ball在左半场，convert为1
 	// TODO: 3？
+	// 判断这里的3  防止摄像头重影  需要用后面的判断 作为双保险  
 	int convert = (ball.y > 0 || fabs(ball.y) < 3) ? -1 : 1;
 
 	bool is_front = (ball.x > -3);							//判断球是否在前场执行接球点跑位
@@ -87,7 +88,7 @@ PlayerTask player_plan(const WorldModel* model, int id){
 		while (cnt < 30 && block )	// 当 计数器 < 30次 同时仍然被阻挡
 		{
 			// TODO: 这一块的随机数生成 不太明白
-			float  x = rand() % (-10) - (rang_x - 10);		// b = 0  a = 10  rand() % (b-a) + ((-)ball.x -10)
+			float  x = rand() % (-10) - (rang_x - 10);		// b = 0  a = 10  rand() % (b-a) + ((-)ball.x -10)	   // rang_x 球的x坐标位置
 			float  y = rand() % (-10) - (convert * (rang_y - 10));
 			point2f rand_p(x,y);	// 随机生成的2维坐标
 			block = opp_block_shoot(model, rand_p, opp, block_id);
