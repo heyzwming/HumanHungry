@@ -92,6 +92,26 @@ name = "Ref_KickDef"
 19) 我们的状态机模型是怎么被决策子系统理解并执行的呢？这就要依赖子系统lua架构中的SelectPlay.lua 和Play.lua 这两个脚本程序。其中的SelectPlay.lua 实现了“正常比赛”战术脚本和其他“场景”战术脚本之间的选择，Play.lua 实现状态机模型的解析，使决策子系统能理解我们写的战术脚本并正常调用战术脚本。所以，不建议用户修改SelectPlay.lua和Play.lua，会造成不可知的异常问题。
 20) 每个接口函数只能给指定的角色使用。函数中的参数就是读者的自定义skill 名称。例如：Tier=task.TierTask（“myDef”），就是将myDef 这个skill 给后卫使用。
 21) 注意分清楚 官方task的调用框架和自定义task(.dll)的调用框架。
+22) task函数的Lua程序的命名需要按照一定的格式
+23) both control  
+24) lua 车号从1开始 c++从0 开始
+25) lua层是角度制的
+26) log调试输出 -> bot.txt
+27) CGetOppNums 返回的 table 存储格式是{[0]=”n1”, [1]=”n2”,[2]=”n3”}，存储顺序是随机的；其中”n1”,”n2”,”n3”表示返回的车号，车号是 string 类型。在实际应用中，我们需要用 for...in pairs(table)do...的方式遍历 table 并找到场上敌方车号。
+例如下面这段：
+```lua
+    function getOppNum()
+        local oppTable = CGetOppNums()
+        for i,val in pairs(oppTable) do 
+            num = tonumber(val)
+            if COppIsGetBall(num-1) then
+                return true
+            end	
+        end
+    end
+```
+中val是string类型的，需要调用lua的官方函数`tonumber()`来将string类型转换成number类型
+
 
 # 如何更新fork项目的更新
 
@@ -273,6 +293,8 @@ Skill C++ 源文件
 
 1) 思考每一个机器人足球运动员在C++ Skill层面除去官方的Skill函数包还应该有哪些动作。
 2) 这些C++ 层的Skill有哪些可以改进的地方。
+3) 对方守门员
+4) 角球任意球：打守门员
 
 
 

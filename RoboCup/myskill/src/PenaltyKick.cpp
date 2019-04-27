@@ -93,26 +93,7 @@ namespace{
 	float penalty_kick_random_range = 30;
 	float penalty_kick_get_ball_buf = -2;
 }
-/*
-PenaltyKick::PenaltyKick()	// 构造函数
-{
 
-//	srand((int)time(NULL));
-
-// TODO: ???未定义标识符 暂时注释掉这部分代码
-
-//	DECLARE_PARAM_READER_BEGIN(PlayBotSkillParam)
-//	READ_PARAM(penalty_kick_random_range)
-//	READ_PARAM(penalty_kick_get_ball_buf)
-//	DECLARE_PARAM_READER_END
-
-//}
-
-/*
-PenaltyKick::~PenaltyKick()
-{
-}
-*/
 
 //获得对方守门员编号
 int opp_goalie(const WorldModel* model){
@@ -212,6 +193,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 		choose_cnt++;
 	}
 	// 目标点
+	printf("*****************************log*********************");
 	task.target_pos = ball + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + penalty_kick_get_ball_buf, (ball - choose_p).angle());
 	task.orientate = (choose_p - ball).angle();
 	return task;

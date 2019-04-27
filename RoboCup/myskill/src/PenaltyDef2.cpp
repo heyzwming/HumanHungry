@@ -134,7 +134,7 @@ PlayerTask Player_plan(const WorldModel* model, int robot_id){
 	float opp_dir = model->get_opp_player_dir(opp_kicker);					// 对方点球球员的角度
 
 //	task = gotoPos(model, -605 / 2, 0.0, (ball - model->get_our_player_pos(our_penalty_player(model))).angle());	// 4 我方守门员编号
-
+	printf("***********************log**************");
 	task.target_pos = def_pos(model, penalty_kicker,opp_dir);		// 计算防守位置
 	task.orientate = (ball - task.target_pos).angle();
 	return task;

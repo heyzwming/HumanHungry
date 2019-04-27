@@ -83,23 +83,23 @@ tag 和json类似
 17) [1]在lua层的哪里执行射门操作？因为在C++中只是设置了task的数据成员，并返回了PlayerTask类的task对象。
 18) [1]在SOM中的一些txt需要关注吗？有什么具体的含义吗？例如SOM v3.3.3\Team_BLUE\ball fast\fastMatrices60.txt等
 19) [1]~\SOM v3.3.3\Team_BLUE\params\KickParam.cfg 
-20) 希望能对SOM系统下的lua有个简单的介绍
-21) log 输出调试的什么意思
-22) 如何调试？
+20) [1]希望能对SOM系统下的lua有个简单的介绍
+21) [1]log 输出调试的什么意思
+22) [1]如何调试？
 23) 很多.lua都是空的 我想直到我们的开发流程  比如 先完善skill.cpp  再 写task  再 写 play  这些内容具体应该写在哪些地方（文件夹下）
 24) lua层没讲清楚，包括task.lua 这个文件应该是作为task. ....的接口吧
 25) 在二次开发手册的实战案例里，task.GetBall 这个GetBall应该是在哪个文件被声明定义的？如果我想要改/或者说增加这样的判断函数，要在哪里改，改哪些文件。
 26) lua层可以直接调用的基础函数在哪。如果我们自己写这样的基础函数要怎么写，放在哪个文件夹下。
-27) 写.dll的C++文件的接口，函数名必须为player_plan吗？传入参数必须只有2个吗（const WorldModel* model, int robot_id）
+27) [1]写.dll的C++文件的接口，函数名必须为player_plan吗？传入参数必须只有2个吗（const WorldModel* model, int robot_id）
 28) [1]GetBall.cpp中的变量，例如spiral_buff、get_ball_buf等
 29) [1]GetBall.cpp 中开头有个函数（我改名成了isSimulate）叫void get_ball(const WorldModel* model)。目的是判断是否是模拟状态，有什么意义？
 30) [1]Receiver_id 和 GetBall_id的含义有点模糊
-31) 在宁大选拔题中，可以在纯lua程序中实现跑位和拿球、射门吗
-32) play脚本怎么写，怎么在play脚本中完成衔接task的脚本
+31) [1]在宁大选拔题中，可以在纯lua程序中实现跑位和拿球、射门吗
+32) [1] play脚本怎么写，怎么在play脚本中完成衔接task的脚本: 1、 手工配置战术包  2、 在C++或者Lua里把所有战术都配置好一本万利
 33) [1]像RefDef.cpp一样有3个参数的player_plan函数接口和有2个参数的player_plan在被lua调用的时候有什么区别
 34) [1] 三个参数的接口是被其他task调用的而不是底层 底层调用的时候只能有2个参数
 9) [?] 点球防守的初始点问题
-10) [?]接上条，我写了一个PenaltyKick和一个PenaltyDef程序，其中SOM程序好像可以调用Kick.dll但是不能调用Def.dll
+10) [1]接上条，我写了一个PenaltyKick和一个PenaltyDef程序，其中SOM程序好像可以调用Kick.dll但是不能调用Def.dll lua程序的名字要按照一定的规则命名  Ref_ xxxxxx.lua
 
 
 

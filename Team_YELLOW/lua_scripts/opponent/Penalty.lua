@@ -11,7 +11,7 @@ gOppoConfig = {
 	MiddleDef			= "Ref_MiddleDef",
 	MiddleKick			= "Ref_MiddleKick",
 	NorPlay			= "NormalPlayDefend",
-	PenaltyDef			= "GoalieSkill_penaltyDef",
+	PenaltyDef			= "Ref_penaltyDef_Goalieskill",
 	PenaltyKick			= "KickerSkill_PenaltyKick",
 	GameStop			= "Ref_Stop"
 }

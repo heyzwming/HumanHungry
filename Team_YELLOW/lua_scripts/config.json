@@ -1,6 +1,6 @@
 {
     "IS_TEST_MODE": false,
-    "OPPONENT_NAME": "Other",
+    "OPPONENT_NAME": "Penalty",
     "gBayesPlayTable": "Nor/NormalPlayDefend",
     "gNormalPlay": "NormalPlayDefend",
     "gPlayBotSkill": [
@@ -30,8 +30,8 @@
         "Ref/MiddleDef/Ref_MiddleDef",
         "Ref/MiddleKick/Ref_MiddleKick",
         "Nor/NormalPlayDefend",
-        "Ref/PenaltyDef/Ref_PenaltyDef",
-        "Ref/PenaltyKick/Ref_PenaltyKick",
+        "Ref/PenaltyDef/Ref_penaltyDef_Goalieskill",
+        "Ref/PenaltyKick/KickerSkill_PenaltyKick",
         "Ref/GameStop/Ref_Stop",
         "Ref/Ref_Halt"
     ],

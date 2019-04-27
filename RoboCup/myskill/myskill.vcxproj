@@ -85,7 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\RefDef.h" />
+    <ClInclude Include="src\PenaltyDef2.h" />
     <ClInclude Include="src\utils\ball.h" />
     <ClInclude Include="src\utils\basevision.h" />
     <ClInclude Include="src\utils\constants.h" />
@@ -103,7 +103,7 @@
     <ClInclude Include="src\utils\worldmodel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\RefDef.cpp" />
+    <ClCompile Include="src\PenaltyDef2.cpp" />
     <ClCompile Include="src\utils\maths.cpp" />
   </ItemGroup>
   <ItemGroup>
