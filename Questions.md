@@ -56,6 +56,15 @@ tag 和json类似
 
             // 调试值
 
+
+
+
+
+
+
+
+
+
 14) [1]PassBall.cpp 中 #define fast_pass 3  这个宏定义 的意义是什么   传球的距离？还是助跑？
     task.target_pos = ball + Maths::polar2vector(fast_pass, opp_goal_to_ball);
 

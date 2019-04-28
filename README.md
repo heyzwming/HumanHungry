@@ -95,9 +95,8 @@ name = "Ref_KickDef"
 22) task函数的Lua程序的命名需要按照一定的格式
 23) both control  
 24) lua 车号从1开始 c++从0 开始
-25) lua层是角度制的
-26) log调试输出 -> bot.txt
-27) CGetOppNums 返回的 table 存储格式是{[0]=”n1”, [1]=”n2”,[2]=”n3”}，存储顺序是随机的；其中”n1”,”n2”,”n3”表示返回的车号，车号是 string 类型。在实际应用中，我们需要用 for...in pairs(table)do...的方式遍历 table 并找到场上敌方车号。
+25) log调试输出 -> bot.txt
+26) CGetOppNums 返回的 table 存储格式是{[0]=”n1”, [1]=”n2”,[2]=”n3”}，存储顺序是随机的；其中”n1”,”n2”,”n3”表示返回的车号，车号是 string 类型。在实际应用中，我们需要用 for...in pairs(table)do...的方式遍历 table 并找到场上敌方车号。
 例如下面这段：
 ```lua
     function getOppNum()
@@ -111,6 +110,67 @@ name = "Ref_KickDef"
     end
 ```
 中val是string类型的，需要调用lua的官方函数`tonumber()`来将string类型转换成number类型
+27) 调试相关：通过 `#define DEBUG 1` `#ifdef DEBUG` `#endif` 来控制log日志输出
+28) 在C++源代码中,`.angle()`返回的是弧度，在C++层中所有与角度有关的数值都是弧度制，而在Lua层中所有与角度有关的数值都是角度制。
+39) anglemode()方法是求角度的模的运算，因为机器人球员的角度方向被限定于[-π,π]中，而如果在计算中或者传入的参数中有超过这个范围的值，将通过取模运算，重新回到这个范围内。
+30) 在C++层有一些特定的常量/宏定义，如`GetBall.cpp`  `away_ball_dist_x`代表了一段拿球前的距离，当这个值越大，球员越不容易在拿球的过程中撞到球导致拿球不稳。
+31) 一个存在于GoReceivePos.cpp的细节：
+
+```C++
+int convert = (ball.y > 0 || fabs(ball.y) < 3) ? -1 : 1;
+```
+
+这段代码中要考虑到`||`符号的特性：当`||`符号前的表达式为1，“或”符号后面的表达式将不执行。而后面的 `fabs(ball.y) < 3` 为的是提高程序的严谨性，防止双目摄像头的重叠区域产生的重影对视觉系统的误判，起到双保险的左右。 
+32) `GoReceivePos.cpp` 中的一段随机数生成：
+
+```C++
+float  x = rand() % (-10) - (rang_x - 10);
+float  y = rand() % (-10) - (convert * (rang_y - 10));
+```
+意义是在一块矩形1:2的区域内随机选择一个点位。
+33) 在 `NormalDef.cpp` 中的这一段代码中，有一段程序：
+
+```C++
+case RightArc:
+            //任务小车的朝向角及目标点
+    task.orientate = (ball - goal).angle();// goal 我方球门中心点
+    task.target_pos = goal + Maths::polar2vector(PENALTY_AREA_R + MAX_ROBOT_SIZE + PENALTY_AREA_R/2, task.orientate);	// 罚球区右边界80 + 最大机器人半径9 + 罚球区右边界80/2
+```
+其中的 `+ PENALTY_AREA_R/2` 为调试值，因根据实际的防守距离需要进行更改。
+35) 在 `PassBall.cpp` 中有个宏定义 `#define fast_pass 3` 。
+
+```C++
+	//判断并执行传球
+if (is_ready_pass(ball,excute_pos,rece_pos) ){	// 准备好传球了
+	if (get_ball){		// 如果拿到了球，设置传球的属性
+		task.kickPower = 50;
+		task.needKick = true;
+		task.isChipKick = false;
+		}   
+    if (!getball && !(bool)isBallKick )  
+        {task.target_pos = ball + Maths::polar2vector(fast_pass, rece_to_ball);}
+    //printf("kicke ball\n");
+}
+```
+.dll程序运行到task.neddKick = true; 时就会执行踢球操作。
+
+另一个方面，踢球的效率同时也和getball的判断准确度有关，如果getball的判断准确，则踢球的效率将非常的高。达到的效果就是刚接到球就能马上shoot。
+35) 单例模式。
+36) C++层的skill函数的接口必须统一，且接口函数名必须为player_plan，传入参数必须为2个：（const WorldModel* model, int robot_id）。传入参数为多个（2个以上）说明该函数是要被被其他skill函数调用的。
+37) 有些被定义但没有别用到的是老版本的变量，不用在意。
+38) 如果配置play脚本战术？
+    1、 手工配置战术包  
+    2、 在C++或者Lua里把所有战术都配置好一本万利
+39) lua程序的名字要按照一定的规则命名  Ref_ xxxxxx.lua。
+40) 如何获得多个帧的图像数据？将多个球位置信息通过ML里的线性回归算法/最小二乘法得出一个拟合的直线并预测出球的轨迹。
+
+```C++
+const point2f& last_ball = model->get_ball_pos(1);
+```
+
+传入参数：0为当前帧 1为上一帧 2为上上帧
+41) 任意球防守 挡拆战术
+42) 有block球员的情况下，使用挑球战术。
 
 
 # 如何更新fork项目的更新
@@ -307,3 +367,11 @@ Skill C++ 源文件
 ## 4.26
 
 1) 将多个skill (vs2013)工程整合到了一个RoboCup工程文件下，通过vs2013中项目的包含和排除来进行有选择性的编译
+
+## 4.27
+
+施工培训，解决大量C++层与Lua层疑问
+
+## 4.28 
+
+将4.27培训的疑问都更新并整理到了`注意`区。
