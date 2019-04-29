@@ -13,15 +13,6 @@
 ************************************************************/
 
 #include "RefDef.h"
-//#include "utils/singleton.h"
-
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int id, string role);
-enum BallArea
-{
-	Left,
-	Middle,
-	Right
-};
 
 PlayerTask player_plan(const WorldModel* model, int id, string role){	// role 传入的参数  执行该.dll的角色名
 	PlayerTask task;

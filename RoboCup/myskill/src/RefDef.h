@@ -3,17 +3,14 @@
 #include "utils/PlayerTask.h"
 #include "utils/WorldModel.h"
 #include "utils/maths.h"
-/*
-class RefDef
-{
-public:
-RefDef();
-~RefDef();
-PlayerTask plan(int id, string role);
-private:
 
+PlayerTask player_plan(const WorldModel* model, int id, string role);
+
+enum BallArea
+{
+	Left,
+	Middle,
+	Right
 };
-typedef Singleton<RefDef> refDef;
-*/
 
 #endif

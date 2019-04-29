@@ -12,13 +12,7 @@
 *															*
 ************************************************************/
 
-
-#include "utils/maths.h"
 #include "GoReveivePos.h"
-#include <time.h>
-#include "utils\worldmodel.h"
-
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 
 //敌方小车在我方小车和球之间阻挡，return true
 bool opp_block_shoot(const WorldModel* model, const point2f& player, const point2f& ball, int& block_id){
@@ -48,14 +42,14 @@ bool opp_block_shoot(const WorldModel* model, const point2f& player, const point
 	return is_block;
 }
 
-PlayerTask player_plan(const WorldModel* model, int id){
+PlayerTask player_plan(const WorldModel* model, int robot_id){
 	srand((int)time(NULL));
 	PlayerTask task;
 
 	// 获取执行接球点跑位需要的参数，部分参数注解可参考GetBall.cpp
 	const point2f& opp = -FieldPoint::Goal_Center_Point;		// 我方半场
 	const point2f& ball = model->get_ball_pos();
-	const point2f& runner = model->get_our_player_pos(id);
+	const point2f& runner = model->get_our_player_pos(robot_id);
 	const point2f& our_goal = FieldPoint::Goal_Center_Point;
 	int block_id = -1;
 

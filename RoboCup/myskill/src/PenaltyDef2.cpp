@@ -13,18 +13,7 @@
 ************************************************************/
 
 #include "PenaltyDef.h"
-#include "utils/PlayerTask.h"
-#include "utils/worldmodel.h"
-#include "utils/maths.h"
-
 using namespace std;
-//#include "ParamReader.h"
-
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
-
-namespace{
-	float goalie_penalty_def_buf = 20;
-}
 
 //获得离我球门最近的对方球员编号，即对方点球球员编号
 int opp_penalty_player(const WorldModel* model){

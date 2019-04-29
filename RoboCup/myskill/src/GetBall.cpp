@@ -16,15 +16,10 @@
 // 对于 从底层拿出来的 worldModel 只可以存在一个对象
 // worldModel 在.lib
 
-// 如果机器人跑到0，0 点   说明找不到dll  或者 dll出错
 
 #include "GetBall.h"
-#include "utils/maths.h"
-#include "utils/constants.h"
-#include "utils/PlayerTask.h"
-#include "utils/worldmodel.h"
 
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id);
+#define frame_rate  60.0
 
 double spiral_buff = 8.0;		// spiral 螺旋/盘绕
 double get_ball_buf = -4;
@@ -34,21 +29,8 @@ double around_ball_dist = 30;
 double vision_error = 3;
 bool isSimulation = false;
 int do_spiral_max_cnt = 70;
-#define frame_rate  60.0
 float away_ball_dist_x = 20;	//这个值越大 拿球越平滑	接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整
 
-/*
-GetBall::GetBall()
-{	
-	WorldModel worldModel;
-	isSimulation = model->get_simulation();
-	isSimulation ? get_ball_buf = -4 : get_ball_buf = 5;
-	isSimulation ? away_ball_dist_x = 20 : away_ball_dist_x = 40;
-}
-
-GetBall::~GetBall()
-{
-}*/
 
 //void get_ball(const WorldModel* model){
 void isSimulate(const WorldModel* model){		// 在这个文件里并没有被调用
@@ -83,42 +65,6 @@ float ball_x_angle(const WorldModel* model){
 	// TODO: 未知返回值
 	return Maths::least_squares(ball_points);
 }
-
-
-
-/*
-
-在 player_plan 中，究竟通过WorldModel* model 获得了多少信息
-
-1、小球当前图像帧坐标位置				ball 
-2、小球当前帧的上一帧图像坐标信息		last_ball
-3、我方receiver球员坐标位置信息		receive_ball_player
-4、我方robot_id小车坐标信息			get_ball_player
-5、敌方球门中点			opp_goal
-6、我方receier_id小车朝向信息， rece_dir
-7、获得以receive_ball_player为原点的极坐标，ROBOY_HEAD为极坐标length,rece_dir为极坐标angle		
-   rece_head_pos = receive_ball_player + Maths::polar2vector(ROBOT_HEAD, rece_dir);
-8、获得我方robot_id小车朝向信息	dir
-9、获得receive_ball_player到ball向量的角度，注意：所有角度计算为向量与场地x轴正方向逆时针夹角
-   receive2ball
-10、获得对方球门到球的向量角度  opp_goal2ball
-11、获得ball到对方球门的向量角度	ball2opp_goal
-12、获得对方球门到球的向量长度	ball_away_goal
-13、获得球到get_ball_player的向量长度 player_away_ball
-14、获得对方球门到get_ball_player的长度 player_away_goal
-15、获得球当前坐标到上一坐标位置向量的长度 ball_moving_dist
-16、判断dir与对方球门的角度关系，看toward_opp_goal函数 is_toward_opp_goal
-17、判断小车是否在球与对方球门之间  ball_behind_player = ball_away_goal + BALL_SIZE + MAX_ROBOT_SIZE> player_away_goal;
-18、判断小球是否运动  ball_moving = (ball_moving_dist < 0.8) ? false : true;
-19、
-20、
-
-	
-
-
-*/
-
-
 
 //robot_id为拿球小车车号，receiver_id为接球小车车号
 PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){

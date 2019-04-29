@@ -1,7 +1,19 @@
 #ifndef GORECEIVEPOS_H
 #define GORECEIVEPOS_H
-//#include "utils/PlayerSkill.h"
+
 #include "utils/PlayerTask.h"
+#include "utils/worldmodel.h"
+#include "utils/maths.h"
+#include <time.h>
+
+extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
+bool opp_block_shoot(const WorldModel* model, const point2f& player, const point2f& ball, int& block_id);
+
+
+
+
+
+
 /*
 class GoReceivePos
 {

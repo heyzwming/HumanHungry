@@ -60,7 +60,7 @@
     <ClInclude Include="src\utils\worldmodel.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\PenaltyDef2.h">
+    <ClInclude Include="src\Shoot.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,7 +68,7 @@
     <ClCompile Include="src\utils\maths.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\PenaltyDef2.cpp">
+    <ClCompile Include="src\Shoot.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

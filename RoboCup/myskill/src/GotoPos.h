@@ -1,19 +1,9 @@
 #ifndef GOTOPOS_H
 #define GOTOPOS_H
 #include "utils/PlayerTask.h"
-/*
+#include "utils/worldmodel.h"
+#include "utils/PlayerTask.h"
 
-class GotoPos
-{
-public:
-GotoPos();
-~GotoPos();
-PlayerTask plan(float x, float y, float dir);
-private:
+PlayerTask player_plan(const WorldModel* model, float x, float y, float dir);
 
-};
-
-typedef Singleton<GotoPos> gotoPos;
-
-*/
 #endif

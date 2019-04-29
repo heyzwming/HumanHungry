@@ -13,22 +13,8 @@
 ************************************************************/
 
 #include "PassBall.h"
-#include "utils/maths.h"
-#include "utils/constants.h"
-#include "utils/worldmodel.h"
-//#include "ParamReader.h"
-#include <iostream>
 using namespace std;
 
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int runner_id, int reveiver_id);
-
-#define fast_pass 3
-float head_len = 7.0;
-
-namespace{
-	bool isSimulation = false;
-	float param = 2;
-}
 
 // 判断是否可以传球
 bool is_ready_pass(const point2f& ball ,const point2f& passer, const point2f& receiver){

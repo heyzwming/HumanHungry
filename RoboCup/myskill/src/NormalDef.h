@@ -1,19 +1,15 @@
 #ifndef NORMALDEF_H
 #define NORMALDEF_H
 #include "utils/PlayerTask.h"
-
-/*
-class NormalDef
+#include "utils/maths.h"
+#include "utils/playerTask.h"
+#include "utils/WorldModel.h"
+enum PenaltyArea
 {
-public:
-NormalDef();
-~NormalDef();
-PlayerTask plan(int id);
-private:
-
+	RightArc,		// ÓÒ±ß»¡Ïß
+		MiddleRectangle,
+		LeftArc			// ×ó »¡Ïß
 };
-typedef Singleton<NormalDef> normalDef;
-
-*/
+extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 
 #endif

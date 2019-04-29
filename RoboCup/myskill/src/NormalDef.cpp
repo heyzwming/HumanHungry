@@ -16,18 +16,6 @@
 // TODO: Arc  弧线
 
 #include "NormalDef.h"
-#include "utils/maths.h"
-#include "utils/playerTask.h"
-#include "utils/WorldModel.h"
-
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
-
-enum PenaltyArea
-{
-	RightArc,		// 右边弧线
-	MiddleRectangle,
-	LeftArc			// 左 弧线
-};
 
 PlayerTask player_plan(const WorldModel* model, int robot_id){
 	//创建PlayerTask对象task，task对象是一个任务方法集合

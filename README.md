@@ -4,38 +4,39 @@ Our target is International RoboCup and star sea !
 
 # 工作流（Workflow）
 
-采用[**特征分支工作流**](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81)
+本团队将采用名为[**特征分支工作流**](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81)的工作流来进行开发。
 
 # 注意！
 
 1) 将`SoccerPlanner3.exe` 、`~/Team_BLUE/PlayBot-SSL.exe` 、`~/Team_BLUE/SmallSim.exe` 、 `~/Team_YELLOW/PlayBot-SSL.exe` 、`~/Team_BLUE/SmallSim.exe` 设为**以管理员方式打开**。
-2) 在阅读源码的时候建议：先**跳过**变量的声明和定义部分，直接从 `if` 、`for` 等语句开始，当遇到意义不明确的变量的时候，再去查看变量的意义。
-3) 接上条：鼠标选中变量，右键->查看定义(Alt+F12)即可以快速跳转到变量的声明。
-4) 使用Visual Studio 2013的**Tips**：
-   *  使用 `//TODO: ` + `你要标记的内容`可以插入一个“书签”，“书签”名字不一定非要`//TODO:`，具体的设置参考 `工具` -> `选项` -> `环境` -> `任务列表`。查看书签的方式：`视图` -> `任务列表`
+2) 在阅读源码的时候建议：先**跳过**变量的声明和定义部分，直接从 `if` 、`for` 等判断循环语句开始，当遇到意义不明确的变量的时候，再去查看变量的意义。
+3) 使用Visual Studio 2013的**Tips**：
+   *  快速查看变量的声明：选中变量，右键 -> 查看定义(`Alt`+`F12`)即可以（通过小窗口）快速跳转到变量的声明。
+   *  “书签”标注：使用 `//TODO: ` + `你要标记的内容`可以插入一个“书签”，“书签”名字不一定非要`//TODO:`，具体的设置参考 `工具` -> `选项` -> `环境` -> `任务列表`。查看书签的方式：`视图` -> `任务列表`
    *  在`解决方案资源管理器`中，按住`Ctrl`再选文件可以分别将不连续的文件选中。
    *  按住`Shift`可以将一片连续的文件选中。
-   *  如果将一个.cpp文件或者.h文件选中，`右键` -> `从项目中排除` ，在生成.dll文件的时候就不会编译这些被排除的文件。
+   *  如果将一个.cpp文件或者.h文件选中，`右键` -> `从项目中排除` ，在编译生成.dll动态链接库的时候就不会编译这些被排除的文件。
 
-
-5) 注释符号`//`后面加个空格是我的习惯，加了空格的注释是我写的，没加空格的注释是官方的。
-6) 结合`二次开发手册`（PDF的搜索功能`Ctrl` + `F`）查阅官方函数的功能。
-7) 部分变量中出现的 `arc` 是 弧 的意思，多出现在禁区相关的变量/常量/宏定义中。
-8) 在原来的task函数包中的vector2polar我都已经修改成了polar2vector，如果有遗漏的vector2polar 可以查看定义，这个函数的意思其实是将极坐标转换成二维坐标
-9) 在整合版的skill工程文件中，如果将一个.cpp文件或者.h文件选中，`右键` -> `从项目中排除` ，在生成.dll文件的时候就不会编译这些被排除的文件。
-10) 在lua程序中，以下划线开头连接一串大写字母的名字（比如 _VERSION）被保留用于 Lua 内部全局变量。在默认情况下，变量总是认为是全局的。全局变量不需要声明，给一个变量赋值后即创建了这个全局变量，访问一个没有初始化的全局变量也不会出错，只不过得到的结果是：nil。
-11) Lua for vs2013调试器 https://blog.csdn.net/babestudio/article/details/84685026
-12)  Task：**自定义 task 函数**
-    1) 自定义 task 函数，使用官方 `task.lua` 提供的标准入口函数，通过加载用户自己编写的技能 `dll` 来实现。
-    2) 自定义 task 函数有 `KickerTask()`、 `ReceiverTask()`、 `TierTask()`、`DefenderTask()`、 `MiddleTask()`、 `GoalieTask()`；
-    3) 自定义 task 函数只能给指定的角色使用，如 KickerTask 对应 Kicker(前锋)，ReceiverTask 对应 Receiver（中场）、 Tier 对应 Tier（后卫）、 GoalieTask对应 Goalie（守门员）等
-13) 官方taask函数调用官方提供的技能函数 Task：官方 task 函数主要有 `GetBall()`、 `PassBall()`、 `ReceiveBall()`、 `Shoot()`、`Goalie()`等 13 个；
-14)  拓展方法： 
-     player_plan 函数中对PlayerTask 对象实现自定义技能，扩展步骤如下：
+4) 注释符号`//`后面加个**空格**是我的习惯，加了空格的注释是我写的，没加空格的注释是官方的。
+5) 结合`二次开发手册`（PDF的搜索功能`Ctrl` + `F`）查阅官方函数的功能。
+6) 部分变量中出现的 `arc` 是 **弧** 的意思，多出现在禁区相关的变量/常量/宏定义中。
+7) 在原来的task函数包中的`vector2polar`我都已经修改成了`polar2vector`，如果有遗漏的 `vector2polar` 可以查看定义，这个函数的意思其实是**将极坐标转换成二维坐标**
+8)  在lua程序中，以下划线开头连接一串大写字母的名字（比如 _VERSION）被保留用于 Lua 内部全局变量。在默认情况下，变量总是认为是全局的。全局变量不需要声明，给一个变量赋值后即创建了这个全局变量，访问一个没有初始化的全局变量也不会出错，只不过得到的结果是：nil。
+9)  Lua for vs2013调试器 : 
+    
+    https://blog.csdn.net/babestudio/article/details/84685026
+10)  Task：**自定义 task 函数**
+    
+         1) 自定义 task 函数，使用官方 `task.lua` 提供的标准入口函数，通过加载用户自己编写的技能 `dll` 来实现。
+         2) 自定义 task 函数有 `KickerTask()`、 `ReceiverTask()`、 `TierTask()`、`DefenderTask()`、 `MiddleTask()`、 `GoalieTask()`；
+         3) 自定义 task 函数只能给指定的角色使用，如 KickerTask 对应 Kicker(前锋)，ReceiverTask 对应 Receiver（中场）、 Tier 对应 Tier（后卫）、 GoalieTask对应 Goalie（守门员）等
+11) 官方taask函数调用官方提供的技能函数 Task：官方 task 函数主要有 `GetBall()`、 `PassBall()`、 `ReceiveBall()`、 `Shoot()`、`Goalie()`等 13 个；
+12)  拓展方法： 
+    player_plan 函数中对PlayerTask 对象实现自定义技能，扩展步骤如下：
     1. 参照 1.2.3 中的步骤搭建 C++开发环境，根据 4.4 中的框架使用 C++编写自定义技能
     2. 将编写好的技能编译生成 dll 文件，并将 dll 文件 copy 到 user_skills 目录下
     3. 根据 5.2 中的示例编写 LUA 脚本，通过自定义 task 函数调用用户自定义的技能
-15)  战术框架主结构: 
+13)  战术框架主结构: 
 ```lua
 gPlayTable.CreatePlay{ --红色部分为战术框架主结构
 firstState = "",
@@ -63,8 +64,8 @@ firstState = "",
 name = "" --此处为脚本名
 }
 ```
-16) task实战场景框架（调用自定义.dll）
-17) 
+14)  task实战场景框架（调用自定义.dll）
+  
 ```lua
     Receive = task.ReceiverTask("def")
     --ReceiverTask()函数调用用户自定义的 task 技能；
@@ -73,7 +74,9 @@ name = "" --此处为脚本名
     --如 KickerTask()， TierTask()， GoalieTask()等
     --说明： def.dll 的源代码，用户可以在官方提供的 demo 中查看
 ```
-18) 完整防守带自定义.dll的play战术
+
+15) 完整防守带自定义.dll的play战术
+
 ```lua
 -- 示例战术脚本名为 Ref_KickDef.LUA
 gPlayTable.CreatePlay{
@@ -89,14 +92,14 @@ end,
 
 name = "Ref_KickDef"
 ```
-19) 我们的状态机模型是怎么被决策子系统理解并执行的呢？这就要依赖子系统lua架构中的SelectPlay.lua 和Play.lua 这两个脚本程序。其中的SelectPlay.lua 实现了“正常比赛”战术脚本和其他“场景”战术脚本之间的选择，Play.lua 实现状态机模型的解析，使决策子系统能理解我们写的战术脚本并正常调用战术脚本。所以，不建议用户修改SelectPlay.lua和Play.lua，会造成不可知的异常问题。
+19) 我们的状态机模型是怎么被决策子系统理解并执行的呢？这就要依赖子系统lua架构中的 `SelectPlay.lua` 和`Play.lua` 这两个脚本程序。其中的 `SelectPlay.lua` 实现了“正常比赛”战术脚本和其他“场景”战术脚本之间的选择，`Play.lua` 实现状态机模型的解析，使决策子系统能理解我们写的战术脚本并正常调用战术脚本。所以，不建议用户修改`SelectPlay.lua` 和 `Play.lua`，会造成不可知的异常问题。
 20) 每个接口函数只能给指定的角色使用。函数中的参数就是读者的自定义skill 名称。例如：Tier=task.TierTask（“myDef”），就是将myDef 这个skill 给后卫使用。
 21) 注意分清楚 官方task的调用框架和自定义task(.dll)的调用框架。
 22) task函数的Lua程序的命名需要按照一定的格式
-23) both control  
-24) lua 车号从1开始 c++从0 开始
-25) log调试输出 -> bot.txt
-26) CGetOppNums 返回的 table 存储格式是{[0]=”n1”, [1]=”n2”,[2]=”n3”}，存储顺序是随机的；其中”n1”,”n2”,”n3”表示返回的车号，车号是 string 类型。在实际应用中，我们需要用 for...in pairs(table)do...的方式遍历 table 并找到场上敌方车号。
+23) both control，平时训练的时候开起来可以在一台PC控制双方队伍，在比赛的时候记得关掉，因为比赛的时候需要让裁判机对双方进行控制。
+24) lua层中车号从 **1** 开始，C++层的车号从 **0** 开始
+25) log调试输出 -> bot.txt：可以通过在C++层中加入 `cout` 语句输出调试信息，判断程序有没有进入到这一句中，并在~/SOM/bot.txt中查看log信息。
+26) `CGetOppNums` 返回的 **table** 类型，其存储格式是{[0]=”n1”, [1]=”n2”,[2]=”n3”}，存储顺序是随机的；其中”n1”,”n2”,”n3”表示返回的车号，车号是 string 类型。在实际应用中，我们需要用 for...in pairs(table)do...的方式遍历 table 并找到场上敌方车号。
 例如下面这段：
 ```lua
     function getOppNum()
@@ -109,13 +112,13 @@ name = "Ref_KickDef"
         end
     end
 ```
-中val是string类型的，需要调用lua的官方函数`tonumber()`来将string类型转换成number类型
-27) 调试相关：通过 `#define DEBUG 1` `#ifdef DEBUG` `#endif` 来控制log日志输出
-28) 在C++源代码中,`.angle()`返回的是弧度，在C++层中所有与角度有关的数值都是弧度制，而在Lua层中所有与角度有关的数值都是角度制。
-39) anglemode()方法是求角度的模的运算，因为机器人球员的角度方向被限定于[-π,π]中，而如果在计算中或者传入的参数中有超过这个范围的值，将通过取模运算，重新回到这个范围内。
-30) 在C++层有一些特定的常量/宏定义，如`GetBall.cpp`  `away_ball_dist_x`代表了一段拿球前的距离，当这个值越大，球员越不容易在拿球的过程中撞到球导致拿球不稳。
-31) 一个存在于GoReceivePos.cpp的细节：
+其中 `val` 是**string**类型的，需要调用lua的官方函数`tonumber()`来将string类型转换成number类型。
 
+27) 调试相关：通过 `#define DEBUG 1` `#ifdef DEBUG` `#endif` 来控制log日志输出
+28) 在C++源代码中,`.angle()`返回的是**弧度**，在C++层中所有与角度有关的数值都是**弧度制**，而在Lua层中所有与角度有关的数值都是**角度制**。
+39) `anglemode()`方法是求角度的模的运算，因为机器人球员的角度方向被限定于[-π,π]中，而如果在计算中或者传入的参数中有超过这个范围的值，将通过取模运算，重新回到这个范围内。
+30) 在C++层有一些特定的常量/宏定义，如`GetBall.cpp`  `away_ball_dist_x`代表了一段拿球前的距离，当这个值越大，球员越不容易在拿球的过程中撞到球导致拿球不稳。
+31) 一个存在于 `GoReceivePos.cpp` 的细节：
 ```C++
 int convert = (ball.y > 0 || fabs(ball.y) < 3) ? -1 : 1;
 ```
@@ -137,10 +140,11 @@ case RightArc:
     task.target_pos = goal + Maths::polar2vector(PENALTY_AREA_R + MAX_ROBOT_SIZE + PENALTY_AREA_R/2, task.orientate);	// 罚球区右边界80 + 最大机器人半径9 + 罚球区右边界80/2
 ```
 其中的 `+ PENALTY_AREA_R/2` 为调试值，因根据实际的防守距离需要进行更改。
+
 35) 在 `PassBall.cpp` 中有个宏定义 `#define fast_pass 3` 。
 
 ```C++
-	//判断并执行传球
+//判断并执行传球
 if (is_ready_pass(ball,excute_pos,rece_pos) ){	// 准备好传球了
 	if (get_ball){		// 如果拿到了球，设置传球的属性
 		task.kickPower = 50;
@@ -152,78 +156,67 @@ if (is_ready_pass(ball,excute_pos,rece_pos) ){	// 准备好传球了
     //printf("kicke ball\n");
 }
 ```
-.dll程序运行到task.neddKick = true; 时就会执行踢球操作。
+.dll程序运行到 `task.neddKick = true;` 时就会执行踢球操作。
 
-另一个方面，踢球的效率同时也和getball的判断准确度有关，如果getball的判断准确，则踢球的效率将非常的高。达到的效果就是刚接到球就能马上shoot。
-35) 单例模式。
-36) C++层的skill函数的接口必须统一，且接口函数名必须为player_plan，传入参数必须为2个：（const WorldModel* model, int robot_id）。传入参数为多个（2个以上）说明该函数是要被被其他skill函数调用的。
-37) 有些被定义但没有别用到的是老版本的变量，不用在意。
-38) 如果配置play脚本战术？
-    1、 手工配置战术包  
-    2、 在C++或者Lua里把所有战术都配置好一本万利
-39) lua程序的名字要按照一定的规则命名  Ref_ xxxxxx.lua。
-40) 如何获得多个帧的图像数据？将多个球位置信息通过ML里的线性回归算法/最小二乘法得出一个拟合的直线并预测出球的轨迹。
+另一个方面，踢球的效率同时也和**getball**的判断准确度有关，如果**getball**的判断准确，则踢球的效率将非常的高。达到的效果就是刚接到球就能马上**shoot**。
+
+36)  单例模式:WorldModel.在单例模式下，对于一个类，只能生成一个对象，让所有对这个类的调用都找到这个单例对象
+// worldModel::getInstance()->  .... 
+
+37)  C++层的skill函数的接口必须统一，且接口函数名必须为player_plan，传入参数必须为2个：（const WorldModel* model, int robot_id）。传入参数为多个（2个以上）说明该函数是要被被其他skill函数调用的。
+
+38)  有些被定义但没有别用到的是老版本的变量，不用在意。
+
+39)  如果配置play脚本战术？
+    1) 手工配置战术包  
+    2) 在C++或者Lua里把所有战术都配置好一本万利
+
+40)  lua程序的名字要按照一定的规则命名  **Ref_ xxxxxx.lua**。
+
+41)  如何获得多个帧的图像数据？将多个球位置信息通过ML里的线性回归算法/最小二乘法得出一个拟合的直线并预测出球的轨迹。
 
 ```C++
 const point2f& last_ball = model->get_ball_pos(1);
 ```
 
-传入参数：0为当前帧 1为上一帧 2为上上帧
-41) 任意球防守 挡拆战术
-42) 有block球员的情况下，使用挑球战术。
+传入参数：0为当前帧 1为上一帧 2为上上帧。
+
+43) 任意球防守考虑**挡拆**战术。
+
+44)  有block球员的情况下，使用**挑球**战术。
+
+45)  如果机器人跑到了(0,0)点，说明.dll动态链接库出错了或者根本没有找到.dll动态链接库。
 
 
-# 如何更新fork项目的更新
 
-## 命令行方法
+# 当前任务
 
-### 1、配置上游项目地址。
+1) 思考每一个机器人足球运动员在C++ Skill层面除去官方的Skill函数包还应该有哪些动作。
+2) 这些C++ 层的Skill有哪些可以改进的地方。
+3) 对方守门员
+4) 角球任意球：打守门员
 
-即将你 fork 的项目的地址给配置到自己的项目上。比如我 fork 了一个项目，原项目是 `wabish/fork-demo.git`，我的项目就是 `cobish/fork-demo.git`。使用以下命令来配置。
 
-```
-➜ git remote add upstream https://github.com/wabish/fork-demo.git
-```
 
-然后可以查看一下配置状况，很好，上游项目的地址已经被加进来了。
+# 更新日志
 
-```
-➜ git remote -v
-origin  git@github.com:cobish/fork-demo.git (fetch)
-origin  git@github.com:cobish/fork-demo.git (push)
-upstream    https://github.com/wabish/fork-demo.git (fetch)
-upstream    https://github.com/wabish/fork-demo.git (push)
-```
+## 4.25 
 
-### 2、获取上游项目更新。
+更新了所有的官方task函数包的注释。
 
-使用 fetch 命令更新，fetch 后会被存储在一个本地分支 upstream/master 上。
+## 4.26
 
-```
-➜ git fetch upstream
-```
+1) 将多个skill (vs2013)工程整合到了一个RoboCup工程文件下，通过vs2013中项目的包含和排除来进行有选择性的编译
 
-### 3、合并到本地分支。
+## 4.27
 
-切换到 master 分支，合并 upstream/master 分支。
+施工培训，解决大量C++层与Lua层疑问
 
-```
-➜ git merge upstream/master
-```
+## 4.28 
 
-### 4、提交推送。
+1) 将4.27培训的疑问都更新并整理到了`注意`区。
+2) 将官方的C++层task函数都编译生成了.dll动态链接库并放置于 `user_skills` 下。
 
-根据自己情况提交推送自己项目的代码。
-
-```
-➜ git push origin master
-```
-
-由于项目已经配置了上游项目的地址，所以如果 fork 的项目再次更新，重复步骤 2、3、4即可。
-
-## 不用命令行方法
-
-参考[不用命令行的方法](https://jinlong.github.io/2015/10/12/syncing-a-fork/)
 
 # 目录说明
 
@@ -348,30 +341,55 @@ Skill C++ 源文件
 
 
 
+# 如何更新fork项目的更新
 
-# 当前任务
+## 命令行方法
 
-1) 思考每一个机器人足球运动员在C++ Skill层面除去官方的Skill函数包还应该有哪些动作。
-2) 这些C++ 层的Skill有哪些可以改进的地方。
-3) 对方守门员
-4) 角球任意球：打守门员
+### 1、配置上游项目地址。
 
+即将你 fork 的项目的地址给配置到自己的项目上。比如我 fork 了一个项目，原项目是 `wabish/fork-demo.git`，我的项目就是 `cobish/fork-demo.git`。使用以下命令来配置。
 
+```
+➜ git remote add upstream https://github.com/wabish/fork-demo.git
+```
 
-# 更新日志
+然后可以查看一下配置状况，很好，上游项目的地址已经被加进来了。
 
-## 4.25 
+```
+➜ git remote -v
+origin  git@github.com:cobish/fork-demo.git (fetch)
+origin  git@github.com:cobish/fork-demo.git (push)
+upstream    https://github.com/wabish/fork-demo.git (fetch)
+upstream    https://github.com/wabish/fork-demo.git (push)
+```
 
-更新了所有的官方task函数包的注释。
+### 2、获取上游项目更新。
 
-## 4.26
+使用 fetch 命令更新，fetch 后会被存储在一个本地分支 upstream/master 上。
 
-1) 将多个skill (vs2013)工程整合到了一个RoboCup工程文件下，通过vs2013中项目的包含和排除来进行有选择性的编译
+```
+➜ git fetch upstream
+```
 
-## 4.27
+### 3、合并到本地分支。
 
-施工培训，解决大量C++层与Lua层疑问
+切换到 master 分支，合并 upstream/master 分支。
 
-## 4.28 
+```
+➜ git merge upstream/master
+```
 
-将4.27培训的疑问都更新并整理到了`注意`区。
+### 4、提交推送。
+
+根据自己情况提交推送自己项目的代码。
+
+```
+➜ git push origin master
+```
+
+由于项目已经配置了上游项目的地址，所以如果 fork 的项目再次更新，重复步骤 2、3、4即可。
+
+## 不用命令行方法
+
+参考[不用命令行的方法](https://jinlong.github.io/2015/10/12/syncing-a-fork/)
+

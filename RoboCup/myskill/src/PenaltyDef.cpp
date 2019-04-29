@@ -13,46 +13,9 @@
 ************************************************************/
 
 #include "PenaltyDef.h"
-//#include "def.h"
-#include "utils/PlayerTask.h"
-#include "utils/worldmodel.h"
-#include "utils/maths.h"
 
 using namespace std;
-//#include "ParamReader.h"
 
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
-
-namespace{
-	float goalie_penalty_def_buf = 20;
-}
-
-/*
-PenaltyDef::PenaltyDef(){
-	//srand((int)time(NULL));
-
-	//DECLARE_PARAM_READER_BEGIN(PlayBotSkillParam)
-	//READ_PARAM(goalie_penalty_def_buf)
-	//DECLARE_PARAM_READER_END
-
-}
-
-PenaltyDef::~PenaltyDef()
-{
-}
-*/
-
-/*
-
-PlayerTask gotoPos(const WorldModel* model, float x, float y, float dir){
-PlayerTask task;
-task.target_pos.x = x;
-task.target_pos.y = y;
-task.orientate = dir;
-return task;
-}
-
-*/
 
 
 //获得离我球门最近的对方球员编号，即对方点球球员编号

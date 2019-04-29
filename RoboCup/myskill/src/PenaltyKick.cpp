@@ -80,20 +80,6 @@ rand() 产生的随机数在每次运行的时候都是与上一次相同的。
 */
 
 #include "PenaltyKick.h"
-#include "utils/maths.h"
-//#include "ParamReader.h"
-#include <time.h> 
-#include "utils/PlayerTask.h"
-#include "utils/WorldModel.h"
-
-//用户注意；接口需要如下声明
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
-
-namespace{
-	float penalty_kick_random_range = 30;
-	float penalty_kick_get_ball_buf = -2;
-}
-
 
 //获得对方守门员编号
 int opp_goalie(const WorldModel* model){

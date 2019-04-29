@@ -24,24 +24,6 @@
 */
 
 #include "myskill.h"
-#include "utils/maths.h"
-//用户注意；接口需要如下声明
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
-
-enum ball_near  //PenaltyArea
-{
-
-	outOfOrbit,
-	onOrbit,
-	shoot
-	/*RightArc_behind,
-	RightArc_front,
-	MiddleRectangle_behind,
-	MiddleRectangle_front,
-	LeftArc_behind,
-	LeftArc_front,*/
-};
-
 
 PlayerTask player_plan(const WorldModel* model, int robot_id){
 	PlayerTask task;
@@ -134,9 +116,6 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 			/*
 			
 			每次让机器人拓展一个小圆弧 慢慢从 刚进入到安全轨道的点 一步一步按弧线走到 射门 的准备点
-
-
-			
 			*/
 
 			// 个人觉得这里应该考虑的是b2r和o2b的角度的正负  当b2r 和 o2b都是正的时候相乘为正
@@ -160,7 +139,6 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 				else
 					add = false;
 			}
-
 
 			if (add){	
 				//+
