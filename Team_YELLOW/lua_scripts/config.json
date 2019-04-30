@@ -1,6 +1,6 @@
 {
     "IS_TEST_MODE": false,
-    "OPPONENT_NAME": "Penalty",
+    "OPPONENT_NAME": "Normal",
     "gBayesPlayTable": "Nor/NormalPlayDefend",
     "gNormalPlay": "NormalPlayDefend",
     "gPlayBotSkill": [
@@ -30,14 +30,16 @@
         "Ref/MiddleDef/Ref_MiddleDef",
         "Ref/MiddleKick/Ref_MiddleKick",
         "Nor/NormalPlayDefend",
-        "Ref/PenaltyDef/Ref_penaltyDef_Goalieskill",
-        "Ref/PenaltyKick/KickerSkill_PenaltyKick",
+        "Ref/PenaltyDef/Ref_PenaltyDef_Goalie",
+        "Ref/PenaltyKick/Ref_PenaltyKick_Kicker",
         "Ref/GameStop/Ref_Stop",
         "Ref/Ref_Halt"
     ],
     "gRoleFixNum": {
         "Goalie": 4,
-        "Kicker": 1
+        "Kicker": 1,
+        "Receiver": 2,
+        "Tier": 3
     },
     "gSkill": [
         "TierSkill",

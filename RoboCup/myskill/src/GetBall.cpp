@@ -8,7 +8,7 @@
 *															*
 * 返回值：			PlayerTask								*
 *															*
-* 说明： 点球大战罚点球时只有一名点球球员和一名点球防守球员		*
+* 说明：														*
 *															*
 ************************************************************/
 // 单例： 类  对象  让一个类只生成一个对象  让所有对这个类的调用都找到这个单例对象
@@ -21,14 +21,14 @@
 
 #define frame_rate  60.0
 
-double spiral_buff = 8.0;		// spiral 螺旋/盘绕
+// double spiral_buff = 8.0;		// spiral 螺旋/盘绕
+// double do_spiral_dist = 30;
+// double do_spiral_buff = 0;
+// int do_spiral_max_cnt = 70;
 double get_ball_buf = -4;
-double do_spiral_dist = 30;
-double do_spiral_buff = 0;
 double around_ball_dist = 30;
 double vision_error = 3;
 bool isSimulation = false;
-int do_spiral_max_cnt = 70;
 float away_ball_dist_x = 20;	//这个值越大 拿球越平滑	接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整
 
 
@@ -45,7 +45,7 @@ void isSimulate(const WorldModel* model){		// 在这个文件里并没有被调�
 }
 
 
-//判断朝向对方球门角度范围，如果大于-90度小于90度，返回true
+//判断朝向对方球门角度范围，以x轴为0，如果大于-π度小于π，返回true
 bool toward_opp_goal(float dir){
 	return (dir < PI / 2 && dir>-PI / 2);
 }
@@ -67,7 +67,7 @@ float ball_x_angle(const WorldModel* model){
 }
 
 //robot_id为拿球小车车号，receiver_id为接球小车车号
-PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
+PlayerTask get_ball_plan(const WorldModel* model, int robot_id, int receiver_id){
 	//创建PlayerTask对象
 	PlayerTask task;
 	// 以下为执行拿球需要的参数，相关常量查看constaants.h
@@ -90,8 +90,6 @@ PlayerTask player_plan(const WorldModel* model, int robot_id, int receiver_id){
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
 
 	//我方receier_id小车朝向信息，
-	//注意：小车朝向为车头垂直方向与场地x轴正方向逆时针夹角
-	// 歧义  
 	const float rece_dir = model->get_our_player_dir(receiver_id);
 
 	//获得以receive_ball_player为原点的极坐标，ROBOY_HEAD为极坐标length,rece_dir为极坐标angle

@@ -8,39 +8,38 @@
 *																	*
 ********************************************************************/
 
-#include "shoot.h"
+#include "Shoot.h"
 #include "GetBall.h"
 
 // 追逐球
-// 调用GetBall类的相关方法来 拿到球
+// 调用GetBall的相关函数来 拿到球
 // TODO: 不理解为什么do_chase_ball 要朝向球门接球？
-// TODO: 转向对GetBall类的分析
 PlayerTask do_chase_ball(const WorldModel* model,int runner_id){
-	// GetBall 朝向某个角色拿球
+
+	// get_ball_plan 朝向某个角色拿球
 	// 第一个参数 runner_id : 函数执行者 / 接球 球员
 	// 第二个参数 receiver_id : 传球 球员
-	//GetBall get_ball;
 	// 当 两个参数相同 朝向球门接球
-	return player_plan(model, runner_id, runner_id);
+	return get_ball_plan(model, runner_id, runner_id);
 }
+
+
+/*
+获得球员位置和朝向，球的位置，
+打开吸球开关，
+判断球是否被球员控制住，如果控制住则直接射门。
+
+控球的判断方法：小球到车的距离是否小于某个值；车到球的矢量角度是否和车头的矢量角度之差的绝对值是否小于某个值
+*/
  
-// 先停车如果小球在车头吸球嘴上，就射门
+// 球员停止运动 如果小球在球员脚上，球员已经控到了球，则执行射门
 PlayerTask do_wait_touch(const WorldModel* model, int runner_id){
 	PlayerTask task;
-
 
 	const point2f& pos = model->get_our_player_pos(runner_id);
 	//const point2f& get_our_player_pos(int id)const;
 	const point2f& ball = model->get_ball_pos();
 	const float& player_dir = model->get_our_player_dir(runner_id);
-	
-	// 创建一个HaltRobot对象halt，halt.plan方法返回一个PlayerTask任务对象task
-	// 停止机器人
-	// TODO: 找不到HaltRobot停止机器人的任务   暂时不使用急停功能
-	//HaltRobot halt;
-	//task.RobotHalt(runner_id);
-
-	//task = halt.plan(runner_id);
 
 	// 设置task中的吸球开关为true，小车吸球
 	task.needCb = true;
@@ -57,33 +56,33 @@ PlayerTask do_wait_touch(const WorldModel* model, int runner_id){
 		task.needKick = true;
 		task.isChipKick = false;
 	}
-	
 	return task;
 }
 
-// 接球 吸球
+/* 
+获得球员位置 和 朝向，
+获得球的位置 和 球员到球的向量的角度，
+判断球员有没有控到球，如果没有则让球员朝向球
+*/
 PlayerTask do_stop_ball_and_shoot(const WorldModel* model, int runner_id){
 	PlayerTask task;
-//	WorldModel worldModel;
 
 	const point2f& pos = model->get_our_player_pos(runner_id);
 	const point2f& ball = model->get_ball_pos();
 	const float& dir = model->get_our_player_dir(runner_id);
 	const float& dir_ball = (fabs(anglemod(dir - (ball - pos).angle())));
 
-	//判断球是否在车头吸球嘴上
-	bool  orienta_ball = (fabs(anglemod(dir - (ball - pos).angle()))) < PI / 6;
+	// 判断球是否被球员控制（是否在吸球嘴上），球员的朝向角度 - 球员位置指向球位置的向量角度 
+	// TODO: 控球的判断方法:球员是否面向着球（角度差）
+	bool  player_oriente_ball = (fabs(anglemod(dir - (ball - pos).angle()))) < PI / 6;
 
-	//如果球不在车头吸球嘴上，车不动，车头朝向球
-	if (!orienta_ball){
+	//如果球没有被球员控住，则让球员朝向球的方向
+	if (!player_oriente_ball){
 		task.target_pos = pos;
 		task.orientate = (ball - pos).angle();
 	}
 	//如果球在车头吸球嘴上，needCb吸球开关吸球
-	else
-	{
-	//	HaltRobot halt;
-	//	task = halt.plan(runner_id);
+	else{
 		task.needCb = true;
 	}
 	return task;
@@ -110,7 +109,7 @@ PlayerTask do_turn_and_shoot(const WorldModel* model, int runner_id){
 	else 
 	{
 		//GetBall get_ball;
-		task = player_plan(model, runner_id, runner_id);
+		task = get_ball_plan(model, runner_id, runner_id);
 	}
 	/*else
 	{
@@ -123,7 +122,6 @@ PlayerTask do_turn_and_shoot(const WorldModel* model, int runner_id){
 //调整车位置方向，到  对方球门指向球的向量的 方向位置
 PlayerTask do_adjust_dir(const WorldModel* model, int runner_id){
 	PlayerTask task;
-//	WorldModel worldModel;
 
 	const point2f& ball = model->get_ball_pos();
 	// opp_goal ： 对方球门的二维坐标
@@ -139,7 +137,6 @@ PlayerTask do_adjust_dir(const WorldModel* model, int runner_id){
 
 //射门
 PlayerTask do_shoot(const WorldModel* model, int runner_id){
-//	WorldModel worldModel;
 	PlayerTask task;
 
 	// opp_goal 对方球门中心
@@ -169,47 +166,49 @@ PlayerTask do_shoot(const WorldModel* model, int runner_id){
 	return task;
 }
 
+/*
+对射门前的一些状态进行判断，并决定是否射门
+*/
+
 PlayerTask player_plan(const WorldModel* model, int robot_id){
 	cout << "int shoot skill" << endl;
-
 	PlayerTask task;
 
 	bool ball_moving_to_head;
 
 	//射门需要用到的参数
-	const point2f& kick_pos = model->get_our_player_pos(robot_id);	// 球员位置
-	const point2f& ball = model->get_ball_pos();				// 球的位置
+	const point2f& kicker_pos = model->get_our_player_pos(robot_id);	// 球员位置
+	const point2f& ball_pos = model->get_ball_pos();				// 球的位置
 
-	const point2f& last_ball = model->get_ball_pos(1);			// 获得上一帧球的位置
+	const point2f& last_ball_pos = model->get_ball_pos(1);			// 获得上一帧球的位置
 	const float kicker_dir = model->get_our_player_dir(robot_id);		// 球员角度
 	const point2f& opp = -FieldPoint::Goal_Center_Point;			// 对方球门
 
-	// TODO: 两个朝向角之差的意义
-
 	//对方球门位置与射门球员位置矢量方向角 与 射门球员朝向角之差
-	float kick2opp_kickdir_angle = anglemod((opp - kick_pos).angle() - kicker_dir);
+	float kick2opp_kickdir_angle = anglemod((opp - kicker_pos).angle() - kicker_dir);
 	//球与射门球员位置矢量方向角 与 射门球员朝向角之差
-	float kick2ball_kickdir_angle = anglemod((ball - kick_pos).angle() - kicker_dir);
+	float kick2ball_kickdir_angle = anglemod((ball_pos - kicker_pos).angle() - kicker_dir);
 
-	//对方球门与射门球员位置矢量方向角 与 射门球员朝向角向角之差 的绝对值 小于某个值时为true，即判断射门球员是否朝向着对方球门
+	// 对方球门与射门球员位置矢量方向角 与 射门球员朝向角向角之差 的绝对值 小于某个值时为true，
+	// 即判断射门球员是否朝向着对方球门
 	bool toward_oppgoal = fabs(kick2opp_kickdir_angle) < PI / 4;
-	//球与射门球员位置矢量方向角 与 射门球员朝向角之差 的绝对值 小于某个值时为true，即判断球是否在射门球员前方
+	// 球与射门球员位置矢量方向角 与 射门球员朝向角之差 的绝对值 小于某个值时为true，即判断球是否在射门球员前方
 	bool ball_front_head = fabs(kick2ball_kickdir_angle) < PI / 3;
 
-	//球当前帧位置和上一帧位置差，即球位移量
-	point2f vector_s = ball - last_ball;
-	//车头右侧位置
-	point2f head_right = kick_pos + Maths::polar2vector(Center_To_Mouth,anglemod(kicker_dir + PI/6));
-	//车头左侧位置
-	point2f head_left = kick_pos + Maths::polar2vector(Center_To_Mouth, anglemod(kicker_dir - PI / 6));
+	// 球当前帧位置和上一帧位置差，即球位移量
+	point2f vector_s = ball_pos - last_ball_pos;
+	// 球员右侧位置
+	point2f head_right = kicker_pos + Maths::polar2vector(Center_To_Mouth,anglemod(kicker_dir + PI/6));
+	// 球员左侧位置
+	point2f head_left = kicker_pos + Maths::polar2vector(Center_To_Mouth, anglemod(kicker_dir - PI / 6));
 	//车头中间位置
-	point2f head_middle = kick_pos + Maths::polar2vector(7, kicker_dir);
+	point2f head_middle = kicker_pos + Maths::polar2vector(7, kicker_dir);
 	//车头右侧位置到球位移矢量
-	point2f vector_a =  head_right - ball ;
+	point2f vector_a =  head_right - ball_pos ;
 	//车头左侧位置到球位移矢量
-	point2f vector_b =  head_left - ball;
+	point2f vector_b =  head_left - ball_pos;
 	//车头中间位置到球位移矢量
-	point2f vector_c = head_middle - ball;
+	point2f vector_c = head_middle - ball_pos;
 
 	bool wait_touch, stop_ball;
 	bool wait_touch_condition_a, wait_touch_condition_b;
@@ -244,7 +243,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 		method = StopBall;
 	else if (!toward_oppgoal)//没有朝向对方球门判断，AdjustDir方法
 		method = AdjustDir;
-	else if ((ball - kick_pos).length() < get_ball_threshold+5 && (anglemod(kicker_dir - (ball - kick_pos).angle()) < PI / 6))//判断球在车头吸球嘴位置,ShootBall方法
+	else if ((ball_pos - kicker_pos).length() < get_ball_threshold+5 && (anglemod(kicker_dir - (ball_pos - kicker_pos).angle()) < PI / 6))//判断球在车头吸球嘴位置,ShootBall方法
 		method = ShootBall;
 	else
 		method = ChaseBall;//拿球方法

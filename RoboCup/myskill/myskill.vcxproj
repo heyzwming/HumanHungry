@@ -85,7 +85,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Shoot.h" />
+    <ClInclude Include="src\GetBall.h" />
+    <ClInclude Include="src\PenaltyKick.h" />
     <ClInclude Include="src\utils\ball.h" />
     <ClInclude Include="src\utils\basevision.h" />
     <ClInclude Include="src\utils\constants.h" />
@@ -103,7 +104,8 @@
     <ClInclude Include="src\utils\worldmodel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Shoot.cpp" />
+    <ClCompile Include="src\GetBall.cpp" />
+    <ClCompile Include="src\PenaltyKick.cpp" />
     <ClCompile Include="src\utils\maths.cpp" />
   </ItemGroup>
   <ItemGroup>
