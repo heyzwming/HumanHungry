@@ -70,6 +70,7 @@ float ball_x_angle(const WorldModel* model){
 PlayerTask get_ball_plan(const WorldModel* model, int robot_id, int receiver_id){
 	//创建PlayerTask对象
 	PlayerTask task;
+	isSimulate(model);
 	// 以下为执行拿球需要的参数，相关常量查看constaants.h
 	// 获得小球当前图像帧坐标位置
 	// 重点：小球的坐标信息都以图像帧为最小单位从视觉机接收并存储，可以把球坐标看成是一个个数组，数组索引是图像帧号，数组元素是坐标信息
@@ -168,7 +169,7 @@ PlayerTask get_ball_plan(const WorldModel* model, int robot_id, int receiver_id)
 		//判断小球与get_ball_player车的位置关系执行拿球
 			if (!ball_x_boundary_right){	// 如果球比球员更接近对方球门
 					//给robot_id小车设置任务中的目标点坐标，就是让小车跑到某个点，该点以ball_with_vel为极坐标原点  
-					// TODO: get_ball_buf 还是不是知道是什么，maybe 拿球缓冲距离？？
+					// get_ball_buf  拿球缓冲距离
 					// 拿球点为：球的位移+沿着 对方球门指向球 方向 球的半径+球员半径 + 拿球缓冲区 长度的位置
 				task.target_pos = ball_with_vel + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, opp_goal2ball);
 			}else{							// 球员比球更接近对方球门
