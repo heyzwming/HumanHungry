@@ -205,27 +205,48 @@ const point2f& last_ball = model->get_ball_pos(1);
 
 # 更新日志
 
-## 4.25 
+<details>
+<summary>4.25</summary>
 
 更新了所有的官方task函数包的注释。
+</details>
 
-## 4.26
+
+
+
+<details>
+<summary>4.26</summary>
 
 1) 将多个skill (vs2013)工程整合到了一个RoboCup工程文件下，通过vs2013中项目的包含和排除来进行有选择性的编译
+</details>
 
-## 4.27
+<details>
+<summary>4.27</summary>
 
-1) 施工培训，解决C++层与Lua层疑问,更新至`注意`中。
+1) 江湖哥培训，解决C++层与Lua层疑问,更新至`注意`中。
+</details>
 
-## 4.28 
+<details>
+<summary>4.28 </summary>
 
 1) 将4.27培训的疑问都更新并整理到了`注意`区。
 2) 将官方的C++层task函数都编译生成了.dll动态链接库并放置于 `user_skills` 下。
+</details>
 
-## 4.30
+<details>
+<summary>4.30</summary>
 
 规范了头文件和源文件的内容，将 `#include` 、 `枚举定义` 、 `命名空间定义` 都放在了头文件里。
+</details>
 
+<details>
+<summary>5.1</summary>
+
+1、更新了Markdown语法的折叠功能，使得README界面更美观。
+2、编写开球站位dll：KickOff_init.cpp 和 KickOff_init.h
+3、更新了“cxk”工作日志板块。
+
+</details>
 
 
 # 目录说明
@@ -355,16 +376,16 @@ Skill C++ 源文件
 
 ## 命令行方法
 
-### 1、配置上游项目地址。
+
+
+<details>
+<summary>1、配置上游项目地址</summary>
 
 即将你 fork 的项目的地址给配置到自己的项目上。比如我 fork 了一个项目，原项目是 `wabish/fork-demo.git`，我的项目就是 `cobish/fork-demo.git`。使用以下命令来配置。
-
 ```
 ➜ git remote add upstream https://github.com/wabish/fork-demo.git
 ```
-
 然后可以查看一下配置状况，很好，上游项目的地址已经被加进来了。
-
 ```
 ➜ git remote -v
 origin  git@github.com:cobish/fork-demo.git (fetch)
@@ -372,34 +393,52 @@ origin  git@github.com:cobish/fork-demo.git (push)
 upstream    https://github.com/wabish/fork-demo.git (fetch)
 upstream    https://github.com/wabish/fork-demo.git (push)
 ```
+</details>
 
-### 2、获取上游项目更新。
+<details>
+<summary>2、获取上游项目更新。</summary>
 
 使用 fetch 命令更新，fetch 后会被存储在一个本地分支 upstream/master 上。
 
 ```
 ➜ git fetch upstream
 ```
+</details>
 
-### 3、合并到本地分支。
+
+<details>
+<summary>3、合并到本地分支。</summary>
 
 切换到 master 分支，合并 upstream/master 分支。
 
 ```
 ➜ git merge upstream/master
 ```
+</details>
 
-### 4、提交推送。
+
+<details>
+<summary>4、提交推送。</summary>
 
 根据自己情况提交推送自己项目的代码。
 
 ```
 ➜ git push origin master
 ```
-
 由于项目已经配置了上游项目的地址，所以如果 fork 的项目再次更新，重复步骤 2、3、4即可。
+</details>
+
+
 
 ## 不用命令行方法
 
 参考[不用命令行的方法](https://jinlong.github.io/2015/10/12/syncing-a-fork/)
 
+
+# Markdown的折叠语法
+
+<details>
+<summary>Title</summary>
+
+content!!!
+</details>
