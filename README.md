@@ -403,8 +403,3 @@ upstream    https://github.com/wabish/fork-demo.git (push)
 
 参考[不用命令行的方法](https://jinlong.github.io/2015/10/12/syncing-a-fork/)
 
-
-
-
-test
-upstream update.
