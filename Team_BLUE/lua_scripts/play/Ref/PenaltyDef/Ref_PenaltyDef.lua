@@ -1,4 +1,3 @@
---desc: 
 kickerdir = function()
 	return CRole2BallDir("Kicker")
 end
@@ -14,7 +13,7 @@ firstState = "PenaltyDef",
 	switch = function()
 		return "PenaltyDef"
 	end,
-	Kicker   = task.GotoPos("Kicker",-180,80,kickerdir),
+	Kicker   = task.GotoPos("Kicker",-230,80,kickerdir),
 	Receiver = task.GotoPos("Receiver",-230,-80,ReceiverDir),
 	Goalie   = task.PenaltyDef()
 },

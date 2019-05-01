@@ -25,6 +25,13 @@
 #define __CONSTANTS_H__
 #include "vector.h"
 
+
+/*自定义球员编号*/
+const int KICKER_ID = 1;
+const int RECEIVER_ID = 2;
+const int TIER_ID = 3;
+const int GOALIE_ID = 4;
+
 const int MAX_ROBOTS = 12;
 const int MAX_TEAM_ROBOTS = 6;
 const int MAX_ROBOT_SIZE = 9;

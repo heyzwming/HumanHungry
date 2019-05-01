@@ -189,6 +189,8 @@ const point2f& last_ball = model->get_ball_pos(1);
 
 46) 频点： 蓝队为3  0011 ，黄队为5  0101
 
+47) 取放电池的时候小心一点！当心被划伤哦~~
+
 
 
 # 当前任务
@@ -251,14 +253,19 @@ const point2f& last_ball = model->get_ball_pos(1);
 
 # 目录说明
 
-## bin
+<details>
+<summary>bin</summary>
+</details>
 
-## common
 
+
+<details>
+<summary>common</summary>
 所有正式脚本的存放目录。
 
-### lua_scripts
 
+<details>
+<summary>lua_scripts</summary>
 所有的lua脚本都被放置在这个目录下。
 
 #### oppnent
@@ -335,19 +342,28 @@ lua配置文件
 6) StartPlayBot.lua
 
 设置包路径为 `./lua_scripts/?.lua` ,同时使用require函数调用 `Config.lua` 和 `PlayBot.lua`
+</details>
+</details>
 
-## oneNote
 
+
+
+<details>
+<summary>oneNote</summary>
 战术策略笔记/画板
+</details>
 
-## platforms
+<details>
+<summary>platforms</summary>
+</details>
 
-## RoboCup
-
+<details>
+<summary>RoboCup</summary>
 Skill C++ 源文件
+</details>
 
-## Team_BLUE
-
+<details>
+<summary>Team_BLUE</summary>
 蓝队的文件系统。
 
 ### ball \ data
@@ -360,15 +376,26 @@ Skill C++ 源文件
 
 这三个文件都存放着一些.txt和.cfg
 
+
+
 ### user_skills
 
 将Skill C++ 源代码编译生成的.dll库放在这个目录下，lua脚本在调用用户自定义.dll库的时候会自动在该目录下搜索。
 
-## Team_YELLOW
+</details>
 
-## 其他文件
 
+
+<details>
+<summary>Team_YELLOW</summary>
+</details>
+
+
+
+<details>
+<summary>其他文件</summary>
 都是QT`SoccerPlanner3.exe`的足球机器人管理系统的用户图形界面的动态链接库(.dll)
+</details>
 
 
 

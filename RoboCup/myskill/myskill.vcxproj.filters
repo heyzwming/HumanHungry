@@ -63,7 +63,10 @@
     <ClInclude Include="src\GetBall.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="src\PenaltyKick.h">
+    <ClInclude Include="src\KickOff_init.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GotoPos.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,7 +77,10 @@
     <ClCompile Include="src\GetBall.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\PenaltyKick.cpp">
+    <ClCompile Include="src\KickOff_init.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GotoPos.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

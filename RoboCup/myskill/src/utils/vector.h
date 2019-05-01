@@ -81,7 +81,7 @@ public:
 
   num length() const;
   num sqlength() const;
-  //角度值是（-180，180】
+  //角度值是（-180，180)
   num angle() const { return(atan2(y,x));}
   num dist(vector2d<num> t) const { return sqrt((x - t.x)*(x - t.x) + (y - t.y)*(y - t.y)); }
   vector2d<num> norm() const;

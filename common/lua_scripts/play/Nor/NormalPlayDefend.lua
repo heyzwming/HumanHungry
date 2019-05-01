@@ -13,6 +13,7 @@ firstState = "initState",
 	end,
 	Kicker   = task.GetBall("Kicker","Kicker"),
 	Receiver = task.ReceiverTask("def"),
+	Tier 	 = task.TierTask("def"),
 	Goalie   = task.Goalie()
 },
 
@@ -22,8 +23,9 @@ firstState = "initState",
 			return "doBackPassBall"
 		end
 	end,
-	Kicker = task.GoRecePos("Kicker"),
+	Kicker   = task.GoRecePos("Kicker"),
 	Receiver = task.GetBall("Receiver","Kicker"),
+	Tier	 = task.TierTask("def"),
 	Goalie   = task.Goalie()
 },
 
@@ -36,6 +38,7 @@ firstState = "initState",
 	end,
 	Kicker   = task.GoRecePos("Kicker"),
 	Receiver = task.PassBall("Receiver","Kicker"),
+	Tier  	 = task.TierTask("def"),
 	Goalie   = task.Goalie()
 },
 
@@ -47,6 +50,7 @@ firstState = "initState",
 	end,
 	Kicker   = task.Shoot("Kicker"),
 	Receiver = task.ReceiverTask("def"),
+	Tier 	 = task.TierTask("def"),
 	Goalie   = task.Goalie()
 },
 

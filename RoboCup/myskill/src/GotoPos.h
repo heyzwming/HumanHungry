@@ -4,6 +4,6 @@
 #include "utils/worldmodel.h"
 #include "utils/PlayerTask.h"
 
-PlayerTask player_plan(const WorldModel* model, float x, float y, float dir);
+PlayerTask GotoPos_plan(const WorldModel* model, float x, float y, float dir);
 
 #endif
