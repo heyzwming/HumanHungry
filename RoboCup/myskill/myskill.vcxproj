@@ -86,8 +86,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\GetBall.h" />
+    <ClInclude Include="src\Goalie_LeastSquares.h" />
     <ClInclude Include="src\GotoPos.h" />
-    <ClInclude Include="src\KickOff_init.h" />
     <ClInclude Include="src\utils\ball.h" />
     <ClInclude Include="src\utils\basevision.h" />
     <ClInclude Include="src\utils\constants.h" />
@@ -106,8 +106,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GetBall.cpp" />
+    <ClCompile Include="src\Goalie_LeastSquares.cpp" />
     <ClCompile Include="src\GotoPos.cpp" />
-    <ClCompile Include="src\KickOff_init.cpp" />
     <ClCompile Include="src\utils\maths.cpp" />
   </ItemGroup>
   <ItemGroup>
