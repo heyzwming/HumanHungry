@@ -4,7 +4,99 @@ Our target is International RoboCup and star sea !
 
 # 工作流（Workflow）
 
-本团队将采用名为[**特征分支工作流**](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81)的工作流来进行开发。
+本团队将采用名为[**特征分支工作流**](https://git-scm.com/book/zh/v2/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E6%B5%81)的工作流来进行开发。也称为[Feature分支工作流](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/001376026233004c47f22a16d1f4fa289ce45f14bbc8f11000)。
+
+在实际开发中，我们应该按照几个基本原则进行[分支管理](https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013758410364457b9e3d821f4244beb0fd69c61a185ae0000)：
+
+`master`分支是主分支，因此要时刻与远程同步；
+
+`dev`分支是开发分支，团队所有成员都需要在上面工作，所以也需要与远程同步；
+
+`bug`分支只用于在本地修复bug，就没必要推到远程了，除非老板要看看你每周到底修复了几个bug；
+
+`feature`分支是否推到远程，取决于你是否和你的小伙伴合作在上面开发。
+
+## 分支创建与合并
+
+Git鼓励大量使用分支：
+
+查看分支：`git branch`
+
+创建分支：`git branch <name>`
+
+切换分支：`git checkout <name>`
+
+创建+切换分支：`git checkout -b <name>`
+
+合并某分支到当前分支：`git merge <name>`
+
+删除分支：`git branch -d <name>`
+
+## 解决冲突
+
+当Git无法自动合并分支时，就必须首先解决冲突。解决冲突后，再提交，合并完成。
+
+解决冲突就是把Git合并失败的文件手动编辑为我们希望的内容，再提交。
+
+用`git log --graph`命令可以看到分支合并图。
+
+## 分支管理
+
+首先，`master` 分支应该是非常稳定的，也就是**仅用来发布新版本**，平时不能在上面干活；
+
+那在哪干活呢？干活都在`dev`分支上，也就是说，`dev`分支是不稳定的，到某个时候，比如1.0版本发布时，再把`dev`分支合并到`master`上，在`master`分支发布1.0版本；
+
+你和你的小伙伴们每个人都在`dev`分支上干活，每个人都有自己的分支，时不时地往`dev`分支上合并就可以了。
+
+所以，团队合作的分支看起来就像这样：
+
+![branch](https://cdn.liaoxuefeng.com/cdn/files/attachments/001384909239390d355eb07d9d64305b6322aaf4edac1e3000/0)
+
+Git分支十分强大，在团队开发中应该充分应用。
+
+合并分支时，加上`--no-ff`参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而`fast forward`合并就看不出来曾经做过合并。
+
+## BUG分支
+
+修复bug时，我们会通过创建新的bug分支进行修复，然后合并，最后删除；
+
+当手头工作没有完成时，先把工作现场`git stash`一下，然后去修复bug，修复后，再`git stash pop`，回到工作现场。
+
+## Feature分支
+
+开发一个新feature，最好新建一个分支；
+
+如果要丢弃一个没有被合并过的分支，可以通过`git branch -D <name>`强行删除。
+
+## 多人协作
+
+多人协作的工作模式通常是这样：
+
+首先，可以试图用 `git push origin <branch-name>` 推送自己的修改；
+
+如果推送失败，则因为远程分支比你的本地更新，需要先用 `git pull` 试图合并；
+
+如果合并有冲突，则解决冲突，并在本地提交；
+
+没有冲突或者解决掉冲突后，再用 `git push origin <branch-name>` 推送就能成功！
+
+如果 `git pull` 提示 `no tracking information` ，则说明本地分支和远程分支的链接关系没有创建，用命令 `git branch --set-upstream-to <branch-name> origin/<branch-name>` 。
+
+这就是**多人协作的工作模式**，一旦熟悉了，就非常简单。
+
+## 总结
+
+查看远程库信息，使用`git remote -v`；
+
+本地新建的分支如果不推送到远程，对其他人就是不可见的；
+
+从本地推送分支，使用`git push origin branch-name`，如果推送失败，先用`git pull`抓取远程的新提交；
+
+在本地创建和远程分支对应的分支，使用`git checkout -b branch-name origin/branch-name`，本地和远程分支的名称最好一致；
+
+建立本地分支和远程分支的关联，使用`git branch --set-upstream branch-name origin/branch-name`；
+
+从远程抓取分支，使用`git pull`，如果有冲突，要先处理冲突。
 
 # 注意！
 
@@ -18,24 +110,23 @@ Our target is International RoboCup and star sea !
    *  如果将一个.cpp文件或者.h文件选中，`右键` -> `从项目中排除` ，在编译生成.dll动态链接库的时候就不会编译这些被排除的文件。
 
 4) 注释符号`//`后面加个**空格**是我的习惯，加了空格的注释是我写的，没加空格的注释是官方的。
-5) 结合`二次开发手册`（PDF的搜索功能`Ctrl` + `F`）查阅官方函数的功能。
+5) 结合`二次开发手册` 和 `VS2013`（**PDF** 和 **IDE** 的搜索功能`Ctrl` + `F`）查阅官方函数的功能，另外在 **IDE** 中还能设置搜索范围为`当前文档`还是整个`解决方案`。
 6) 部分变量中出现的 `arc` 是 **弧** 的意思，多出现在禁区相关的变量/常量/宏定义中。
-7) 在原来的task函数包中的`vector2polar`我都已经修改成了`polar2vector`，如果有遗漏的 `vector2polar` 可以查看定义，这个函数的意思其实是**将极坐标转换成二维坐标**
-8)  在lua程序中，以下划线开头连接一串大写字母的名字（比如 _VERSION）被保留用于 Lua 内部全局变量。在默认情况下，变量总是认为是全局的。全局变量不需要声明，给一个变量赋值后即创建了这个全局变量，访问一个没有初始化的全局变量也不会出错，只不过得到的结果是：nil。
-9)  Lua for vs2013调试器 : 
+7) 在原来的task函数包中的`vector2polar`我都已经修改成了`polar2vector`，如果有遗漏的 `vector2polar` 可以查看定义，这个函数的意思其实是**将极坐标转换成二维坐标**。
+8) 在lua程序中，以下划线开头连接一串大写字母的名字（比如 _VERSION）被保留用于 Lua 内部全局变量。在默认情况下，变量总是认为是全局的。全局变量不需要声明，给一个变量赋值后即创建了这个全局变量，访问一个没有初始化的全局变量也不会出错，只不过得到的结果是：nil。
+9) Lua for vs2013调试器 : 
     
     https://blog.csdn.net/babestudio/article/details/84685026
-10)  Task：**自定义 task 函数**
-    
-         1) 自定义 task 函数，使用官方 `task.lua` 提供的标准入口函数，通过加载用户自己编写的技能 `dll` 来实现。
-         2) 自定义 task 函数有 `KickerTask()`、 `ReceiverTask()`、 `TierTask()`、`DefenderTask()`、 `MiddleTask()`、 `GoalieTask()`；
-         3) 自定义 task 函数只能给指定的角色使用，如 KickerTask 对应 Kicker(前锋)，ReceiverTask 对应 Receiver（中场）、 Tier 对应 Tier（后卫）、 GoalieTask对应 Goalie（守门员）等
-11) 官方taask函数调用官方提供的技能函数 Task：官方 task 函数主要有 `GetBall()`、 `PassBall()`、 `ReceiveBall()`、 `Shoot()`、`Goalie()`等 13 个；
-12)  拓展方法： 
+10) Task：**自定义 task 函数**
+    * 自定义 task 函数，使用官方 `task.lua` 提供的标准入口函数`KickerTask()` 、 `ReceiverTask()` 、 `TierTask()` 、 `GoalieTask()`，通过加载用户自己编写的技能 `dll` 来实现。
+    * 自定义 task 函数有 `KickerTask()`、 `ReceiverTask()`、 `TierTask()`、`DefenderTask()`、 `MiddleTask()`、 `GoalieTask()`；
+    * 自定义 task 函数只能给指定的角色使用，如 `KickerTask` 对应 **Kicker(前锋)**，`ReceiverTask` 对应 **Receiver（中场）**、 `Tier` 对应 **Tier（后卫）**、 `GoalieTask`对应 **Goalie（守门员)** 等
+11) 官方task函数调用官方提供的技能函数 Task：官方 task 函数主要有 `GetBall()`、 `PassBall()`、 `ReceiveBall()`、 `Shoot()`、`Goalie()`等 13 个；
+12)  C++层Skill拓展方法： 
     player_plan 函数中对PlayerTask 对象实现自定义技能，扩展步骤如下：
-    1. 参照 1.2.3 中的步骤搭建 C++开发环境，根据 4.4 中的框架使用 C++编写自定义技能
-    2. 将编写好的技能编译生成 dll 文件，并将 dll 文件 copy 到 user_skills 目录下
-    3. 根据 5.2 中的示例编写 LUA 脚本，通过自定义 task 函数调用用户自定义的技能
+* 参照 1.2.3 中的步骤搭建 C++开发环境，根据 4.4 中的框架使用 C++编写自定义技能
+* 将编写好的技能编译生成 dll 文件，并将 dll 文件 copy 到 `user_skills` 目录下
+* 根据 5.2 中的示例编写 LUA 脚本，通过自定义 task 函数调用用户自定义的技能
 13)  战术框架主结构: 
 ```lua
 gPlayTable.CreatePlay{ --红色部分为战术框架主结构
@@ -64,7 +155,7 @@ firstState = "",
 name = "" --此处为脚本名
 }
 ```
-14)  task实战场景框架（调用自定义.dll）
+1)   task实战场景框架（调用自定义.dll）
   
 ```lua
     Receive = task.ReceiverTask("def")
@@ -75,7 +166,7 @@ name = "" --此处为脚本名
     --说明： def.dll 的源代码，用户可以在官方提供的 demo 中查看
 ```
 
-15) 完整防守带自定义.dll的play战术
+1)  完整防守带自定义.dll的play战术
 
 ```lua
 -- 示例战术脚本名为 Ref_KickDef.LUA
@@ -93,9 +184,9 @@ end,
 name = "Ref_KickDef"
 ```
 19) 我们的状态机模型是怎么被决策子系统理解并执行的呢？这就要依赖子系统lua架构中的 `SelectPlay.lua` 和`Play.lua` 这两个脚本程序。其中的 `SelectPlay.lua` 实现了“正常比赛”战术脚本和其他“场景”战术脚本之间的选择，`Play.lua` 实现状态机模型的解析，使决策子系统能理解我们写的战术脚本并正常调用战术脚本。所以，不建议用户修改`SelectPlay.lua` 和 `Play.lua`，会造成不可知的异常问题。
-20) 每个接口函数只能给指定的角色使用。函数中的参数就是读者的自定义skill 名称。例如：Tier=task.TierTask（“myDef”），就是将myDef 这个skill 给后卫使用。
+20) 每个接口函数只能给指定的角色使用。函数中的参数就是读者的自定义skill 名称。例如：`Tier=task.TierTask（“myDef”）`，就是将 `myDef` 这个skill 给后卫使用。
 21) 注意分清楚 官方task的调用框架和自定义task(.dll)的调用框架。
-22) task函数的Lua程序的命名需要按照一定的格式
+22) task函数的Lua程序的命名需要按照一定的格式。如Ref模式下的脚本程序要以`Ref_`开头
 23) both control，平时训练的时候开起来可以在一台PC控制双方队伍，在比赛的时候记得关掉，因为比赛的时候需要让裁判机对双方进行控制。
 24) lua层中车号从 **1** 开始，C++层的车号从 **0** 开始
 25) log调试输出 -> bot.txt：可以通过在C++层中加入 `cout` 语句输出调试信息，判断程序有没有进入到这一句中，并在~/SOM/bot.txt中查看log信息。
@@ -122,15 +213,15 @@ name = "Ref_KickDef"
 ```C++
 int convert = (ball.y > 0 || fabs(ball.y) < 3) ? -1 : 1;
 ```
-
 这段代码中要考虑到`||`符号的特性：当`||`符号前的表达式为1，“或”符号后面的表达式将不执行。而后面的 `fabs(ball.y) < 3` 为的是提高程序的严谨性，防止双目摄像头的重叠区域产生的重影对视觉系统的误判，起到双保险的左右。 
-32) `GoReceivePos.cpp` 中的一段随机数生成：
 
+32) `GoReceivePos.cpp` 中的一段随机数生成：
 ```C++
 float  x = rand() % (-10) - (rang_x - 10);
 float  y = rand() % (-10) - (convert * (rang_y - 10));
 ```
 意义是在一块矩形1:2的区域内随机选择一个点位。
+
 33) 在 `NormalDef.cpp` 中的这一段代码中，有一段程序：
 
 ```C++
@@ -198,10 +289,11 @@ const point2f& last_ball = model->get_ball_pos(1);
 1) 将官方task函数通过lua进行调用测试。
 2) 思考每一个机器人足球运动员在C++ Skill层面除去官方的Skill函数包还应该有哪些动作。
 3) 这些C++ 层的Skill有哪些可以改进的地方。
+4) C++层的程序中的一些关键参数的调试。
 4) 将所有的task应用到一场play中。
 4) 对方守门员可能使用的官方守门员程序，考虑针对官方守门员程序的针对程序。
 5) 角球任意球：打守门员
-6) 
+6) 守门员Goalie.cpp 应用上最小二乘法。
 
 
 
@@ -210,43 +302,82 @@ const point2f& last_ball = model->get_ball_pos(1);
 <details>
 <summary>4.25</summary>
 
-更新了所有的官方task函数包的注释。
+1、更新了所有的官方task函数包的注释。
+
 </details>
-
-
-
 
 <details>
 <summary>4.26</summary>
 
 1) 将多个skill (vs2013)工程整合到了一个RoboCup工程文件下，通过vs2013中项目的包含和排除来进行有选择性的编译
+
 </details>
 
 <details>
 <summary>4.27</summary>
 
-1) 江湖哥培训，解决C++层与Lua层疑问,更新至`注意`中。
+1、 江湖哥培训，解决C++层与Lua层疑问,更新至`注意`中。
+
 </details>
 
 <details>
 <summary>4.28 </summary>
 
-1) 将4.27培训的疑问都更新并整理到了`注意`区。
-2) 将官方的C++层task函数都编译生成了.dll动态链接库并放置于 `user_skills` 下。
+* 将4.27培训的疑问都更新并整理到了**注意区**。 
+* 将官方的C++层task函数都编译生成了.dll动态链接库并放置于 `user_skills` 下。
+
 </details>
 
 <details>
 <summary>4.30</summary>
 
 规范了头文件和源文件的内容，将 `#include` 、 `枚举定义` 、 `命名空间定义` 都放在了头文件里。
+
 </details>
 
 <details>
 <summary>5.1</summary>
 
-1、更新了Markdown语法的折叠功能，使得README界面更美观。
+## 今日
+
+1、更新了README的Markdown语法的折叠功能，使得README界面更美观。
+
 2、编写开球站位dll：KickOff_init.cpp 和 KickOff_init.h
+
 3、更新了“cxk”工作日志板块。
+
+4、检查实验室机器人功能。
+
+5、YouTube观看RoboCup小型组比赛并记录部分 **开球** 、 **间接任意球** 战略。
+
+## 明日
+
+1、更新Goalie.cpp，学习最小二乘法和线性回归算法。
+
+2、完成剩下的[YouTube](https://www.youtube.com/watch?v=LpTRn8PD7GA)策略分析。
+
+3、学习 git branch 分支的用法。
+
+</details>
+
+# cxk的工作日志
+
+<details>
+<summary>4.30</summary>
+
+## 今日
+
+* 重新在Github里Clone了Robocup
+* 学会在README和二次开发手册中寻找关键词，提高阅读效率
+* 看了一些lua文件，存在困惑
+* 细看了GetBall.cpp 对拿球动作的实现有大致的了解
+
+## 明日
+
+* 解决pull origin问题
+* 看PenaltyKick.cpp
+* 听队长安排
+
 
 </details>
 
@@ -263,9 +394,8 @@ const point2f& last_ball = model->get_ball_pos(1);
 <summary>common</summary>
 所有正式脚本的存放目录。
 
+### lua_scripts
 
-<details>
-<summary>lua_scripts</summary>
 所有的lua脚本都被放置在这个目录下。
 
 #### oppnent
@@ -279,7 +409,6 @@ play脚本层，所有通过页面的“脚本导入”功能导入的脚本，�
 ##### Nor
 
 在没有裁判盒指令干预下执行的正式脚本，称为正常脚本，当用户在选择转正式脚本时，如果选择的战术类型为“Normal”，系统会自动存放在 Nor 目录下。
-
 ##### Ref
 
 在裁判盒指令干预下执行的正式脚本，称为裁判脚本，当用户在选择转正式脚本时，如果选择的战术类型为裁判指令对应的战术类型，系统会自动存放到 Ref 目录下。
@@ -290,7 +419,6 @@ play脚本层，所有通过页面的“脚本导入”功能导入的脚本，�
 
 没有转为正式脚本之前的脚本都会被放置在Test目录下
 
-
 #### skill
 
 在skill文件夹下还有个文件夹叫 `PlayBotSkill` ，在 `PlayBotSkill` 文件夹外的文件是官方提供的自定义task函数.lua，例如KickerTask、ReceiverTask等
@@ -299,10 +427,12 @@ play脚本层，所有通过页面的“脚本导入”功能导入的脚本，�
 · 每一个官方 task 函数完成一项技能，并且可以指派给所有的角色使用。如GetBall\Goalie等
 
 ⚫ 官方 skill 函数
+
 1) 官方提供的 skill 函数调用官方提供的 cpp
-2) 此类 skill 在 lua_scripts\skill\PlayBotSkill 路径下，以独立的 lua 文件
-形式存在
+2) 此类 skill 在 lua_scripts\skill\PlayBotSkill 路径下，以独立的 lua 文件形式存在
+
 ⚫ 用户自定义 skill 函数
+
 1) 用户自定义 skill 需要用户使用 C++编写，最终以 dll 的方式加载到user_skills目录下
 
 #### worldmodel
@@ -311,38 +441,32 @@ play脚本层，所有通过页面的“脚本导入”功能导入的脚本，�
 
 ⚫ 6.1.1-6.1.6 函数为官方提供的自定义 task 函数，传入用户编写的 dll 技
 能，实现扩展
+
 ⚫ 每个自定义 task 函数指定给对应的角色使用，如 KickerTask 对应 Kicker（前锋）、 ReceiverTask 对应 Receiver（中场）等。
+
 ⚫ 使用方法示例：
 Kicker = KickerTask(“dll 名称” , pos_,dir_,kickflat_,kp_,cp_)
 
 **我们把一次运动决策所分配到各个机器人所需各自执行的任务称为 task。每个 task 以函数的形式存在，函数定义在 task.lua 文件中。**
 
 #### 其他.lua文件
-
-1) Config.lua
-
+1) Config.lua:
 lua配置文件
 
-2) play.lua
-
+2) play.lua:
 战术表
 
-3) PlayBot.lua
-
+3) PlayBot.lua:
 路径配置文件
 
-4) SelectPlay.lua
-
+4) SelectPlay.lua:
 选择战术
 
-5) Skill.lua
-
+5) Skill.lua:
 技能表
 
-6) StartPlayBot.lua
-
+6) StartPlayBot.lua:
 设置包路径为 `./lua_scripts/?.lua` ,同时使用require函数调用 `Config.lua` 和 `PlayBot.lua`
-</details>
 </details>
 
 
@@ -469,3 +593,5 @@ upstream    https://github.com/wabish/fork-demo.git (push)
 
 content!!!
 </details>
+
+dev test
