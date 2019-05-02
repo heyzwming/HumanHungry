@@ -1,9 +1,8 @@
 --desc: 中场开球
 --desc: 
 --desc: 设置开球初始点
+
 --  official lua scripts
-
-
 --[[kickerdir = function()
 	return CRole2BallDir("Kicker")
 end
@@ -85,9 +84,6 @@ Tier2BallDir = function()
 	return CRole2BallDir("Tier")
 end
 
-Goalie2BallDir = function()
-	return CRole2BallDir("Goalie")
-end
 
 
 gPlayTable.CreatePlay{
@@ -105,9 +101,9 @@ firstState = "Start",
 	--Kicker = task.KickerTask("KickOff_init"),
 	--Tier = task.TierTask("KickOff_init"),
 	--Goalie = task.GoalieTask("KickOff_init")		-- 这里应该要调用自定义的防守dll 暂时先用官方goalie()
-	Kicker = task.GotoPos("Kicker",-50,0,kickerdir),
-	Receiver = task.GotoPos("Receiver",-10,60,ReceiverDir),
-	Tier = task.GotoPos("Tier",-10,-60,Tier),
+	Kicker = task.GotoPos("Kicker",-55,0,Kicker2BallDir),
+	Receiver = task.GotoPos("Receiver",-18,55,Receiver2BallDir),
+	Tier = task.GotoPos("Tier",-18,-55,Tier2BallDir),
 	Goalie = task.Goalie()
 },
 
@@ -119,9 +115,11 @@ firstState = "Start",
 			return "passball"
 		end
 	end,
-	Kicker = task.GetBall("Kicker","Receiver"),	-- Receiver 传球给 Kicker/ Kicker 朝向 Receiver拿球
-	Receiver = task.GotoPos("Receiver",0,50,ReceiverDir),
-	Tier = task.GotoPos("Tier",-220,0,Tier2BallDir),
+	--Kicker = task.GotoPos("Kicker",0,-25,Kicker2BallDir),
+	--Kicker = task.GetBall("Kicker","Receiver"),	-- Receiver 传球给 Kicker/ Kicker 朝向 Receiver拿球
+	Kicker = task.GetBall("Kicker","Kicker"),	-- 朝向球门拿球
+	Receiver = task.GotoPos("Receiver",-18,100,Receiver2BallDir),
+	Tier = task.GotoPos("Tier",-18,-100,Tier2BallDir),
 	Goalie = task.Goalie()
 },
 
@@ -132,8 +130,8 @@ firstState = "Start",
 		end
 	end,
 	Kicker = task.PassBall("Kicker","Receiver"),	-- Kicker传球给Receiver
-	Receiver = task.GotoPos("Receiver",0,50,ReceiverDir),
-	Tier = task.GotoPos("Tier",-220,0,Tier2BallDir),
+	Receiver = task.GotoPos("Receiver",0,150,Receiver2BallDir),
+	Tier = task.GotoPos("Tier",160,-100,Tier2BallDir),
 	Goalie = task.Goalie()
 },
 
