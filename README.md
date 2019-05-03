@@ -189,7 +189,33 @@ const point2f& last_ball = model->get_ball_pos(1);
 
 46) 频点： 蓝队为3  0011 ，黄队为5  0101
 
-47) 取放电池的时候小心一点！当心被划伤哦~~
+48) 当比赛暂停的时候，调用的脚本为~\SOM v3.3.3\Team_BLUE\lua_scripts\play\Ref\GameStop\Ref_Stop.lua
+
+49) 在Ref文件夹下的.lua脚本（如GameHalt.lua\GameOver.lua\GamaStop.lua等）都会调用相应Ref文件夹下的子文件夹下的 lua 脚本。
+
+50) 在 ~\SOM v3.3.3\Team_BLUE\lua_scripts\play\Ref\
+OurindirectKick.lua 中 会在 裁判裁定为任意球中 根据球的x坐标位置判定为 角球、中/中/后场任意球。
+
+51) 在GameHalt.lua  GameOver.lua 中，触发这两种情况后，会调用Ref_Halt.lua，使得所有机器人急停。由SOM底层自动调用。
+
+52) 获得对方所有球员编号的tip：
+
+```lua
+function getOppNum()
+	local oppTable = CGetOppNums()
+	for i,val in pairs(oppTable) do 
+		num = tonumber(val)
+		if COppIsGetBall(num-1) then
+			return true
+		end
+		
+	end
+end
+```
+
+53) 取放电池的时候小心一点！当心被划伤哦~~
+
+
 
 
 

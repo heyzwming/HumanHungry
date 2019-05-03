@@ -39,7 +39,7 @@
     </PathPlanner>
     <CCommControl>
         <COM_NUM>3</COM_NUM>
-        <COM_Freq>3</COM_Freq>
+        <COM_Freq>5</COM_Freq>
         <COM_RATE>115200</COM_RATE>
         <PARITY>0</PARITY>
         <PVERSION>2016</PVERSION>

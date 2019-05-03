@@ -1,4 +1,6 @@
 -- 在进入每一个定位球时，需要在第一次进时进行保持
+-- 间接任意球 类型分配脚本
+-- 根据 任意球 球的x坐标位置 判断为 角球任意球、前场任意球、中场任意球、后场任意球。
 if gFirstField == "" then
 	if CGetBallX() > 250 then
 		gFirstField = "Corner"

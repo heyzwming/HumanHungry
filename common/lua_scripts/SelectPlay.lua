@@ -1,4 +1,4 @@
-dofile("./lua_scripts/opponent/"..OPPONENT_NAME..".lua")
+dofile("./lua_scripts/opponent/"..OPPONENT_NAME..".lua")		-- 打开战术包文件夹下的战术.lua
 function RunRefPlay(name)	-- 运行 有裁判干涉情况下的play战术
 	--local filename = "./lua_scripts/play/Ref/BackKick/Ref_BackKick.lua"
 	local filename = "./lua_scripts/play/Ref/"..name..".lua"

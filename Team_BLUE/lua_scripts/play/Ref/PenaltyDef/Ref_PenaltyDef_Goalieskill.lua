@@ -14,5 +14,5 @@ end,
                                             -- 如KickerTask(),TierTask(),GoalieTask()等
 --	Goalie = task.Goalie()
 },
-name = "Ref_PenaltyDef_Goalieskill"    --此处为脚本名
+name = "Ref_penaltyDef_Goalieskill"    --此处为脚本名
 }

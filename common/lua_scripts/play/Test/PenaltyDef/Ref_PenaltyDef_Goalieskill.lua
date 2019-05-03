@@ -1,3 +1,4 @@
+--desc: 
 gPlayTable.CreatePlay{
 firstState = "GoaliePenaltyDef",
 switch = function()			--状态跳转函数		一直执行防守状态
