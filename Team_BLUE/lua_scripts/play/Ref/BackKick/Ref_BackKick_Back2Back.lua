@@ -146,25 +146,48 @@ KeepBallAwayY = function()
     return keepBallAwayY
 end
 
+--[[ Role2BallDir 球员朝向球的方向 ]]
+Kicker2BallDir = function()
+    local kicker2BallDir = CRole2BallDir("Kicker")
+    return kicker2BallDir
+end
+
 Receiver2BallDir = function()
     local rece2BallDir = CRole2BallDir("Receiver")
     return rece2BallDir
 end
-
 
 Tier2BallDir = function()
     local tier2BallDir = CRole2BallDir("Tier")
     return tier2BallDir
 end
 
+--[[ 判断球在左半场还是右半场 ]]
+
+BallInLeft = function()
+    local left = nil
+    if CGetBallY < 0 then
+        -- body
+        return true
+    else return false
+    end
+end,
+
+--[[ 距离足够 ]]
+
+
+
+--[[ main ]]
+
 gPlayTable.CreatePlay{
 
 firstState = "Ready",
 
-["Ready"] = {  -- 任意球开球前的排兵布阵
+-- Ready  到达指定的 开球点位
+["Ready"] = { 
 	switch = function()
 		if Cbuf_cnt(true,20) then   -- 过 20 个时间单位 转到 GetBall 状态
-			Return "GetBall"
+            return "GetBall"
         end
     end,
     -- 假设发球点在右半场
@@ -177,47 +200,96 @@ firstState = "Ready",
 },
 
 -- Kicker 去 拿球
+
 ["GetBall"] = {
     switch = function()
     -- 这里的15还需要考量 怎样判断已经拿到了球
     -- 然后还要进行判断 距离问题  是否采用背靠背传球战术
         if CBall2RoleDist("Receiver") < 15 then     -- 拿到了球 转向传球状态
-    -- 考虑 判断条件使用下面这一个怎么样
-    --  if CIsGetBall("Kicker") then
-        --  if 距离足够 then
-            return "PassBall"
-        --  end
+    -- 考虑 判断条件使用下面这一个怎么样 if CIsGetBall("Kicker") then
+            if 距离足够 then
+                return "ChipPass"  -- 挑射
+            else return "FlatPass"  -- 平射
+            end
         end
     end,
     Kicker      =   task.GetBall("Kicker","Kicker")        -- Kicker 朝向球门拿球
 --	Receiver    =   task.GotoPos("Receiver",防守球员的x - X轴的随机位置,防守球员的y - Y轴的随机位置,与对方防守球员反方向 即对方球员的方向+180度 lua里用的是角度制),  -- 接应球员
     Receiver    =   task.GoRecePos("Receiver",OppNearestNumX + KeepBallAwayX,OppNearestNumY - KeepBallAwayY,OppNearestNumDir-180),
---  Tier        =   task.GotoPos("Tier",0,-150,朝向球的方向),
-    Tier        =   task.GotoPos("Tier",0,-150,Tier2BallDir),
+    Tier        =   task.GotoPos("Tier",30,-120,Tier2BallDir),
     Goalie      =   task.Goalie()
-
-
---    Kicker = task.GoRecePos("Kicker"),
---    Receiver = task.GetBall("Receiver","Receiver"),
---    Goalie = task.Goalie()
 },
-    
 
 
-
-
-
-["PassBall"] = {
+["ChipPass"] = {
     switch = function()
-        if CIsBallKick("Receiver") then
-            return "Shoot"
+        if CIsBallKick("Kicker") then      -- 如果球被踢出 
+            return "ChaseBall"              
         end
     end,
-    Kicker   = task.PassBall("Kicker","Receiver"),
+    Kicker   = task.KickerTask("ChipPassBall"),     -- 自己写一个挑射传球dll
     Receiver = task.GetBall("Receiver", "Tier"),
-    Tier     = GoRecePos("Tier"),
+    Tier     = task.Goto("Tier",x,y,Tier2BallDir),
     Goalie   = task.Goalie()
 },
+
+
+["FlatPass"] = {
+    switch = function()
+        if CIsBallKick("Kicker") then      -- 如果球被踢出 
+            return "ChaseBall"              
+        end
+    end,
+
+
+}
+
+
+
+["ChaseBall"] = {   -- Receiver 去追求
+
+    switch = function()
+        if 敌方球员拿到了球 then 
+            return "defence"
+        elseif CGetBall("Receiver") then 
+            return "PassBall2Tier"
+    
+
+    Tier = TierTask("Tier find a good place")
+}
+
+["PassBall2Tier"] = {
+
+    switch = function()
+        if 敌方球员拿到了球 then
+            return "Defence"
+        elseif （判断对方守门员的位置）有合适的射门环境 then 
+            return "ReceiverShoot"
+        elseif 有合适的传球给Kicker的环境 then 
+            return "Pass2Kicker"
+        elseif 有合适的传球给Tier的环境 then 
+            return "Pass2Tier"
+        else return "ReceiverShoot"
+        end
+    end,
+
+
+}
+
+["ReceiverShoot"]
+
+["Pass2Kicker"]
+
+["Pass2Tier"]
+
+-- ["Pass2Receiver"]
+
+["KickerShoot"]
+
+["ReceiverShoot"]
+
+["TierShoot"]
+
 ["Shoot"] = {
     switch = function()
         if CIsBallKick("Kicker") then
@@ -228,6 +300,15 @@ firstState = "Ready",
     Receiver = task.RefDef("Receiver"),
     Goalie = task.Goalie()
 },
-name = "Ref_BackKick_Back2Back"
+
+
+["Defence"] = {
+
+
+
+
 }
 
+
+name = "Ref_BackKick_Back2Back"
+}
