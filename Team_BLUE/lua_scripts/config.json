@@ -37,6 +37,6 @@
         "GoalieSkill",
         "DefenderSkill"
     ],
-    "gTestPlay": "Ref_Stop",
-    "gTestPlayTable": "Ref/GameStop/Ref_Stop"
+    "gTestPlay": "Ref_KickOff_test",
+    "gTestPlayTable": "Ref/KickOff/Ref_KickOff_test"
 }

@@ -9,7 +9,9 @@ Our target is International RoboCup and star sea !
 # 注意！
 
 1) 将`SoccerPlanner3.exe` 、`~/Team_BLUE/PlayBot-SSL.exe` 、`~/Team_BLUE/SmallSim.exe` 、 `~/Team_YELLOW/PlayBot-SSL.exe` 、`~/Team_BLUE/SmallSim.exe` 设为**以管理员方式打开**。
+
 2) 在阅读源码的时候建议：先**跳过**变量的声明和定义部分，直接从 `if` 、`for` 等判断循环语句开始，当遇到意义不明确的变量的时候，再去查看变量的意义。
+
 3) 使用Visual Studio 2013的**Tips**：
    *  快速查看变量的声明：选中变量，右键 -> 查看定义(`Alt`+`F12`)即可以（通过小窗口）快速跳转到变量的声明。
    *  “书签”标注：使用 `//TODO: ` + `你要标记的内容`可以插入一个“书签”，“书签”名字不一定非要`//TODO:`，具体的设置参考 `工具` -> `选项` -> `环境` -> `任务列表`。查看书签的方式：`视图` -> `任务列表`
@@ -17,25 +19,35 @@ Our target is International RoboCup and star sea !
    *  按住`Shift`可以将一片连续的文件选中。
    *  如果将一个.cpp文件或者.h文件选中，`右键` -> `从项目中排除` ，在编译生成.dll动态链接库的时候就不会编译这些被排除的文件。
 
+
 4) 注释符号`//`后面加个**空格**是我的习惯，加了空格的注释是我写的，没加空格的注释是官方的。
+
 5) 结合`二次开发手册`（PDF的搜索功能`Ctrl` + `F`）查阅官方函数的功能。
+
 6) 部分变量中出现的 `arc` 是 **弧** 的意思，多出现在禁区相关的变量/常量/宏定义中。
+
 7) 在原来的task函数包中的`vector2polar`我都已经修改成了`polar2vector`，如果有遗漏的 `vector2polar` 可以查看定义，这个函数的意思其实是**将极坐标转换成二维坐标**
+
 8)  在lua程序中，以下划线开头连接一串大写字母的名字（比如 _VERSION）被保留用于 Lua 内部全局变量。在默认情况下，变量总是认为是全局的。全局变量不需要声明，给一个变量赋值后即创建了这个全局变量，访问一个没有初始化的全局变量也不会出错，只不过得到的结果是：nil。
+
 9)  Lua for vs2013调试器 : 
     
     https://blog.csdn.net/babestudio/article/details/84685026
+
 10)  Task：**自定义 task 函数**
     
          1) 自定义 task 函数，使用官方 `task.lua` 提供的标准入口函数，通过加载用户自己编写的技能 `dll` 来实现。
          2) 自定义 task 函数有 `KickerTask()`、 `ReceiverTask()`、 `TierTask()`、`DefenderTask()`、 `MiddleTask()`、 `GoalieTask()`；
          3) 自定义 task 函数只能给指定的角色使用，如 KickerTask 对应 Kicker(前锋)，ReceiverTask 对应 Receiver（中场）、 Tier 对应 Tier（后卫）、 GoalieTask对应 Goalie（守门员）等
+
 11) 官方taask函数调用官方提供的技能函数 Task：官方 task 函数主要有 `GetBall()`、 `PassBall()`、 `ReceiveBall()`、 `Shoot()`、`Goalie()`等 13 个；
+
 12)  拓展方法： 
     player_plan 函数中对PlayerTask 对象实现自定义技能，扩展步骤如下：
     1. 参照 1.2.3 中的步骤搭建 C++开发环境，根据 4.4 中的框架使用 C++编写自定义技能
     2. 将编写好的技能编译生成 dll 文件，并将 dll 文件 copy 到 user_skills 目录下
     3. 根据 5.2 中的示例编写 LUA 脚本，通过自定义 task 函数调用用户自定义的技能
+
 13)  战术框架主结构: 
 ```lua
 gPlayTable.CreatePlay{ --红色部分为战术框架主结构
@@ -64,6 +76,7 @@ firstState = "",
 name = "" --此处为脚本名
 }
 ```
+
 14)  task实战场景框架（调用自定义.dll）
   
 ```lua
@@ -92,13 +105,21 @@ end,
 
 name = "Ref_KickDef"
 ```
+
 19) 我们的状态机模型是怎么被决策子系统理解并执行的呢？这就要依赖子系统lua架构中的 `SelectPlay.lua` 和`Play.lua` 这两个脚本程序。其中的 `SelectPlay.lua` 实现了“正常比赛”战术脚本和其他“场景”战术脚本之间的选择，`Play.lua` 实现状态机模型的解析，使决策子系统能理解我们写的战术脚本并正常调用战术脚本。所以，不建议用户修改`SelectPlay.lua` 和 `Play.lua`，会造成不可知的异常问题。
+
 20) 每个接口函数只能给指定的角色使用。函数中的参数就是读者的自定义skill 名称。例如：Tier=task.TierTask（“myDef”），就是将myDef 这个skill 给后卫使用。
+
 21) 注意分清楚 官方task的调用框架和自定义task(.dll)的调用框架。
+
 22) task函数的Lua程序的命名需要按照一定的格式
+
 23) both control，平时训练的时候开起来可以在一台PC控制双方队伍，在比赛的时候记得关掉，因为比赛的时候需要让裁判机对双方进行控制。
+
 24) lua层中车号从 **1** 开始，C++层的车号从 **0** 开始
+
 25) log调试输出 -> bot.txt：可以通过在C++层中加入 `cout` 语句输出调试信息，判断程序有没有进入到这一句中，并在~/SOM/bot.txt中查看log信息。
+
 26) `CGetOppNums` 返回的 **table** 类型，其存储格式是{[0]=”n1”, [1]=”n2”,[2]=”n3”}，存储顺序是随机的；其中”n1”,”n2”,”n3”表示返回的车号，车号是 string 类型。在实际应用中，我们需要用 for...in pairs(table)do...的方式遍历 table 并找到场上敌方车号。
 例如下面这段：
 ```lua
@@ -114,16 +135,22 @@ name = "Ref_KickDef"
 ```
 其中 `val` 是**string**类型的，需要调用lua的官方函数`tonumber()`来将string类型转换成number类型。
 
+
 27) 调试相关：通过 `#define DEBUG 1` `#ifdef DEBUG` `#endif` 来控制log日志输出
+
 28) 在C++源代码中,`.angle()`返回的是**弧度**，在C++层中所有与角度有关的数值都是**弧度制**，而在Lua层中所有与角度有关的数值都是**角度制**。
+
 39) `anglemode()`方法是求角度的模的运算，因为机器人球员的角度方向被限定于[-π,π]中，而如果在计算中或者传入的参数中有超过这个范围的值，将通过取模运算，重新回到这个范围内。
+
 30) 在C++层有一些特定的常量/宏定义，如`GetBall.cpp`  `away_ball_dist_x`代表了一段拿球前的距离，当这个值越大，球员越不容易在拿球的过程中撞到球导致拿球不稳。
+
 31) 一个存在于 `GoReceivePos.cpp` 的细节：
 ```C++
 int convert = (ball.y > 0 || fabs(ball.y) < 3) ? -1 : 1;
 ```
 
 这段代码中要考虑到`||`符号的特性：当`||`符号前的表达式为1，“或”符号后面的表达式将不执行。而后面的 `fabs(ball.y) < 3` 为的是提高程序的严谨性，防止双目摄像头的重叠区域产生的重影对视觉系统的误判，起到双保险的左右。 
+
 32) `GoReceivePos.cpp` 中的一段随机数生成：
 
 ```C++
@@ -265,16 +292,37 @@ end
 <details>
 <summary>4.30</summary>
 
-规范了头文件和源文件的内容，将 `#include` 、 `枚举定义` 、 `命名空间定义` 都放在了头文件里。
+1、规范了头文件和源文件的内容，将 `#include` 、 `枚举定义` 、 `命名空间定义` 都放在了头文件里。
 </details>
 
 <details>
 <summary>5.1</summary>
 
 1、更新了Markdown语法的折叠功能，使得README界面更美观。
-2、编写开球站位dll：KickOff_init.cpp 和 KickOff_init.h
-3、更新了“cxk”工作日志板块。
+2、编写开球站位dll：`KickOff_init.cpp` 和 `KickOff_init.h`
+3、检查返厂机器人的问题，并测试了某几个机器人的通讯问题。
+4、更新了“cxk”工作日志板块。
+</details>
 
+<details>
+<summary>5.2</summary>
+
+1、阅读《Lua中文教程》.pdf 一部分
+2、3号补2号的工作日志我也忘了我2号到底干了些什么？？？
+3、对机器人进行场地测试，包括旋转控球能力和最大力度的挑射能力。
+4、再次测试某几个机器人的通讯问题，没有进展，通讯出问题的还是有问题。
+5、学习git branch分支相关操作，尝试特征分支的工作流程（好麻烦T.T）。
+5、摸鱼
+</details>
+
+<details>
+<summary>5.3</summary>
+
+1、后场任意球进攻.lua背靠背接应战术
+2、在知网上查阅RoboCup相关论文，没有什么收获，都是些讲解硬件、图像的论文
+3、在网上Google了浙大的RoboCup小型组ZJUNlict，没有收获，硬件、机械、软件系统倒是都开源了（怪不得这么多公司能开发出售小型足球机器人），但是没有任何策略战术相关资料，Google也是一点也没有战术的资料T.T。
+4、继续在YouTube上看RoboCup比赛视频，记录一些任意球战术。
+5、熟悉了一遍SOM文件夹下的Lua的程序，理解了play战术文件夹下的战术脚本是如何被调用的。
 </details>
 
 
