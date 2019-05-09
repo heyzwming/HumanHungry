@@ -2,9 +2,8 @@ gPlayTable.CreatePlay{
 
 firstState = "initState",
 
-["initState"] = {		-- []里是状态机的名字
-	switch = function ()	
-		-- 当...返回下一个状态机的状态名
+["initState"] = {
+	switch = function ()
 		if CBall2RoleDist("Kicker") > CBall2RoleDist("Receiver") then
 			return "doGetBall"
 		elseif CIsGetBall("Kicker") then

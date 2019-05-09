@@ -1,14 +1,9 @@
---desc: 
 kickerdir = function()
 	return CRole2BallDir("Kicker")
 end
 
 ReceiverDir = function()
 	return CRole2BallDir("Receiver")
-end
-
-TierDir = function()
-	return CRole2BallDir("Tier")
 end
 
 oppGoalDir = function()
@@ -19,7 +14,7 @@ gPlayTable.CreatePlay{
 
 firstState = "start",
 	
-["start"] = {	-- SOM 中点击执行  过一小会 进入start状态
+["start"] = {
 	switch = function ()
 		if CNormalStart() then
 			return "KickOff"
@@ -27,9 +22,8 @@ firstState = "start",
 			return "finish"
 		end
 	end,
-	Kicker = task.GotoPos("Kicker",-55,0,kickerdir),
-	Receiver = task.GotoPos("Receiver",-20,50,ReceiverDir),
-	Tier = task.GotoPos("Tier",-20,-50,TierDir),
+	Kicker = task.GotoPos("Kicker",-50,0,kickerdir),
+	Receiver = task.GotoPos("Receiver",0,50,ReceiverDir),
 	Goalie = task.Goalie()
 },
 
@@ -42,8 +36,7 @@ firstState = "start",
 		end
 	end,
 	Kicker = task.GetBall("Kicker","Receiver"),
-	Receiver = task.GotoPos("Receiver",-10,80,ReceiverDir),
-	Tier = task.GotoPos("Tier",-10,-80,TierDir),
+	Receiver = task.GotoPos("Receiver",0,50,ReceiverDir),
 	Goalie = task.Goalie()
 },
 
@@ -54,8 +47,7 @@ firstState = "start",
 		end
 	end,
 	Kicker = task.PassBall("Kicker","Receiver"),
-	Receiver = task.GotoPos("Receiver",-10,120,ReceiverDir),
-	Tier = task.GotoPos("Tier",-10,-120,TierDir),
+	Receiver = task.GotoPos("Receiver",0,50,ReceiverDir),
 	Goalie = task.Goalie()
 },
 
@@ -67,7 +59,6 @@ firstState = "start",
 	end,
 	Kicker = task.Stop("Kicker",1),
 	Receiver = task.Shoot("Receiver"),
-	Tier = task.Stop("Tier",1),
 	Goalie = task.Goalie()
 },
 

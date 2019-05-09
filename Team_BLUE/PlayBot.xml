@@ -9,7 +9,7 @@
         <frameRate>60.0</frameRate>
         <ourTeam>b</ourTeam>
         <ourSide>l</ourSide>
-        <isSimulation>1</isSimulation>
+        <isSimulation>0</isSimulation>
         <refbox_switch>0</refbox_switch>
         <vehicleForward>6</vehicleForward>
         <ballRadius>2.5</ballRadius>
@@ -39,7 +39,7 @@
     </PathPlanner>
     <CCommControl>
         <COM_NUM>3</COM_NUM>
-        <COM_Freq>5</COM_Freq>
+        <COM_Freq>1</COM_Freq>
         <COM_RATE>115200</COM_RATE>
         <PARITY>0</PARITY>
         <PVERSION>2016</PVERSION>

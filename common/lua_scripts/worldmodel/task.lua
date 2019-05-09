@@ -1,17 +1,3 @@
---[[
-本文件夹下的task.lua中包含的是官方的task函数包的调用接口。即二次开发手册6.1的部分
-
-⚫ 6.1.1-6.1.6 函数为官方提供的自定义 task 函数，传入用户编写的 dll 技
-能，实现扩展
-⚫ 每个自定义 task 函数指定给对应的角色使用，如 KickerTask 对应 Kicker（前锋）、 ReceiverTask 对应 Receiver（中场）等。
-⚫ 使用方法示例：
-Kicker = KickerTask(“dll 名称” , pos_,dir_,kickflat_,kp_,cp_)
-
---]]
-
--- KickerTask  return  KickerSkill
-
-
 module(..., package.seeall)
 
 function KickerTask(name_,posX,posY,dir_,kickflat_,kp_)

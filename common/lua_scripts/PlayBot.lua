@@ -8,8 +8,6 @@ require("Skill")
 require("Play")
 require("task")
 
--- local 显示声明为局部变量
-
 for _, value in ipairs(gSkill) do
 	local filename = "./lua_scripts/skill/"..value..".lua"
 	dofile(filename)

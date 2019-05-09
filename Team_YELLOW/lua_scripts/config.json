@@ -38,5 +38,5 @@
         "DefenderSkill"
     ],
     "gTestPlay": "Ref_KickOff_test",
-    "gTestPlayTable": "Ref/Others/Ref_KickOff_test"
+    "gTestPlayTable": "Ref/KickOff/Ref_KickOff_test"
 }
