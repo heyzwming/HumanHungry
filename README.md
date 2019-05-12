@@ -318,6 +318,7 @@ end
 ```
 53) 挑球的最小机器人摆放距离是30cm，最大摆放距离是120cm
 
+54) C++层可以使用#pragma region title 和 #pragma endregion 划分区块
 
 55) 取放电池的时候小心一点！当心被划伤哦~~
 
@@ -340,11 +341,26 @@ end
 9) 守门员Goalie.cpp 应用上最小二乘法。
 10) 
 
+# 我的任务
+
+- [ ] 踢球开关和挑球开关同时开启会怎么样？
+- [ ] 旋转踢球会怎么样？
+- [ ] GetBall拿球参数调试,写一个朝向球拿球，接口为 `extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);`的C++ dll库。调试方法：完成一个有上述接口可以直接调用dll的库，
+- [ ] 传球
+- [ ] 最小二乘法防守算法。
+- [ ] 在球运动轨迹上计算截球点并截球的dll
+- [ ] 一些前往固定位置的GotoPos.dll
+- [ ] NormalDef 在常规防守的状态下，使防守球员能在禁区边线面向 球 贴线防守
+- [ ] PassBall传球程序有严重的参数调试问题。调整其中的参数使得传球过程更加稳定。
+- [ ] 
+- [ ] 
 
 
 
 
-# 更新日志
+
+
+# sirius的更新日志
 
 <details>
 <summary>4.25</summary>
@@ -447,8 +463,97 @@ end
 * 听队长安排
 
 
->>>>>>> dev
 </details>
+
+
+# C++层的小Tips
+
+ChipKick 挑射
+FlatKick 平射
+
+设置task中的踢球参数：
+		// kickPower	踢球力量
+		// needKick		平踢球开关
+		// isChipKick	挑球开关
+        // task.needCb  设置task中的吸球开关为true，小车吸球
+
+	bool needKick;						// 踢球动作执行开关
+	bool isPass;						// 是否进行传球
+	bool needCb;						// 是否吸球
+	bool isChipKick;					// 挑球还是平射
+	double kickPrecision;				// 踢球朝向精度
+	double kickPower;					// 踢球力度
+	double chipKickPower;				// 挑球力度	
+
+const float&   player_ball_dir	= (fabs(anglemod(player_dir - (ball_pos - player_pos).angle())));	  // 球员的朝向 与 球员到球的方向 的角度差
+
+
+迭代获得多个帧下的 球的坐标位置
+	// vector<point2f> 以二维（浮点）坐标点为类型的 vector向量   
+	// 一个存储球二维浮点型坐标点的数组
+	vector<point2f> ball_points;
+	ball_points.resize(8);	// 数组的大小改为8个元素
+
+	// 迭代8次，将8次获取到的球的坐标存入 ball_points 向量
+	for (int i = 0; i < 8; i++){
+		const point2f& temp_points = model->get_ball_pos(i);
+		ball_points.push_back(temp_points);
+	}
+	// TODO: 未知返回值
+	return Maths::least_squares(ball_points);
+
+# Lua层的小Tips：
+
+获取拿球球员的编号：num是全局变量的情况
+```lua
+function OppGetBallNum()
+    local oppTable = CGetOppNums()  -- 敌方所有上场球员编号
+    -- pairs 迭代 table元素的迭代器 
+	for i,val in pairs(oppTable) do -- 遍历 表 oppTable里的所有 key 和 value    
+		num = tonumber(val) -- 把 value 字符串转为数字
+        if COppIsGetBall(num-1) then
+			return true
+		end		
+	end
+end
+```
+
+num 是本地变量的情况
+```lua
+function getOppNum()
+    local oppTable = CGetOppNums()
+    -- pairs 迭代 table元素的迭代器 
+	for i,val in pairs(oppTable) do -- 遍历 表 oppTable里的所有 key 和 value    
+		local num = tonumber(val) -- 把 value 字符串转为数字
+        if COppIsGetBall(num-1) then
+			break
+		end		
+	end
+	return num		-- 返回 拿球球员编号 num
+end
+```
+
+获取地方没有拿球球员的编号
+```lua
+-- 获取对方没有拿球的球员编号
+-- 暂时先把守门员也考虑进去了
+-- 使用方法： local NoBallNum = OppNotGetBallNum()	声明一个本地变量 接收函数返回值（table类型）
+function OppNotGetBallNum()
+    local oppTable = CGetOppNums()  -- 敌方所有上场球员编号
+    -- pairs 迭代 table元素的迭代器 
+	for i,val in pairs(oppTable) do -- 遍历 表 oppTable里的所有 key 和 value    
+        local number = tonumber(val) -- 把 value 字符串转为数字
+        local NoBallTable = {-1,-1,-1}
+        if ~COppIsGetBall(number-1) then    -- number编号的球员没有拿到球
+			NoBallTable[i] = number
+        end	    	
+    end
+    return NoBallTable	-- 返回table类型
+end
+```
+Lua的table类型下标默认从1开始的哦~
+
+
 
 
 # 目录说明

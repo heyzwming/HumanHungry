@@ -42,6 +42,7 @@ const int SEGMENT_NUM = 4;
 // diagonal is of 2800 x 2300 is 3623.53
 const double FIELD_LENGTH = 605;
 const double FIELD_WIDTH = 405;
+// 605/2
 const double FIELD_LENGTH_H = (FIELD_LENGTH/2);
 const double FIELD_WIDTH_H = (FIELD_WIDTH/2);
 
@@ -64,6 +65,8 @@ const double CENTER_CIRCLE_RADIUS = 50;
 const double PENALTY_BISECTOR = (GOAL_WIDTH/SEGMENT_NUM);
 const double ROBOT_HEAD = 7.5;
 
+// user define
+const double BACK_COURT = -180;
 
 namespace RuleParam{
 	const double Stop_Dist = 50;

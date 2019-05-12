@@ -73,7 +73,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MYSKILL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)/src/worldmodel_lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/src/unsupported;$(ProjectDir)/src/Eigen;$(ProjectDir)/src/worldmodel_lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -85,8 +85,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\GetBall.h" />
-    <ClInclude Include="src\KickFlatShoot.h" />
     <ClInclude Include="src\utils\ball.h" />
     <ClInclude Include="src\utils\basevision.h" />
     <ClInclude Include="src\utils\constants.h" />
@@ -104,12 +102,47 @@
     <ClInclude Include="src\utils\worldmodel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GetBall.cpp" />
-    <ClCompile Include="src\KickFlatShoot.cpp" />
+    <ClCompile Include="src\Goalie.cpp" />
     <ClCompile Include="src\utils\maths.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="src\worldmodel_lib\worldmodel_lib.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="src\Eigen\CMakeLists.txt" />
+    <Text Include="src\unsupported\CMakeLists.txt" />
+    <Text Include="src\unsupported\README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\Eigen\Cholesky" />
+    <None Include="src\Eigen\CholmodSupport" />
+    <None Include="src\Eigen\Core" />
+    <None Include="src\Eigen\Dense" />
+    <None Include="src\Eigen\Eigen" />
+    <None Include="src\Eigen\Eigenvalues" />
+    <None Include="src\Eigen\Geometry" />
+    <None Include="src\Eigen\Householder" />
+    <None Include="src\Eigen\IterativeLinearSolvers" />
+    <None Include="src\Eigen\Jacobi" />
+    <None Include="src\Eigen\LU" />
+    <None Include="src\Eigen\MetisSupport" />
+    <None Include="src\Eigen\OrderingMethods" />
+    <None Include="src\Eigen\PardisoSupport" />
+    <None Include="src\Eigen\PaStiXSupport" />
+    <None Include="src\Eigen\QR" />
+    <None Include="src\Eigen\QtAlignedMalloc" />
+    <None Include="src\Eigen\Sparse" />
+    <None Include="src\Eigen\SparseCholesky" />
+    <None Include="src\Eigen\SparseCore" />
+    <None Include="src\Eigen\SparseLU" />
+    <None Include="src\Eigen\SparseQR" />
+    <None Include="src\Eigen\SPQRSupport" />
+    <None Include="src\Eigen\StdDeque" />
+    <None Include="src\Eigen\StdList" />
+    <None Include="src\Eigen\StdVector" />
+    <None Include="src\Eigen\SuperLUSupport" />
+    <None Include="src\Eigen\SVD" />
+    <None Include="src\Eigen\UmfPackSupport" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

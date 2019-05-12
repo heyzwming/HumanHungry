@@ -13,6 +13,7 @@ namespace FieldPoint{
 	point2f Penalty_Area_L_A(PENALTY_AREA_R - FIELD_LENGTH_H, PENALTY_AREA_L / 2);
 	point2f Penalty_Area_L_B(PENALTY_AREA_R - FIELD_LENGTH_H, -PENALTY_AREA_L / 2);
 	point2f Penalty_Arc_Center_Right(-FIELD_LENGTH_H, PENALTY_AREA_L/2);
+	// (-605/2,-35/2)
 	point2f Penalty_Arc_Center_Left(-FIELD_LENGTH_H,-PENALTY_AREA_L/2);
 	point2f Penalty_Rectangle_Left(-FIELD_LENGTH_H + PENALTY_AREA_R, -PENALTY_AREA_L / 2);
 	point2f Penalty_Rectangle_Right(-FIELD_LENGTH_H + PENALTY_AREA_R, PENALTY_AREA_L / 2);
