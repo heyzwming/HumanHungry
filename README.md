@@ -502,6 +502,9 @@ const float&   player_ball_dir	= (fabs(anglemod(player_dir - (ball_pos - player_
 	// TODO: 未知返回值
 	return Maths::least_squares(ball_points);
 
+
+    const bool* exist_id = model->get_opp_exist_id();	// 布尔数组  获得在场球员的编号 
+
 # Lua层的小Tips：
 
 获取拿球球员的编号：num是全局变量的情况

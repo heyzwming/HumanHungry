@@ -37,6 +37,6 @@
         "GoalieSkill",
         "DefenderSkill"
     ],
-    "gTestPlay": "Ref_KickOff_test",
-    "gTestPlayTable": "Ref/KickOff/Ref_KickOff_test"
+    "gTestPlay": "Normal_defence3",
+    "gTestPlayTable": "Ref/Others/Normal_defence3"
 }
