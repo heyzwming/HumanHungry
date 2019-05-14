@@ -176,6 +176,7 @@ int opp_get_player(const WorldModel* model){
 }
 #pragma endregion
 
+#pragma region 计算防守位置
 //计算防守位置
 point2f def_pos(const WorldModel* model, Eigen::MatrixXd  F){
 
@@ -186,12 +187,14 @@ point2f def_pos(const WorldModel* model, Eigen::MatrixXd  F){
 
 	/* 获得 当前帧ball 和上一帧last_ball 小球坐标 */
 	float def_pos_x = DEFENCE_POS_X;
-	float def_pos_y = (DEFENCE_POS_X - F[1]) / F[0];
+	float def_pos_y = (DEFENCE_POS_X - F(1,0)) / F(0,0);
 	
 	return point2f(def_pos_x, def_pos_y);
 }
+#pragma endregion
 
 #pragma region penatly
+/*
 PlayerTask penaltydef_plan(const WorldModel* model, int robot_id){
 	PlayerTask task;
 
@@ -214,14 +217,14 @@ PlayerTask penaltydef_plan(const WorldModel* model, int robot_id){
 	task.orientate = (ball - task.target_pos).angle();
 	return task;
 }
-
+*/
 #pragma endregion 
 
 
 PlayerTask player_plan(const WorldModel* model, int robot_id)
 {
 	PlayerTask task;
-	cout << "**********************Hello************************" << endl;
+	cout << "*******************Hello**********************" << endl;
 	//执行守门员防守需要的参数
 	const point2f& goalie_pos = model->get_our_player_pos(robot_id);
 	// 获得小球当前图像帧坐标位置
@@ -235,6 +238,8 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 	const point2f& goal = FieldPoint::Goal_Center_Point;	// 己方球门中心点
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;	// 己方球门中心点
 
+	/***********************************************************/
+
 	bool ball_inside_penalty = is_inside_penalty(ball_pos);
 	bool ball_inside_backcourt = is_inside_backcourt(ball_pos);
 
@@ -243,23 +248,24 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 	//判断小球是否运动
 	bool ball_is_moving = (ball_moving_dist < 0.8) ? false : true;
 
-	if (is_inside_backcourt){	/* 判断球在禁区 */
+	/**********************************************************/
+
+	if (ball_inside_penalty){	/* 判断球在禁区 */
 
 		/* 如果球在禁区停止了，把球挑射除去 然后 return task */
 		if (!ball_is_moving){
-
-			task.orientate = (opp_goal - goalie_pos).angle();	// 朝向对方球门的方向
+			task.orientate = (ball_pos - goalie_pos).angle();	// 朝向对方球门的方向
 			task.target_pos = ball_pos + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE - 2, task.orientate);	//TODO:Problem
 			task.kickPower = 127;		// 踢球力度
 			task.chipKickPower = 127;	// 挑球力度
 			task.needKick = true;		// 踢球执行开关
 			task.isChipKick = true;		// 挑球开关
-
 			return task;
 		}
 
-		// TODO: 考虑 如果 球没有被球员踢出，而是被球员控住转换方向 ，如何消除这种情况这线性拟合的 噪声误差？
+		// TODO: 考虑 如果 球没有被球员踢出，而是被球员控住转换方向 ，如何消除这种情况这线性拟合的 噪声误差？ 用 ball_is_moving 来判断
 		// 如果球被踢出
+		/*球在禁区中 仍在移动*/
 
 		/* 获得 存储球的坐标的向量 */
 		vector<point2f> ball_points = get_ball_points(model, FRAME_NUMBER);
@@ -270,41 +276,50 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 		/* 如果球的方向偏出球门 */
 		int convert = def_goal.Y() > 0 ? 1 : -1;
 		// 若球不可能射入球门，则让守门员向球门边缘移动
-		if (def_goal.Y() > 35 || def_goal.Y() < -35)
-			def_goal.set_y(30 * convert);
+		if (def_goal.Y() > 35 / 2 || def_goal.Y() < -35 / 2)
+			def_goal.set_y(30 / 2 * convert);
 		/* 截球 */
 		// 如果吸到球  挑射鹅鹅鹅
 		// 判断小球在控球嘴上执行挑球（通过距离和方向判断）
 		// TODO: BALL_SIZE 是多少？球的实际直径为4.3cm   MAX_ROBOT_SIZE 为8.5cm   具体的值还需要考虑
-		if ((ball_pos - goalie_pos).length() < BALL_SIZE / 2 + MAX_ROBOT_SIZE + 2 && (anglemod(player_dir - (ball_pos - goalie_pos).angle()) < PI / 6))
+		if ((ball_pos - goalie_pos).length() < BALL_SIZE / 2 + MAX_ROBOT_SIZE + 2 && (anglemod(player_dir - (ball_pos - goalie_pos).angle()) < PI / 8))
 		{
 			task.kickPower = 127;		// 踢球力度
 			task.chipKickPower = 127;	// 挑球力度
 			task.needKick = true;		// 踢球执行开关
 			task.isChipKick = true;		// 挑球开关
 		}
-		else{ // 没有吸到球  去到截球点
+//		else{ // 没有吸到球  去到截球点
 			task.orientate = (ball_pos - goalie_pos).angle();
 			task.target_pos = def_goal;
-		}
-
-
+//		}
 	}
-	else if (is_inside_penalty){	/* 判断球在后场 */
+	else if (ball_inside_backcourt){	/* 判断球在后场 */
 		if (ball_is_moving){
 
 			/* 计算防守地点 */
 
 
-			/* 朝向球的方向，不做动作 */
+			/* 获得 存储球的坐标的向量 */
+			vector<point2f> ball_points = get_ball_points(model, FRAME_NUMBER);
+			/* 获得球的拟合直线 向量F[k,b] */
+			Eigen::MatrixXd F = LSM(model, ball_points);
+			/* 计算截球点,传入model和拟合直线 */
+			point2f& def_goal = def_pos(model, F);
+			/* 如果球的方向偏出球门 */
+			int convert = def_goal.Y() > 0 ? 1 : -1;
+			// 若球不可能射入球门，则让守门员向球门边缘移动
+			if (def_goal.Y() > 35 || def_goal.Y() < -35)
+				def_goal.set_y(30 * convert);
 
+			/*朝向球的方向但是不做任何动作*/
 
-
+			task.orientate = (ball_pos - goalie_pos).angle();
 
 		}
 	}
 	else{	/* 球在前中场 */
-		task.orientate = (ball_pos - goal).angle();
+		task.orientate = (ball_pos - goalie_pos).angle();
 		task.target_pos = goal + Maths::polar2vector(20, task.orientate);
 	}
 

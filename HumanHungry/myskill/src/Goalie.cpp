@@ -83,6 +83,9 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 	// TODO：这一行的变量 goal 导致了守门员只会防守球门的中心点，这个goal需要通过持球球员的角度 延伸出的方向向量 来计算
 	const point2f& goal = FieldPoint::Goal_Center_Point;	// 己方球门中心点
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
+
+	/********************************************************/
+
 	bool ball_inside_penalty = is_inside_penalty(ball_pos);
 
 	// 判断小球在禁区内执行守门员防守
