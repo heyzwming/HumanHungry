@@ -9,7 +9,7 @@
         <frameRate>60.0</frameRate>
         <ourTeam>b</ourTeam>
         <ourSide>l</ourSide>
-        <isSimulation>1</isSimulation>
+        <isSimulation>0</isSimulation>
         <refbox_switch>0</refbox_switch>
         <vehicleForward>6</vehicleForward>
         <ballRadius>2.5</ballRadius>
