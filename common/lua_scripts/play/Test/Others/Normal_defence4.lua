@@ -1,7 +1,7 @@
 --desc: hello
 
 --Tier、Kicker、Receiver防守转换
------------------------球员到球的方向--------------------------------------------
+
 Kicker2BallDir = function()
     return CRole2BallDir("Kicker")
 end
@@ -11,19 +11,16 @@ end
 Tier2BallDir = function()
     return CRole2BallDir("Tier")
 end
-Goalie2BallDir = function()
-	return CRole2BallDir("Goalie")
-end
+-----使角色朝向球
 
-
-
-----------------------------------------------获得对方拿球球员编号，num--------------------------
 function getOppNum()
     local oppTable = CGetOppNums()
 
     -- pairs 迭代 table元素的迭代器
+
     for i, val in pairs(oppTable) do -- 遍历 表 oppTable里的所有 key 和 value
         num = tonumber(val) -- 把 value 字符串转为数字
+
         if COppIsGetBall(num - 1) then
             return true
         end
@@ -31,7 +28,8 @@ function getOppNum()
 end
 -----获得敌方拿球队员序号num
 
----------------------------------我方球员是否两个及以上在中场+前场---------------------------------------
+----------------------------------------------------------------------------------------
+--我方球员是否两个及以上在中场前
 function IsOurRole_F()
     local OurKicker_x = COurRole_x("Kicker")
     local OurReceiver_x = COurRole_x("Receiver")
@@ -44,7 +42,7 @@ function IsOurRole_F()
         return true
     end
 end
----------------------------------我方球员是否两个及以上在后场------------------------------------
+--我方球员是否两个及以上在中场后
 function IsOurRole_B()
     local OurKicker_x = COurRole_x("Kicker")
     local OurReceiver_x = COurRole_x("Receiver")
@@ -58,9 +56,11 @@ function IsOurRole_B()
     end
 end
 
------------------------------------------拿球球员是否在前半场--------------------------------------
+-----------------------------------------------------
+---拿球球员是否在前半场
 function IsOppNum_x_F()
     local OppGetBall_x = COppNum_x(num - 1)
+
     if OppGetBall_x > 0 then
         return true
     end
@@ -73,9 +73,10 @@ end
 -- 		return true
 -- 	end
 -- end
---------------------------------------------拿球球员是否在中后场-----------------------------------------
+---拿球球员是否在中后场
 function IsOppNum_x_M()
     local OppGetBall_x = COppNum_x(num - 1)
+
     if OppGetBall_x < 0 and OppGetBall_x > -180 then
         return true
     end
@@ -106,7 +107,7 @@ end
 -- 		return true
 -- 	end
 -- end
-------------------------------------------------用在前场/中场情况下
+------------------------------------------------用在前场\中场情况下
 ---拿球队员是否在左场
 function IsOppNum_y_L()
     local OppGetBall_y = COppNum_y(num - 1)
@@ -140,7 +141,7 @@ gPlayTable.CreatePlay {
     firstState = "Start",
     ["Start"] = {
         switch = function()
-            getOppNum()  -- 获得拿球球员编号
+            getOppNum()
             if COppIsGetBall(num - 1) then
                 return "Defence"
             elseif CIsGetBall("Kicker") or CIsGetBall("Receiver") or CIsGetBall("Tier") then
@@ -148,19 +149,25 @@ gPlayTable.CreatePlay {
             end
         end
     },
+    ["Attack"] = {
+        switch = function()
+            if true then
+                return "Defence"
+            end
+        end
+    },
+    
     ["Defence"] = {
-		switch = function()
-			-------------------------敌方拿球球员在前场，我方两个球员在后场-------------------------------
+        switch = function()
             if IsOppNum_x_F() and IsOurRole_B() and IsOppNum_y_L() then
-                return "Frontcourt_L"		-- 拿球球员在左、前场，我方两个球员在后场，
+                return "Frontcourt_L"
             elseif IsOppNum_x_F() and IsOurRole_B() and IsOppNum_y_ML() then
-                return "Frontcourt_ML"		-- 拿球球员在中左、前场，我方两个球员在后场
+                return "Frontcourt_ML"
             elseif IsOppNum_x_F() and IsOurRole_B() and IsOppNum_y_MR() then
-                return "Frontcourt_MR"		-- 拿球球员在中右、前场，我方两个球员在后场
+                return "Frontcourt_MR"
             elseif IsOppNum_x_F() and IsOurRole_B() and IsOppNum_y_R() then
-				return "Frontcourt_R"		-- 拿球球员在右、前场，我方两个球员在后场
-				
-			--------------------------敌方拿球球员在前场，我方两个球员在中、前场
+                --
+                return "Frontcourt_R"
             elseif IsOppNum_x_F() and IsOurRole_F() and IsOppNum_y_L() then
                 return "Rush_L"
             elseif IsOppNum_x_F() and IsOurRole_F() and IsOppNum_y_ML() then
@@ -168,9 +175,8 @@ gPlayTable.CreatePlay {
             elseif IsOppNum_x_F() and IsOurRole_F() and IsOppNum_y_MR() then
                 return "Rush_MR"
             elseif IsOppNum_x_F() and IsOurRole_F() and IsOppNum_y_R() then
-				return "Rush_R"
-				
-			---------------------------敌方拿球球员在中后场-------------------
+                --
+                return "Rush_R"
             elseif IsOppNum_x_M() and IsOppNum_y_L() then
                 return "Midfield_L"
             elseif IsOppNum_x_M() and IsOppNum_y_ML() then
@@ -178,9 +184,8 @@ gPlayTable.CreatePlay {
             elseif IsOppNum_x_M() and IsOppNum_y_MR() then
                 return "Midfield_MR"
             elseif IsOppNum_x_M() and IsOppNum_y_R() then
-				return "Midfield_R"
-				
-			--------------------------敌方拿球球员在后场-----------------------
+                --
+                return "Midfield_R"
             elseif IsOppNum_x_B() and IsOppNum_y_L() then
                 return "Backcourt_L"
             elseif IsOppNum_x_B() and IsOppNum_y_ML() then
@@ -204,8 +209,8 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
-        Receiver = task.RefDef("Receiver"),
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
         Tier = task.GotoPos("Tier", -226, -56, Tier2BallDir),
         Goalie = task.Goalie()
     },
@@ -220,8 +225,8 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
-        Receiver = task.RefDef("Receiver"),
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
         Tier = task.GotoPos("Tier", -220, -24, Tier2BallDir),
          ---------------------------------------------------------
         Goalie = task.Goalie()
@@ -237,8 +242,8 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
-        Receiver = task.RefDef("Receiver"),
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
         Tier = task.GotoPos("Tier", -220, 24, Tier2BallDir),
         Goalie = task.Goalie()
     },
@@ -253,8 +258,8 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
-        Receiver = task.RefDef("Receiver"),
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
         Tier = task.GotoPos("Tier", -220, 56, Tier2BallDir),
         Goalie = task.Goalie()
     },
@@ -270,11 +275,10 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
+        Kicker = task.NormalDef("Kicker"),
          ------======
         Receiver = task.GotoPos("Receiver", -220, -63, Receiver2BallDir),
-		--Tier = task.GotoPos("Tier", -230, -88, Tier2BallDir),
-		Tier = task.GotoPos("Tier", -230, -118, Tier2BallDir),
+        Tier = task.GotoPos("Tier", -230, -88, Tier2BallDir),
         Goalie = task.Goalie()
     },
     --
@@ -289,10 +293,9 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
+        Kicker = task.NormalDef("Kicker"),
         Receiver = task.GotoPos("Receiver", -220, -10, Receiver2BallDir),
-		--Tier = task.GotoPos("Tier", -220, -44, Tier2BallDir),
-		Tier = task.GotoPos("Tier", -220, -84, Tier2BallDir),
+        Tier = task.GotoPos("Tier", -220, -44, Tier2BallDir),
         Goalie = task.Goalie()
     },
     ---Tier、Kicker、Receiver都在后场右边防守。
@@ -307,10 +310,9 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
+        Kicker = task.NormalDef("Kicker"),
         Receiver = task.GotoPos("Receiver", -220, 10, Receiver2BallDir),
-		--Tier = task.GotoPos("Tier", -220, 44, Tier2BallDir),
-		Tier = task.GotoPos("Tier", -220, 84, Tier2BallDir),
+        Tier = task.GotoPos("Tier", -220, 44, Tier2BallDir),
         Goalie = task.Goalie()
     },
     --
@@ -325,12 +327,12 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
+        Kicker = task.NormalDef("Kicker"),
         Receiver = task.GotoPos("Receiver", -220, 63, Receiver2BallDir),
-		--Tier = task.GotoPos("Tier", -230, 88, Tier2BallDir),
-		Tier = task.GotoPos("Tier", -230, 148, Tier2BallDir),
+        Tier = task.GotoPos("Tier", -230, 88, Tier2BallDir),
         Goalie = task.Goalie()
     },
+    -----------
     --Receiver、Tier在守门员边界前偏左，Kicker在前方防守。
     ["Midfield_L"] = {
         switch = function()
@@ -342,8 +344,9 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
-        Receiver = task.RefDef("Receiver"),
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
+         ----------====
         Tier = task.GotoPos("Tier", -220, -50, Tier2BallDir),
         Goalie = task.Goalie()
     },
@@ -357,8 +360,8 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
-        Receiver = task.RefDef("Receiver"),
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
         Tier = task.GotoPos("Tier", -220, -40, Tier2BallDir),
         Goalie = task.Goalie()
     },
@@ -373,8 +376,8 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
-        Receiver = task.RefDef("Receiver"),
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
         Tier = task.GotoPos("Tier", -220, 40, Tier2BallDir),
         Goalie = task.Goalie()
     },
@@ -388,8 +391,8 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
-        Receiver = task.RefDef("Receiver"),
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
         Tier = task.GotoPos("Tier", -220, 50, Tier2BallDir),
         Goalie = task.Goalie()
     },
@@ -405,15 +408,15 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker = task.RefDef("Kicker"),
-        Receiver = task.RefDef("Receiver"),
-        Tier = task.RefDef("Tier"),
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
+        Tier = task.NormalDef("Tier"),
         Goalie = task.Goalie()
     },
     --
     -- ["Backcourt_ML"] = {
-    -- 	Kicker = task.RefDef("Kicker"),
-    -- 	Receiver = task.RefDef("Receiver"),
+    -- 	Kicker = task.NormalDef("Kicker"),
+    -- 	Receiver = task.NormalDef("Receiver"),
     --     Tier = task.GotoPos("Tier",-220,-50,Tier2BallDir),
     --     Goalie = task.Goalie()
     -- {switch = function()
@@ -428,8 +431,8 @@ gPlayTable.CreatePlay {
     -- },
     ---Tier在守门员边界前偏右，Kicker、Receiver在前方防守。
     -- ["Backcourt_MR"] = {
-    -- 	Kicker = task.RefDef("Kicker"),
-    -- 	Receiver = task.RefDef("Receiver"),
+    -- 	Kicker = task.NormalDef("Kicker"),
+    -- 	Receiver = task.NormalDef("Receiver"),
     --     Tier = task.GotoPos("Tier",-220,50,Tier2BallDir),
     --     Goalie = task.Goalie()
     -- {switch = function()
@@ -442,8 +445,7 @@ gPlayTable.CreatePlay {
     --     end
     -- end, }
     -- },
-	--
-	-- 拿球球员在后场
+    --
     ["Backcourt_R"] = {
         switch = function()
             if IsOppNum_x_F() or IsOppNum_x_M() then
@@ -454,10 +456,10 @@ gPlayTable.CreatePlay {
                 return "Attack"
             end
         end,
-        Kicker 		= task.RefDef("Kicker"),
-        Receiver 	= task.RefDef("Receiver"),
-        Tier 		= task.RefDef("Tier"),
-        Goalie 		= task.Goalie()
+        Kicker = task.NormalDef("Kicker"),
+        Receiver = task.NormalDef("Receiver"),
+        Tier = task.NormalDef("Tier"),
+        Goalie = task.Goalie()
     },
 name = "Normal_defence4"
 }
