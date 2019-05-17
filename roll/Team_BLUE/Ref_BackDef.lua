@@ -3,6 +3,7 @@ gPlayTable.CreatePlay{
 firstState = "doDef",
 
 switch = function()
+	-- 如果己方离球小于 20 
 	if CBall2RoleDist("Kicker") < 20 or CBall2RoleDist("Receiver") < 20 or CBall2RoleDist("Tier") < 20 then
 		return "finish"
 	else	

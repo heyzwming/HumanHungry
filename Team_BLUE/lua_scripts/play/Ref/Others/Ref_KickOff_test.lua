@@ -33,9 +33,9 @@ firstState = "Start",
 	--Kicker = task.KickerTask("KickOff_init"),
 	--Tier = task.TierTask("KickOff_init"),
 	--Goalie = task.GoalieTask("KickOff_init")		-- 这里应该要调用自定义的防守dll 暂时先用官方goalie()
-	Tier = task.GotoPos("Tier",-55,0,Tier2BallDir),
+	Kicker = task.GotoPos("Kicker",-55,0,Kicker2BallDir),
 	Receiver = task.GotoPos("Receiver",-18,55,Receiver2BallDir),
---	Tier = task.GotoPos("Tier",-18,-55,Tier2BallDir),
+	Tier = task.GotoPos("Tier",-18,-55,Tier2BallDir),
 	Goalie = task.Goalie()
 },
 
@@ -43,27 +43,27 @@ firstState = "Start",
 	switch = function()
 		if CGameOn() then
 			return "finish"
-		elseif CIsGetBall("Tier") then	-- 如果kicker拿到球 则 转到 传球状态
+		elseif CIsGetBall("Kicker") then	-- 如果kicker拿到球 则 转到 传球状态
 			return "passball"
 		end
 	end,
 	--Kicker = task.GotoPos("Kicker",0,-25,Kicker2BallDir),
 	--Kicker = task.GetBall("Kicker","Receiver"),	-- Receiver 传球给 Kicker/ Kicker 朝向 Receiver拿球
-	Tier = task.GetBall("Tier","Tier"),	-- 朝向球门拿球
+	Kicker = task.GetBall("Kicker","Kicker"),	-- 朝向球门拿球
 	Receiver = task.GotoPos("Receiver",-18,100,Receiver2BallDir),
---	Tier = task.GotoPos("Tier",-18,-100,Tier2BallDir),
+	Tier = task.GotoPos("Tier",-18,-100,Tier2BallDir),
 	Goalie = task.Goalie()
 },
 
 ["passball"] = {
 	switch = function()
-		if CIsBallKick("Tier") then		-- Kicker 已经传球
+		if CIsBallKick("Kicker") then		-- Kicker 已经传球
 			return "Shoot"
 		end
 	end,
-	Tier = task.PassBall("Tier","Receiver"),	-- Kicker传球给Receiver
+	Kicker = task.PassBall("Kicker","Receiver"),	-- Kicker传球给Receiver
 	Receiver = task.GotoPos("Receiver",0,150,Receiver2BallDir),
---	Tier = task.GotoPos("Tier",160,-100,Tier2BallDir),
+	Tier = task.GotoPos("Tier",160,-100,Tier2BallDir),
 	Goalie = task.Goalie()
 },
 
@@ -73,9 +73,9 @@ firstState = "Start",
 			return "finish"
 		end
 	end,
-	Tier = task.Stop("Tier",1),	-- stop : 停止。role_name_：执行者 role_，1代表前锋，离球50cm
+	Kicker = task.Stop("Kicker",1),	-- stop : 停止。role_name_：执行者 role_，1代表前锋，离球50cm
 	Receiver = task.Shoot("Receiver"),	-- 射门
---	Tier = task.GotoPos("Tier",-220,0,Tier2BallDir),
+	Tier = task.GotoPos("Tier",-220,0,Tier2BallDir),
 	Goalie = task.Goalie()
 },
 

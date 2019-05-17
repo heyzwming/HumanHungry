@@ -6,6 +6,10 @@ ReceiverDir = function()
 	return CRole2BallDir("Receiver")
 end
 
+Tier = function()
+	return CRole2BallDir("Tier")
+end
+
 oppGoalDir = function()
 	return CRole2OppGoalDir("Receiver")
 end
@@ -23,9 +27,10 @@ firstState = "start",
 		end
 	end,
 	Kicker = task.GotoPos("Kicker",-50,0,kickerdir),
-	Receiver = task.GotoPos("Receiver",0,50,ReceiverDir),
+	Receiver = task.GotoPos("Receiver",-20,50,ReceiverDir),
+	Tier = task.GotoPos("Tier",-20,-50,TierDir),
 	Goalie = task.Goalie(),
-	Tier = task.TierTask("def")
+
 },
 
 ["KickOff"] = {
@@ -37,9 +42,9 @@ firstState = "start",
 		end
 	end,
 	Kicker = task.GetBall("Kicker","Receiver"),
-	Receiver = task.GotoPos("Receiver",0,150,ReceiverDir),
+	Receiver = task.GotoPos("Receiver",-10,150,ReceiverDir),
+	Tier = task.GotoPos("Tier",-10,-150,TierDir),
 	Goalie = task.Goalie(),
-	Tier = task.TierTask("def")
 },
 
 ["passball"] = {
@@ -72,7 +77,7 @@ firstState = "start",
 
 ["Shoot"] = {
 	switch = function()
-		if CIsBallKick("Receiver")then
+		if CIsBallKick("Receiver")  then
 			return "finish"
 		end
 	end,

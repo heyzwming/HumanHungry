@@ -45,11 +45,11 @@
 #include "utils/maths.h"
 #include "utils/worldmodel.h"
 #include "GetBall.h"
+
 using namespace std;
 
 #define FRAME_NUMBER 8		// 对多少帧的球的坐标进行 线性拟合
 #define DEFENCE_POS_X -300
-
 
 namespace{
 	float goalie_penalty_def_buf = 20;
@@ -58,6 +58,8 @@ namespace{
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 
 // TODO: 怎么过滤 线性拟合的 噪声？（射门前的坐标 所 产生的噪声）
+
+// TODO: 使用文件流输出的方式查看debug的log信息
 
 #pragma region 获取球前frame帧下的坐标,返回存储坐标的vector<point2f>
 /*返回一个存储 球 二维坐标(浮点类型)的vector向量*/
@@ -72,6 +74,7 @@ vector<point2f> get_ball_points(const WorldModel* model,int frame){
 		// get_ball_pos 获得小球当前图像帧坐标位置
 		// 重点：小球的坐标信息都以图像帧为最小单位从视觉机接收并存储，可以把球坐标看成是一个个数组，数组索引是图像帧号，数组元素是坐标信息
 		const point2f& temp_points = model->get_ball_pos(i);
+		cout << "++++++++++++++++++++++" << "point" << i << ":" << temp_points.x << "---------------" << temp_points.y << "+++++++++++++++++++++++" << endl;
 		ball_points.push_back(temp_points);
 	}
 	return ball_points;
@@ -91,11 +94,14 @@ Eigen::MatrixXd LSM(const WorldModel* model, vector<point2f> ball_points){
 		//xs.push_back(ball_points[i]);
 		xs.push_back((*it).X());	//	将 ball_points 中的所有点的x坐标传入xs向量
 		ys.push_back((*it).Y());	//  y
+		//cout << "---------------------------X向量" << (*it).X() << "y向量" << (*it).Y() << "---------------------------------" << endl;
 	}
 
 	// stage 1 : make matrix
 
 	int len = ys.size();	// y坐标的 向量的行数
+
+	cout << "----------------------------y坐标的行数:" << len << "-----------------------------" <<endl;
 
 	Eigen::MatrixXd Y(len, 2);		// 构造Y矩阵，[y1,1   y2,1   y3,1 ...]
 	Eigen::MatrixXd X(len, 1);		// 构造X矩阵，[x1    x2    x3 ...]
@@ -111,6 +117,8 @@ Eigen::MatrixXd LSM(const WorldModel* model, vector<point2f> ball_points){
 
 	// stage 2 : LSM
 	F = (Y.transpose() * Y).inverse() * Y.transpose() * X;
+
+	cout << "------------------------生成的拟合直线k" << F(0) << "-----------------------" << "b:" << F(1) << "--------------------------" << endl;
 	return F;
 }
 
@@ -169,9 +177,10 @@ int opp_get_player(const WorldModel* model){
 			if (goal_opp_dist < dist){
 				dist = goal_opp_dist;
 				opp_player_id = i;
-			};
+			}
 		}
 	}
+	cout << "--------------------------------对方持球球员编号:" << opp_player_id << "--------------------------------------" << endl;
 	return opp_player_id;
 }
 #pragma endregion
@@ -188,7 +197,10 @@ point2f def_pos(const WorldModel* model, Eigen::MatrixXd  F){
 	/* 获得 当前帧ball 和上一帧last_ball 小球坐标 */
 	float def_pos_x = DEFENCE_POS_X;
 	float def_pos_y = (DEFENCE_POS_X - F(1,0)) / F(0,0);
-	
+	cout << "------------------------------" << "防守点的x" << def_pos_x << "-----------------------------------" << endl;
+	cout << "------------------------------" << "防守点的y" << def_pos_y << "-----------------------------------" << endl;
+
+
 	return point2f(def_pos_x, def_pos_y);
 }
 #pragma endregion
@@ -224,7 +236,7 @@ PlayerTask penaltydef_plan(const WorldModel* model, int robot_id){
 PlayerTask player_plan(const WorldModel* model, int robot_id)
 {
 	PlayerTask task;
-	cout << "*******************Hello**********************" << endl;
+	//cout << "**************************************************Hello******************************************************" << endl;
 	//执行守门员防守需要的参数
 	const point2f& goalie_pos = model->get_our_player_pos(robot_id);
 	// 获得小球当前图像帧坐标位置
@@ -238,6 +250,12 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 	const point2f& goal = FieldPoint::Goal_Center_Point;	// 己方球门中心点
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;	// 己方球门中心点
 
+	cout << "----------------------------------------goalie_pos:" << goalie_pos << "--------------------------------" << endl;
+	cout << "----------------------------------------ball_pos:"   << ball_pos   << "--------------------------------" << endl;
+	cout << "----------------------------------------last_ball:"  << last_ball  << "--------------------------------" << endl;
+	cout << "----------------------------------------playerdir:"  << player_dir << "--------------------------------" << endl;
+	cout << "----------------------------------------goal:"		  << goal		<< "--------------------------------" << endl;
+	cout << "----------------------------------------opp_goal:"	  << opp_goal	<< "--------------------------------" << endl;
 	/***********************************************************/
 
 	bool ball_inside_penalty = is_inside_penalty(ball_pos);
@@ -247,6 +265,11 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 	float ball_moving_dist = (ball_pos - last_ball).length();
 	//判断小球是否运动
 	bool ball_is_moving = (ball_moving_dist < 0.8) ? false : true;
+
+	cout << "----------------------------------------penalty:" << ball_inside_penalty << "--------------------------------" << endl;
+	cout << "----------------------------------------backcourt:" << ball_inside_backcourt << "--------------------------------" << endl;
+	cout << "----------------------------------------ballmovingdist:" << ball_moving_dist << "--------------------------------" << endl;
+	cout << "----------------------------------------ball is moving:" << ball_is_moving << "--------------------------------" << endl;
 
 	/**********************************************************/
 
@@ -278,6 +301,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 		// 若球不可能射入球门，则让守门员向球门边缘移动
 		if (def_goal.Y() > 35 / 2 || def_goal.Y() < -35 / 2)
 			def_goal.set_y(30 / 2 * convert);
+
 		/* 截球 */
 		// 如果吸到球  挑射鹅鹅鹅
 		// 判断小球在控球嘴上执行挑球（通过距离和方向判断）
@@ -291,8 +315,12 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 		}
 //		else{ // 没有吸到球  去到截球点
 			task.orientate = (ball_pos - goalie_pos).angle();
-			task.target_pos = def_goal;
-//		}
+			task.target_pos = def_goal;	
+			cout << "**************************ball in penalty!!球在禁区！！************************************" << endl;	
+			cout << "--------------------------kkkkkkkkkkk:"	<< F(0)				<< "--------------------------------"	<< endl;
+			cout << "--------------------------bbbbbbbbbbb:"	<< F(1)				<< "--------------------------------"	<< endl;
+			cout << "--------------------------机器人朝向:"		<< task.orientate	<< "--------------------------------"	<< endl;
+			cout << "--------------------------计算的防守点位:"	<< def_goal			<< "--------------------------------"	<< endl;
 	}
 	else if (ball_inside_backcourt){	/* 判断球在后场 */
 		if (ball_is_moving){
@@ -316,11 +344,21 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 
 			task.orientate = (ball_pos - goalie_pos).angle();
 
+			cout << "*******************************************ball in back court!!球在后场！！***********************************"	<< endl;
+			cout << "--------------------------KKKKKKKKKKKK:"	<< F(0) << "---------------------------------"	<< endl;
+			cout << "--------------------------bbbbbbbbbbb:"	<< F(1) << "----------------------------" << endl;
+			cout << "---------------------------机器人朝向:"		<< task.orientate << "-----------------------------------" << endl;
+			cout << "---------------------------计算防守点的x:"	<< def_goal.x << "--------------------------------"	<< endl;
+			cout << "---------------------------计算防守点的y:"	<< def_goal.y << "----------------------------------" << endl;
+
 		}
 	}
 	else{	/* 球在前中场 */
 		task.orientate = (ball_pos - goalie_pos).angle();
 		task.target_pos = goal + Maths::polar2vector(20, task.orientate);
+		cout << "*********************************ball in front or middle court!! 球在前中场！！*******************************" << endl;
+		cout << "---------------------------------------机器人朝向:"			<< task.orientate << "--------------------------------------" << endl;
+		cout << "---------------------------------------机器人移动目标点:"	<< task.target_pos << "-------------------------------------" << endl;
 	}
 
 

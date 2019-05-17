@@ -8,6 +8,7 @@ firstState = "halt",
 ["halt"] = {
 	Kicker    = task.RobotHalt("Kicker"),
 	Receiver  = task.RobotHalt("Receiver"),
+	Tier  = task.RobotHalt("Tier"),
 	Goalie    = task.RobotHalt("Goalie")
 },
 

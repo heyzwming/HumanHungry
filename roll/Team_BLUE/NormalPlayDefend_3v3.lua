@@ -30,7 +30,8 @@ firstState = "xy",
 		end
 	end,
 	Kicker   = task.Stop("Kicker",1),
-	Receiver = task.Stop("Receiver",3) ,
+	Receiver = task.Stop("Receiver",3),
+	Tier 	 = task.Stop("Tier",5),
 	Goalie   = task.Stop("Goalie",6),
 },
 
@@ -193,7 +194,7 @@ firstState = "xy",
 -----------------------------------------------------------------------------X > 0 Y > 0
 ["getball"] = {
 	switch = function ()
-		if CBall2RoleDist("Kicker") > CBall2RoleDist("Receiver") then
+		if CBall2RoleDist("Kicker") > CBall2RoleDist("Receiver") then	-- 球到Kicker距离比Receiver更近
 			return "PGetBall"
 		else
 			return "KGetBall"
@@ -207,9 +208,10 @@ firstState = "xy",
 -----中锋离球近-----
 ["PGetBall"] = {
 	switch = function()
-		if CRole2TargetDist("Kicker")<10 and CGetBallX() < 120 and Cbuf_cnt(true,60) then
+		if CRole2TargetDist("Kicker") < 10 and CGetBallX() < 120 and Cbuf_cnt(true,60) then
+			--CRole2TargetDist Target由task决定  同时球的x在120以内 同时 等待60个时间单位
 			return "RPassBall"
-		elseif CRole2TargetDist("Kicker")<10 and CGetBallX() > 120 and Cbuf_cnt(true,60) then
+		elseif CRole2TargetDist("Kicker") < 10 and CGetBallX() > 120 and Cbuf_cnt(true,60) then
 			return "Rshoot"
 		end
 	end,

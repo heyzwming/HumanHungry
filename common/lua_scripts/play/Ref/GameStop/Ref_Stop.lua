@@ -13,6 +13,7 @@ firstState = "stop",
 	end,
 	Kicker   = task.Stop("Kicker",1),
 	Receiver = task.Stop("Receiver",3) ,
+	Tier 	 = Task.Stop("Tier",5),
 	Goalie   = task.Stop("Goalie",6)
 },
 
