@@ -12,8 +12,6 @@
 *															*
 ************************************************************/
 
-// 可以拓展出 Pass2Kicker   Pass2Rece  Pass2Tier
-// 下一步整合，可以把GetBall.cpp整合进来
 // 测试完平射传球可以开发出挑射传球
 
 #include "PassBall2Kicker.h"
@@ -21,6 +19,7 @@
 using namespace std;
 
 #define DEBUG 1
+#define SAME 0
 
 // 判断是否可以传球
 bool is_ready_pass(const point2f& ball, const point2f& passer, const point2f& receiver){
@@ -67,7 +66,7 @@ PlayerTask player_plan(const WorldModel* model, int runner_id){
 
 	// TODO: 控球的距离判断条件 参数get_ball_threshold 和 角度判断条件
 	//判断球是否被球员控住，从两个参数着手：1.判断ball到车的距离是否小于某个值，2.车头方向和车到球矢量角度之差值是否小于某个值
-	bool get_ball = (ball_pos - excute_pos).length() < get_ball_threshold && (fabs(anglemod(excute_dir - (ball_pos - excute_pos).angle())) < PI / 6);
+	bool get_ball = (ball_pos - excute_pos).length() < get_ball_threshold && (fabs(anglemod(excute_dir - (ball_pos - excute_pos).angle())) < PI / 8);
 
 	cout << "-----------------------传球球员离球的距离：" << (ball_pos - excute_pos).length() << "---------------" << endl;
 	cout << "-----------------------传球球员的朝向与传球球员到球的角度 差：" << fabs(anglemod(excute_dir - (ball_pos - excute_pos).angle())) << "---------------" << endl;
@@ -79,6 +78,7 @@ PlayerTask player_plan(const WorldModel* model, int runner_id){
 		cout << "===================================================球还没有被球员控住===================================================" << endl;
 #endif
 
+#if SAME
 	//如果reveiver_id和runner_id是同一车，则直接射门
 	if (KICKER_ID == runner_id){
 		cout << "===================================================两参数相同，直接射门===================================================" << endl;
@@ -105,28 +105,60 @@ PlayerTask player_plan(const WorldModel* model, int runner_id){
 			return task;
 		}
 	}
+#endif
+	if (get_ball){
+		cout << "=================================================== 拿到球喽！！ ===================================================" << endl;
+		if (is_ready_pass(ball_pos, excute_pos, rece_pos)){
+			cout << "=================================================== 方向正确，准备好传球了！！ ===================================================" << endl;
+			cout << "=================================================== 开始填装炮弹！ ===================================================" << endl;
+			task.kickPower = 100;
+			task.needKick = true;
+
+			task.needCb = false;
+			task.isChipKick = false;
+		}
+		else{
+			cout << "=================================================== 方向不太对，再等等，纠正下方向 ===================================================" << endl;
+			task.orientate = pass_dir;		//pass_dir = (receive_head - ball).angle();
+			//flag = 1表示小车加速度*2
+			task.flag = 1;
+		}
+		//return task;
+	}
+	else{
+		cout << "=================================================== 没拿到球T.T ===================================================" << endl;
+		// 去拿球
+		task = get_ball_plan(model, runner_id, KICKER_ID);
+		//return task;
+	}
+	return task; 
+
+	/*
 
 	//判断并执行传球
 	if (is_ready_pass(ball_pos, excute_pos, rece_pos)){	// 准备好传球了
 
-		cout << "===================================================准备好传球了===================================================" << endl;
+		cout << "===================================================角度合适，准备好传球了===================================================" << endl;
 
 		if (get_ball){		// 如果拿到了球，设置传球的属性
-			task.kickPower = 50;
+			task.kickPower = 127;
 			task.needKick = true;
+			task.needCb = true;
 			task.isChipKick = false;
 			cout << "===================================================拿到球了 开始传球！！===================================================" << endl;
 		}
-		task.target_pos = ball_pos + Maths::polar2vector(fast_pass, rece_to_ball);
+		// TODO: 传球助跑
+//		task.target_pos = ball_pos + Maths::polar2vector(fast_pass, rece_to_ball);
 	}
 	else{		// 没有准备好传球，则改变位置		目标位置改为  球的坐标 + 极坐标（球的半径 + 球员半径，接球球员指向球的方向  ）转成的二维向量坐标
-		cout << "===================================================还没有准备好传球！,执行拿球===================================================" << endl;
-		task.target_pos = ball_pos + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + 2, rece_to_ball);
+		cout << "===================================================还没有准备好传球！,执行 朝向Kicker拿球===================================================" << endl;
+		task = get_ball_plan(model, runner_id, KICKER_ID);
 	}
 	task.orientate = pass_dir;		//pass_dir = (receive_head - ball).angle();
 	//flag = 1表示小车加速度*2
 	task.flag = 1;
 	return task;
+	*/
 }
 
 

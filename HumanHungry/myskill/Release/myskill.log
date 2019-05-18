@@ -1,11 +1,10 @@
-﻿生成启动时间为 2019/5/18 14:58:03。
-     1>项目“C:\!soccor\SOM v3.3.3\HumanHungry\myskill\myskill.vcxproj”在节点 2 上(Rebuild 个目标)。
+﻿生成启动时间为 2019/5/18 18:55:52。
+     1>项目“C:\!soccor\SOM v3.3.3\HumanHungry\myskill\myskill.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         C:\Visual Studio 2013\VC\bin\CL.exe /c /I"C:\!soccor\SOM v3.3.3\HumanHungry\myskill\/src/unsupported" /I"C:\!soccor\SOM v3.3.3\HumanHungry\myskill\/src/Eigen" /I"C:\!soccor\SOM v3.3.3\HumanHungry\myskill\/src/worldmodel_lib" /Zi /nologo /W0 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D MYSKILL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\GetBall2T.cpp src\utils\maths.cpp
-         GetBall2T.cpp
-         maths.cpp
+         C:\Visual Studio 2013\VC\bin\CL.exe /c /I"C:\!soccor\SOM v3.3.3\HumanHungry\myskill\/src/unsupported" /I"C:\!soccor\SOM v3.3.3\HumanHungry\myskill\/src/Eigen" /I"C:\!soccor\SOM v3.3.3\HumanHungry\myskill\/src/worldmodel_lib" /Zi /nologo /W0 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D MYSKILL_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt src\myskill.cpp
+         myskill.cpp
        Link:
-         C:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\!soccor\SOM v3.3.3\HumanHungry\Release\myskill.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\!soccor\SOM v3.3.3\HumanHungry\myskill\/src/worldmodel_lib" worldmodel_lib.lib opencv_world343d.lib opencv_world343.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\!soccor\SOM v3.3.3\HumanHungry\Release\myskill.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\!soccor\SOM v3.3.3\HumanHungry\Release\myskill.lib" /MACHINE:X86 /SAFESEH /DLL Release\GetBall2T.obj
+         C:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\!soccor\SOM v3.3.3\HumanHungry\Release\myskill.dll" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\!soccor\SOM v3.3.3\HumanHungry\myskill\/src/worldmodel_lib" worldmodel_lib.lib opencv_world343d.lib opencv_world343.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\!soccor\SOM v3.3.3\HumanHungry\Release\myskill.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\!soccor\SOM v3.3.3\HumanHungry\Release\myskill.lib" /MACHINE:X86 /SAFESEH /DLL Release\myskill.obj
          Release\maths.obj
          src\worldmodel_lib\worldmodel_lib.lib
             正在创建库 C:\!soccor\SOM v3.3.3\HumanHungry\Release\myskill.lib 和对象 C:\!soccor\SOM v3.3.3\HumanHungry\Release\myskill.exp
@@ -13,8 +12,8 @@
          已完成代码的生成
      1>worldmodel_lib.lib(worldmodel.obj) : warning LNK4099: 未找到 PDB“vc120.pdb”(使用“worldmodel_lib.lib(worldmodel.obj)”或在“C:\!soccor\SOM v3.3.3\HumanHungry\Release\vc120.pdb”中寻找)；正在链接对象，如同没有调试信息一样
          myskill.vcxproj -> C:\!soccor\SOM v3.3.3\HumanHungry\Release\myskill.dll
-     1>已完成生成项目“C:\!soccor\SOM v3.3.3\HumanHungry\myskill\myskill.vcxproj”(Rebuild 个目标)的操作。
+     1>已完成生成项目“C:\!soccor\SOM v3.3.3\HumanHungry\myskill\myskill.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:01.98
+已用时间 00:00:01.74

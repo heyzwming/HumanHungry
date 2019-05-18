@@ -5,7 +5,7 @@ firstState = "Start",     -- 球已经发出来了
     switch = function()
             return "Start"
     end,
-    Receiver = task.ReceiverTask("PassBall2Kicker")    
+    Tier = task.TierTask("PassBall2Kicker")    
 },
 
 name = "PassBall2Kicker"

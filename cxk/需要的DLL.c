@@ -8,6 +8,8 @@
 3.接到球马上平射
 4.接到球马上挑射
 5.接到球马上传球
+
+
 6.拿到球转身
 7.拿到球转身后秒传球
 8.判断持球距离有无超过1m(视觉机每帧的时间*帧数*小车移动速度=小车运动距离；例如：if 0.8*num*6=100 then return "stop")
@@ -19,30 +21,7 @@
 其他的还无想出，暂时不需要。
 
 */
-#include"utils/PlayerTask.h"
-#include"utils/maths.h"
-#include"utils/worldmodel.h"
 
-//傻站着，开启吸球模式
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
-
-PlayerTask player_plan(const WorldModel* model, int robot_id){
-PlayerTask task;
-task.needCb = true;
-cout<<"Only Open Cb"<<endl;
-return task;
-}
-//吸着球跑
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
-
-PlayerTask player_plan(const WorldModel* model, int robot_id){
-PlayerTask task;
-
-task.needCb = true;
-task.Targetpos = （x,y）;//这个x,y是从外面传进来的
-cout<<"Run and Open Cb"<<endl;
-return task;
-}
 
 //平射！！！接球秒射   ->到球的一瞬间，马上射门
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);

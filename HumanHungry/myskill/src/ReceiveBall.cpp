@@ -62,10 +62,10 @@ PlayerTask player_plan(const WorldModel* model, int runner_id){
 	//line_perp_across(ball_pos, ball_vel.angle(), receiver_pos), 计算 receiver_pos到ball_pos为起点，ball_vel.angle()为斜率的直线上最近的点
 	point2f task_point = Maths::line_perp_across(ball_pos, ball_vel.angle(), receiver_pos);
 
-	cout << "--------------------------任务点：" << task_point << "-------------------" << endl;
+	cout << "--------------------------任务点：" << task_point << "-----------------------" << endl;
 
 	task.needCb = true;
-	task.orientate = (opp_goal - receiver_pos).angle();
+	task.orientate = (ball_pos - receiver_pos).angle();
 	task.target_pos = task_point;
 	
 	/*

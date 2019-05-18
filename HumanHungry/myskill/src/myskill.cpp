@@ -1,26 +1,26 @@
 /************************************************************
-* ¶¨µãÇòÉäÃÅº¯Êıº¯ÊıÃû£º 										*
+* å®šç‚¹çƒå°„é—¨å‡½æ•°å‡½æ•°åï¼š 										*
 *															*
-* ÊµÏÖ¹¦ÄÜ£º													*
+* å®ç°åŠŸèƒ½ï¼š													*
 *															*
-* ¾ßÌåÃèÊö£º 												*
+* å…·ä½“æè¿°ï¼š 												*
 *															*
 *															*
-* ·µ»ØÖµ£º			PlayerTask								*
+* è¿”å›å€¼ï¼š			PlayerTask								*
 *															*
-* ËµÃ÷£º														*
+* è¯´æ˜ï¼š														*
 *															*
 ************************************************************/
 /************************************
 									*
-1.»úÆ÷ÈËÔË¶¯µ½ÇòÒ»¶¨°ë¾¶·¶Î§Í£Ö¹		*
-2.ÒÔÇòÎªÔ²ĞÄ×öÔ²ÖÜÔË¶¯µ÷ÕûÉäÃÅ½Ç¶È		*
-3.µ±ÉäÃÅ½Ç¶ÈºÏÊÊµÄÊ±ºò£¬ÂıÂıÉÏÇ°£¬ÉäÃÅ	*
+1.æœºå™¨äººè¿åŠ¨åˆ°çƒä¸€å®šåŠå¾„èŒƒå›´åœæ­¢		*
+2.ä»¥çƒä¸ºåœ†å¿ƒåšåœ†å‘¨è¿åŠ¨è°ƒæ•´å°„é—¨è§’åº¦		*
+3.å½“å°„é—¨è§’åº¦åˆé€‚çš„æ—¶å€™ï¼Œæ…¢æ…¢ä¸Šå‰ï¼Œå°„é—¨	*
 									*
 ************************************/
 
 /*
-¿ÉÒÔÍ¨¹ıĞŞ¸ÄÄ¿±êµãµÄ·½Ê½ĞŞ¸Äskill£¬¼´shootball -> passball¡£
+å¯ä»¥é€šè¿‡ä¿®æ”¹ç›®æ ‡ç‚¹çš„æ–¹å¼ä¿®æ”¹skillï¼Œå³shootball -> passballã€‚
 */
 
 #include "myskill.h"
@@ -28,97 +28,96 @@
 PlayerTask player_plan(const WorldModel* model, int robot_id){
 	PlayerTask task;
 	bool isPasstoReceiver = false;//true->pass false->shoot
-	int receiver;		// ´«ÇòĞĞÎªµÄ½ÓÇòÇòÔ±
-	// ±éÀúÎÒ·½6ÃûÇòÔ±
-	// Ñ°ÕÒÒ»ÃûÔÚ³¡µÄÇòÔ±£¨³ıÊØÃÅÔ±ºÍ±¾´«ÇòÇòÔ±Íâ£©
+	int receiver;		// ä¼ çƒè¡Œä¸ºçš„æ¥çƒçƒå‘˜
+	// éå†æˆ‘æ–¹6åçƒå‘˜
+	// å¯»æ‰¾ä¸€ååœ¨åœºçš„çƒå‘˜ï¼ˆé™¤å®ˆé—¨å‘˜å’Œæœ¬ä¼ çƒçƒå‘˜å¤–ï¼‰
+
+	/*******************************æ¥çƒçƒå‘˜******************************************/
 	for (int i = 0; i < 6; i++){
-		if (i == robot_id || i == model->get_our_goalie()) // µ±±éÀúµ½Ö´ĞĞ±¾skillµÄÇòÔ±»òÕßÎÒ·½ÊØÃÅÔ±µÄÊ±ºò£¬Ìø¹ı±¾´ÎÑ­»·
+		if (i == robot_id || i == model->get_our_goalie()) // å½“éå†åˆ°æ‰§è¡Œæœ¬skillçš„çƒå‘˜æˆ–è€…æˆ‘æ–¹å®ˆé—¨å‘˜çš„æ—¶å€™ï¼Œè·³è¿‡æœ¬æ¬¡å¾ªç¯
 			continue;
-		if (model->get_our_exist_id()[i])		// ÕÒµ½Ò»¸ö¿ÉÒÔ´«ÇòµÄÇòÔ±
-			receiver = i;				// ½ÓÇòÇòÔ±
+		if (model->get_our_exist_id()[i])		// æ‰¾åˆ°ä¸€ä¸ªå¯ä»¥ä¼ çƒçš„çƒå‘˜
+			receiver = i;				// æ¥çƒçƒå‘˜
 	}
-	const point2f& receiver_pos = model->get_our_player_pos(receiver);	// ½ÓÇòÇòÔ±µÄÎ»ÖÃ×ø±ê
-	point2f& opp_goal = -FieldPoint::Goal_Center_Point;	// ¶Ô·½ÇòÃÅÖĞĞÄµã
-	if (isPasstoReceiver)	// ÊÇ·ñ´«Çò¸ø ´«ÇòĞĞÎªµÄ½ÓÇòÇòÔ±
-							//  true -> ´«Çò  false -> Ö±½ÓÉäÃÅ
+	/********************************************************************************/
+
+	const point2f& receiver_pos = model->get_our_player_pos(receiver);	// æ¥çƒçƒå‘˜çš„ä½ç½®åæ ‡
+	point2f& opp_goal = -FieldPoint::Goal_Center_Point;	// å¯¹æ–¹çƒé—¨ä¸­å¿ƒç‚¹
+
+
+	if (isPasstoReceiver)	// æ˜¯å¦ä¼ çƒç»™ æ¥çƒçƒå‘˜
+							//  true -> ä¼ çƒ  false -> ç›´æ¥å°„é—¨
 		opp_goal = receiver_pos;
 
 	const float pi = 3.1415926;
-	const float& circleR = 30;		// ÑØ×ÅÇòÍâ °ë¾¶Îª30µÄÔ² ÒÆ¶¯/µ÷Õû·½Ïò  ÇòÖÜÎ§µÄ°²È«ÇøÓò
-	const float& DetAngle = 0.6;	// £¿
+	const float& circleR = 18;		// æ²¿ç€çƒå¤– åŠå¾„ä¸º18çš„åœ† ç§»åŠ¨/è°ƒæ•´æ–¹å‘  çƒå‘¨å›´çš„å®‰å…¨åŒºåŸŸ
+	const float& DetAngle = 0.8;	// è§’åº¦å˜åŒ–é‡
 
-	const point2f& goal = FieldPoint::Goal_Center_Point;	// Ä¿±êµã->¶Ô·½ÇòÃÅÖĞĞÄ
-	const point2f& ball = model->get_ball_pos();	
-	const point2f& kicker = model->get_our_player_pos(robot_id);
+	const point2f& goal = FieldPoint::Goal_Center_Point;	// ç›®æ ‡ç‚¹->å¯¹æ–¹çƒé—¨ä¸­å¿ƒ
+	const point2f& ball_pos = model->get_ball_pos();	
+	const point2f& player_pos = model->get_our_player_pos(robot_id);
 	
-	const float& dir = model->get_our_player_dir(robot_id);
-	ball_near orbit;	// orbit ¹ìµÀ¡¢·¶Î§ 	Ã¶¾ÙÀàĞÍ	outOfOrbit  |  onOrbit  |  shoot
+	const float& player_dir = model->get_our_player_dir(robot_id);
+	ball_near orbit;	// orbit è½¨é“ã€èŒƒå›´ 	æšä¸¾ç±»å‹	outOfOrbit  |  onOrbit  |  shoot
 	
-	// ÇòµÄ×ø±ê+ ¼«×ø±ê×ª»»³É¶şÎ¬ÏòÁ¿£¨³¤¶ÈcircleR=30£¬·½Ïò(ball-opp_goal).angle() ÓÉ¶Ô·½ÇòÃÅÖ¸ÏòÇòµÄÏòÁ¿µÄ½Ç¶È£©
-	// ÔÚ ÇòÍâ°ë¾¶Îª30µÄ¹ìµÀÉÏ µÄ ÉäÃÅ×¼±¸µã = ÇòµÄ×ø±ê + ÑØÄ¿±êµã£¨¶Ô·½ÇòÃÅÖĞĞÄ£©Ö¸ÏòÇòµÄ·½Ïò ³¤¶ÈÎª30µÄÊ¸Á¿£¨²¢ÓÃpolar2vector½²¼«×ø±êÖµ×ª»»³É¶şÎ¬ÏòÁ¿Öµ£©
-	point2f shootPosOnOrbit = ball + Maths::polar2vector(circleR,(ball-opp_goal).angle());
+	// çƒçš„åæ ‡+ æåæ ‡è½¬æ¢æˆäºŒç»´å‘é‡ï¼ˆé•¿åº¦circleR=30ï¼Œæ–¹å‘(ball_pos-opp_goal).angle() ç”±å¯¹æ–¹çƒé—¨æŒ‡å‘çƒçš„å‘é‡çš„è§’åº¦ï¼‰
+	// åœ¨ çƒå¤–åŠå¾„ä¸º30çš„è½¨é“ä¸Š çš„ å°„é—¨å‡†å¤‡ç‚¹ = çƒçš„åæ ‡ + æ²¿ç›®æ ‡ç‚¹ï¼ˆå¯¹æ–¹çƒé—¨ä¸­å¿ƒï¼‰æŒ‡å‘çƒçš„æ–¹å‘ é•¿åº¦ä¸º30çš„çŸ¢é‡ï¼ˆå¹¶ç”¨polar2vectorè®²æåæ ‡å€¼è½¬æ¢æˆäºŒç»´å‘é‡å€¼ï¼‰
+	point2f shootPosOnOrbit = ball_pos + Maths::polar2vector(circleR,(ball_pos-opp_goal).angle());
 
-	// TODO: Ã»Àí½âÕâ¾äÄÚÈİ
-	// ÉäÃÅ·½Ïò = | ÇòÖ¸ÏòkickerµÄ½Ç¶È - ¶Ô·½ÇòÃÅÖĞĞÄÖ¸ÏòÇòµÄ½Ç¶È |
-	float toShootDir = fabs((kicker - ball).angle() - (ball - opp_goal).angle());   //(kicker - shootPosOnOrbit).length();
-	float toBallDist = (kicker - ball).length();		// kickerÀëÇòµÄ¾àÀë
-	float toOppGoalDir = (opp_goal - kicker).angle();		// ÑØkickerÖ¸ÏòÄ¿±êµãµÄ ½Ç¶È
-	float toBallDir = (ball - kicker).angle();
+	// TODO: æ²¡ç†è§£è¿™å¥å†…å®¹
+	// å°„é—¨æ–¹å‘ = | çƒæŒ‡å‘player_posçš„è§’åº¦ - å¯¹æ–¹çƒé—¨ä¸­å¿ƒæŒ‡å‘çƒçš„è§’åº¦ |
+	float toShootDir = fabs((player_pos - ball_pos).angle() - (ball_pos - opp_goal).angle());   //(player_pos - shootPosOnOrbit).length();
+	float toBallDist = (player_pos - ball_pos).length();		// player_posç¦»çƒçš„è·ç¦»
+	float toOppGoalDir = (opp_goal - player_pos).angle();		// æ²¿player_posæŒ‡å‘ç›®æ ‡ç‚¹çš„ è§’åº¦
+	float toBallDir = (ball_pos - player_pos).angle();
 
-	/*
-	Ë¼¿¼Á½¸öÎÊÌâ
+	// = çƒçš„ä½ç½® + æ²¿ çƒæŒ‡å‘player_posçš„æ–¹å‘ çƒçš„å®‰å…¨åŠå¾„è·ç¦» çš„äºŒç»´åæ ‡
+	// player_pos åœ¨å®‰å…¨è½¨è¿¹ä¸Šçš„ è¸¢çƒå‡†å¤‡ç‚¹  
+	point2f robotBallAcrossCirclePoint = ball_pos + Maths::polar2vector(circleR, (player_pos - ball_pos).angle());
 
-	1.ÔõÃ´ÄÜÈÆ×ÅÕıÈ·µÄ·½Ïò×ßµ½P2µã£¨Ò»Ö±ÈÆ×ÅÕıÈ·µÄ·½Ïò£©
-	2.ÔõÃ´ÈÆ×Å»¡Ïß¶ø²»ÊÇÖ±Ïß×ßµ½P2£¨ÈÆ×ÅºÚÉ«Ô²»¡£¬¶ø²»ÊÇ»ÆÉ«Ö±ÏßÊ¾ÒâÍ¼£©
+	// = çƒçš„åæ ‡ + æ²¿ ç›®æ ‡ç‚¹åˆ°çƒçš„ä½ç½® çš„æ–¹å‘ çƒçš„å®‰å…¨åŠå¾„è·ç¦»30 çš„äºŒç»´åæ ‡
+	point2f AntishootPosOnOrbit = ball_pos + Maths::polar2vector(circleR, (opp_goal - ball_pos).angle());
 
-	µÚÒ»¸öÎÊÌâÁô¸øÄãÃÇË¼¿¼£¬ÎÒ´úÂëÀïÃæÓĞĞ´
-	µÚ¶ş¸öÎÊÌâ£¬ÎÒÃÇÒª¿¼ÂÇÒ»ÏÂ£¬ÎÒÃÇµÄËÅ·şÖÜÆÚ
-	1/60ÃëµÄËÅ·şÖÜÆÚ£¬Ã¿ÃëÖ´ĞĞ60´ÎskillµÄ×´Ì¬»úÅĞ¶Ï£¬²»Í£µØÉú³ÉĞÂµÄtargetpos£¬×îºóÊ¹µÃtargetposÖ´ĞĞ³öÀ´µÄ½á¹ûÊÇÒ»¸öÔ²»¡
-	
-	*/
+	// æ²¿çƒåˆ°player_posæ–¹å‘çš„ å‘é‡
+	point2f BallToRobot = player_pos - ball_pos;
 
-	// = ÇòµÄÎ»ÖÃ + ÑØ ÇòÖ¸ÏòkickerµÄ·½Ïò ÇòµÄ°²È«°ë¾¶¾àÀë30 µÄ¶şÎ¬×ø±ê
-	// kicker ÔÚ°²È«¹ì¼£ÉÏµÄ ÌßÇò×¼±¸µã  
-	point2f robotBallAcrossCirclePoint = ball + Maths::polar2vector(circleR, (kicker - ball).angle());
-
-	// = ÇòµÄ×ø±ê + ÑØ Ä¿±êµãµ½ÇòµÄÎ»ÖÃ µÄ·½Ïò ÇòµÄ°²È«°ë¾¶¾àÀë30 µÄ¶şÎ¬×ø±ê
-	point2f AntishootPosOnOrbit = ball + Maths::polar2vector(circleR, (opp_goal - ball).angle());
-
-	// ÑØÇòµ½kicker·½ÏòµÄ ÏòÁ¿
-	point2f BallToRobot = kicker - ball;
-
-	// ×´Ì¬»úµÄ×´Ì¬ÅĞ¶Ï
-	// ¶Ôµ±Ç°µÄkickerµÄÇøÓò£¨°²È«¹ìµÀÍâ ¹ìµÀÉÏ ¹ìµÀÄÚ£¨ÉäÃÅ£©£©½øĞĞÅĞ¶Ï
-	if (toBallDist >circleR + 10)	// Èç¹ûkickerµ½ÇòµÄ¾àÀë > °²È«¾àÀë30 + 10
-		orbit = outOfOrbit;
-	else if (toShootDir > 1)	// Èç¹ûÇòµ½kickerµÄÏòÁ¿ºÍÄ¿±êµãµ½ÇòµÄÏòÁ¿µÄ½Ç¶È²î´óÓÚ1  Ôò ËµÃ÷kickerµ½´ïÁËÔ²ĞÎ¹ìµÀ
-		orbit = onOrbit;
-	// TODO: else µÄÆ¥ÅäÎÊÌâ
-		 else	// ·ñÔò£¨½Ç¶È²î < 1£© ÉäÃÅ
-			orbit = shoot;
-	
-	// ÊÇ·ñÄÃµ½ÁËÇò
+	// æ˜¯å¦æ‹¿åˆ°äº†çƒ
 	bool getBall = toBallDist < 10;
-	float diffdir_onorbit = 0;				// £¿
-	float b2r = BallToRobot.angle();		// ½Ç¶ÈÁ¿
-	float o2b = (ball - opp_goal).angle();	// ½Ç¶ÈÁ¿
+	float diffdir_onorbit = 0;				// ï¼Ÿ
+	float b2r = BallToRobot.angle();		// è§’åº¦é‡
+	float o2b = (ball_pos - opp_goal).angle();	// è§’åº¦é‡
 	bool add;
 
-	// ×´Ì¬»ú ×´Ì¬×ª»»
+	// çŠ¶æ€æœºçš„çŠ¶æ€åˆ¤æ–­
+	// å¯¹å½“å‰çš„player_posçš„åŒºåŸŸï¼ˆå®‰å…¨è½¨é“å¤– è½¨é“ä¸Š è½¨é“å†…ï¼ˆå°„é—¨ï¼‰ï¼‰è¿›è¡Œåˆ¤æ–­
+	if (toBallDist > circleR + 10){	// å¦‚æœplayer_posåˆ°çƒçš„è·ç¦» > å®‰å…¨è·ç¦» + 10
+		orbit = outOfOrbit;
+		
+	}
+	else if (toShootDir > 1){	// å¦‚æœçƒåˆ°player_posçš„å‘é‡å’Œç›®æ ‡ç‚¹åˆ°çƒçš„å‘é‡çš„è§’åº¦å·®å¤§äº1  åˆ™ è¯´æ˜player_posåˆ°è¾¾äº†åœ†å½¢è½¨é“
+		orbit = onOrbit;
+		
+	}
+	else{	// å¦åˆ™ï¼ˆè§’åº¦å·® < 1ï¼‰ å°„é—¨
+		orbit = shoot;
+		
+	}
+
+	
+
+	// çŠ¶æ€æœº çŠ¶æ€è½¬æ¢
 	switch (orbit)
 	{
-		case outOfOrbit:		// ÔÚÇòµÄ°²È«¹ìµÀÍâ
-			task.target_pos = robotBallAcrossCirclePoint;	// ÒÆ¶¯Ä¿±êµãÎªÇòµÄ°²È«¹ìµÀ
-			task.orientate = toOppGoalDir;		// ÇòÔ± Ê¼ÖÕ³¯ÏòÄ¿±êµã
+		case outOfOrbit:		// åœ¨çƒçš„å®‰å…¨è½¨é“å¤–
+			task.target_pos = robotBallAcrossCirclePoint;	// ç§»åŠ¨ç›®æ ‡ç‚¹ä¸ºçƒçš„å®‰å…¨è½¨é“
+			task.orientate = toOppGoalDir;		// çƒå‘˜ å§‹ç»ˆæœå‘ç›®æ ‡ç‚¹
+			cout << "============================== åœ¨è½¨é“å¤– ===========================" << endl;
 			break;
-		case onOrbit:	// ÔÚ°²È«¹ìµÀÉÏ
-			// µ÷Õû ÔÚ ¹ìµÀÉÏµÄÎ»ÖÃ
-			/*
-			
-			Ã¿´ÎÈÃ»úÆ÷ÈËÍØÕ¹Ò»¸öĞ¡Ô²»¡ ÂıÂı´Ó ¸Õ½øÈëµ½°²È«¹ìµÀµÄµã Ò»²½Ò»²½°´»¡Ïß×ßµ½ ÉäÃÅ µÄ×¼±¸µã
-			*/
-
-			// ¸öÈË¾õµÃÕâÀïÓ¦¸Ã¿¼ÂÇµÄÊÇb2rºÍo2bµÄ½Ç¶ÈµÄÕı¸º  µ±b2r ºÍ o2b¶¼ÊÇÕıµÄÊ±ºòÏà³ËÎªÕı
+		case onOrbit:	// åœ¨å®‰å…¨è½¨é“ä¸Š
+			// è°ƒæ•´ åœ¨ è½¨é“ä¸Šçš„ä½ç½®
+			/* æ¯æ¬¡è®©æœºå™¨äººæ‹“å±•ä¸€ä¸ªå°åœ†å¼§ æ…¢æ…¢ä» åˆšè¿›å…¥åˆ°å®‰å…¨è½¨é“çš„ç‚¹ ä¸€æ­¥ä¸€æ­¥æŒ‰å¼§çº¿èµ°åˆ° å°„é—¨ çš„å‡†å¤‡ç‚¹ */
+			cout << "============================== åœ¨è½¨é“ä¸Š ===========================" << endl;
+			// ä¸ªäººè§‰å¾—è¿™é‡Œåº”è¯¥è€ƒè™‘çš„æ˜¯b2rå’Œo2bçš„è§’åº¦çš„æ­£è´Ÿ  å½“b2r å’Œ o2béƒ½æ˜¯æ­£çš„æ—¶å€™ç›¸ä¹˜ä¸ºæ­£
 			if (b2r * o2b >0){
 				if (b2r > 0){
 					if (b2r > o2b)
@@ -142,29 +141,43 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 
 			if (add){	
 				//+
-				task.target_pos = ball + Maths::polar2vector(circleR, BallToRobot.angle() + DetAngle);
+				task.target_pos = ball_pos + Maths::polar2vector(circleR, BallToRobot.angle() + DetAngle);
 				task.orientate = toOppGoalDir;
 			}
 			else{
 				//-
-				task.target_pos = ball + Maths::polar2vector(circleR, BallToRobot.angle() - DetAngle);
+				task.target_pos = ball_pos + Maths::polar2vector(circleR, BallToRobot.angle() - DetAngle);
 				task.orientate = toOppGoalDir;
 			}
 			break;
 
 		case shoot: 
-			task.target_pos = ball + Maths::polar2vector(5, (ball - opp_goal).angle());
-			task.orientate = toOppGoalDir;
-			task.needKick = true;
-			task.flag = 1;
+			cout << "============================== å‡†å¤‡å°„é—¨ ===========================" << endl;
+			
 				
-			if (toBallDist < 10 && fabs(model->get_our_player_dir(robot_id) - task.orientate) < 0.15){
-				if (isPasstoReceiver)
+			if (toBallDist < 10 && fabs(model->get_our_player_dir(robot_id) - task.orientate) < PI / 6){
+				cout << "============================== è®¾ç½®åŠ›åº¦ ===========================" << endl;
+				if (isPasstoReceiver){
 					task.kickPower = 60;
-				else
-					task.kickPower = 127;
-			}			
+					cout << "============================== 60 ===========================" << endl;
+				}
+				else{
+				task.kickPower = 127;
+				cout << "============================== 127 ===========================" << endl;
+				}
+			}
+			task.target_pos = ball_pos + Maths::polar2vector(9.5, (ball_pos - opp_goal).angle());
+			task.orientate = toOppGoalDir;
+			task.isChipKick = false;
+			task.flag = 1;
+			task.needKick = true;
+
 			break;
 	}
+	cout << "---------------------task.kickPower" << task.kickPower << "---------------------------" << endl;
+	cout << "---------------------task.target_pos" << task.target_pos << "---------------------------" << endl;
+	cout << "---------------------task.orientate" << task.orientate  << "---------------------------" << endl;
+	cout << "---------------------task.flag" << task.flag << "---------------------------" << endl;
+	cout << "---------------------task.needKick" << task.needKick  << "---------------------------" << endl;
 	return task;
 }
