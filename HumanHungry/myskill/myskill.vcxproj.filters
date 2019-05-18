@@ -65,7 +65,7 @@
     <ClCompile Include="src\utils\maths.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="src\GetBall2Goal.cpp">
+    <ClCompile Include="src\GetBall2T.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

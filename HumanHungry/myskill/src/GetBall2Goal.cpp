@@ -1,5 +1,5 @@
 /************************************************************
-* 拿球函数函数名： GetBall									*
+* 拿球函数函数名： GetBall2Goal 朝向对方球门拿球									*
 *															*
 * 实现功能： 根据场上小球的不同位置配合拿球						*
 *															*
@@ -11,15 +11,8 @@
 * 说明：														*
 *															*
 ************************************************************/
-// 单例： 类  对象  让一个类只生成一个对象  让所有对这个类的调用都找到这个单例对象
-// worldModel::getInstance()->  ....  是一个worldModel:: 
-// 对于 从底层拿出来的 worldModel 只可以存在一个对象
-// worldModel 在.lib
-
 
 #include "GetBall2Goal.h"
-
-extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 
 #define frame_rate  60.0
 
@@ -30,7 +23,7 @@ extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, i
 // double do_spiral_buff = 0;
 // int do_spiral_max_cnt = 70;
 
-double get_ball_buf = -4;		//这个值越大 拿球越平滑   接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整，当球比球员更接近球门的时候 所设置的移动目标点 与球的缓冲距离
+double get_ball_buf = 2;		//这个值越大 拿球越平滑   接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整，当球比球员更接近球门的时候 所设置的移动目标点 与球的缓冲距离
 double around_ball_dist = 30;
 double vision_error = 3;
 bool isSimulation = false;
@@ -43,8 +36,8 @@ void isSimulate(const WorldModel* model){
 	cout << "------------------是否模拟:" << isSimulation << "-----------------" << endl;
 
 	isSimulation ? get_ball_buf = -4 : get_ball_buf = 2;
-	isSimulation ? away_ball_dist_x = 20 : away_ball_dist_x = 13;
-	isSimulation ? away_ball_dist_y = 20 : away_ball_dist_y = 13;
+	isSimulation ? away_ball_dist_x = 20 : away_ball_dist_x = 10;
+	isSimulation ? away_ball_dist_y = 20 : away_ball_dist_y = 10;
 }
 
 
@@ -165,7 +158,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 	float ball_player_dir_angle = (ball_pos - get_ball_player).angle() - dir;
 
 	//判断小球是否在吸球嘴附近
-	bool ball_beside_player_mouth = (ball_pos - get_ball_player).length() < 14 && fabs(ball_player_dir_angle) > 0 && fabs(ball_player_dir_angle) < PI / 6;
+	bool ball_beside_player_mouth = (ball_pos - get_ball_player).length() < get_ball_threshold && fabs(ball_player_dir_angle) > 0 && fabs(ball_player_dir_angle) < PI / 6;
 
 
 	cout << "--------------拿球球员编号" << get_ball_player << " ---------------------" << endl;
@@ -174,7 +167,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 	cout << "--------------持球球员角度" << ball_player_dir_angle << " ---------------------" << endl;
 
 	cout << "------------判断球在吸嘴附近" << ball_beside_player_mouth << " ---------------------" << endl;
-	cout << "=================================================== 球的位置到持球球员的距离小于14，拿球球员角度 pi/6 > dir > 0 ===================================================" << endl;
+	cout << "=================================================== 球的位置到持球球员的距离小于持球阈值，拿球球员角度 pi/6 > dir > 0 ===================================================" << endl;
 
 	cout << "=================================================== 朝向球门拿球 ===================================================" << endl;
 	//判断x轴方向get_ball_Player小车与球的位置关系，小车在球上侧，返回true	

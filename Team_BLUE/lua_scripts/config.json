@@ -37,6 +37,6 @@
         "GoalieSkill",
         "DefenderSkill"
     ],
-    "gTestPlay": "GetBall2GoalTest",
-    "gTestPlayTable": "Ref/Others/GetBall2GoalTest"
+    "gTestPlay": "GetBall2TTest",
+    "gTestPlayTable": "Ref/BackDef/GetBall2TTest"
 }

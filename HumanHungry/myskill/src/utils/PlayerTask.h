@@ -4,7 +4,7 @@
 #include "singleton.h"
 #include <string>
 #define error_robot_id 9999
-#define get_ball_threshold 10	// 控球的距离判断条件、或者称阈值
+#define get_ball_threshold 14	// 控球的距离判断条件、或者称阈值
 enum RobotRole
 {
 	NoRole,
