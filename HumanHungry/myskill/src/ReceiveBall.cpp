@@ -12,29 +12,60 @@
 *															*
 ************************************************************/
 
+// 需不需要GetBall拿球？有了求叉乘函数了...
+// 测试接球性能和效率
+// 考虑三个bool值变量怎么用：close_receiver   head_toward_ball    ball_moveto_head
+
 #include "ReceiveBall.h"
+
+#define DEBUG 1
 
 PlayerTask player_plan(const WorldModel* model, int runner_id){
 	PlayerTask task;
 
 	//接球需要的参数
-	const point2f& ball = model->get_ball_pos();
-	const point2f& vel = model->get_ball_vel();											// 获得场上球员的速度信息 
-	const point2f& receiver = model->get_our_player_pos(runner_id);						// 获得接球球员的位置 
+	const point2f& ball_pos = model->get_ball_pos();
+	const point2f& ball_vel = model->get_ball_vel();											// 获得场上球员的信息 
+	const point2f& receiver_pos = model->get_our_player_pos(runner_id);						// 获得接球球员的位置 
 	const point2f& opp_goal = -FieldPoint::Goal_Center_Point;
 	const float& receiver_dir = model->get_our_player_dir(runner_id);					// 接球运动员的朝向 
-	point2f reciver_head = receiver + Maths::polar2vector(ROBOT_HEAD , receiver_dir);	// 接球球员的头部坐标
+	point2f reciver_head = receiver_pos + Maths::polar2vector(ROBOT_HEAD , receiver_dir);	// 接球球员的头部坐标
 
-	bool close_receiver = (receiver - ball).length() < 50;
+	bool close_receiver = (receiver_pos - ball_pos).length() < 50;
 	bool head_toward_ball = false;
 	bool ball_moveto_head = false;
 	
-	head_toward_ball = fabs(anglemod((ball - reciver_head).angle() - receiver_dir)) < 5 * PI / 12;
-	ball_moveto_head = fabs(anglemod((reciver_head - ball).angle() - vel.angle())) < PI / 6;
-	float angle = vel.angle();
-	//line_perp_across(ball, vel.angle(), receiver), 计算 receiver到ball为起点，vel.angle()为斜率的直线上最近的点
-	point2f task_point = Maths::line_perp_across(ball, vel.angle(), receiver);
-	task.orientate = (opp_goal - receiver).angle();
+	head_toward_ball = fabs(anglemod((ball_pos - reciver_head).angle() - receiver_dir)) < PI / 8;
+	ball_moveto_head = fabs(anglemod((reciver_head - ball_pos).angle() - ball_vel.angle())) < PI / 8;
+	float angle = ball_vel.angle();
+
+	cout << "--------------球的运动角度：" << angle << "------------------" << endl;
+
+#if DUBUG
+	if (close_receiver)
+		cout << "=======================================球已经接近接球球员了！！==========================" << endl;
+	else
+		cout << "=======================================球离球员还很远！======================="<< endl;
+
+	if (head_toward_ball)
+		cout << "=======================================球员的头朝向着球============================" << endl;
+	else
+		cout << "=======================================球员的球没有朝向着球==============================" << endl;
+
+	if (ball_moveto_head)
+		cout << "=======================================球向接球球员移动====================" << endl;
+	else
+		cout << "=======================================球没有向接球球员移动====================" << endl;
+#endif
+
+
+	//line_perp_across(ball_pos, ball_vel.angle(), receiver_pos), 计算 receiver_pos到ball_pos为起点，ball_vel.angle()为斜率的直线上最近的点
+	point2f task_point = Maths::line_perp_across(ball_pos, ball_vel.angle(), receiver_pos);
+
+	cout << "--------------------------任务点：" << task_point << "-------------------" << endl;
+
+	task.needCb = true;
+	task.orientate = (opp_goal - receiver_pos).angle();
 	task.target_pos = task_point;
 	
 	/*

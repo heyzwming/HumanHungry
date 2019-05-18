@@ -233,7 +233,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 		task.needCb = true;	// 吸球
 		cout << "===================================================开启吸球===================================================" << endl;
 
-		task.target_pos = ball_pos + Maths::polar2vector(10, anglemod(dir + PI));
+		task.target_pos = ball_pos + Maths::polar2vector(9.5, anglemod(dir + PI));
 		cout << "-------------------------------" << "拿球球员移动目的点" << task.target_pos << "------------------------------------" << endl;
 
 	}

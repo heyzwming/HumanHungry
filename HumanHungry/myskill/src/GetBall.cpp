@@ -28,19 +28,20 @@
 // double do_spiral_buff = 0;
 // int do_spiral_max_cnt = 70;
 
-double get_ball_buf = -4;		//这个值越大 拿球越平滑   接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整，当球比球员更接近球门的时候 所设置的移动目标点 与球的缓冲距离
+double get_ball_buf = 1;		//这个值越大 拿球越平滑   接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整，当球比球员更接近球门的时候 所设置的移动目标点 与球的缓冲距离
 double around_ball_dist = 30;
 double vision_error = 3;
 bool isSimulation = false;
-float away_ball_dist_x = 10;	//这个值越大 拿球越平滑	接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整，当出现 球员比球更接近 对方球员的时候，所设置的 移动目标点 的x坐标距离 球的距离
-float away_ball_dist_y = 10;	//这个值越大 拿球越平滑	接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整
+float away_ball_dist_x = 13;	//这个值越大 拿球越平滑	接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整，当出现 球员比球更接近 对方球员的时候，所设置的 移动目标点 的x坐标距离 球的距离
+float away_ball_dist_y = 13;	//这个值越大 拿球越平滑	接近球后，拿球前，距离球的距离，调试值，需要根据实际不断调整
 
 void isSimulate(const WorldModel* model){	
 	isSimulation = model->get_simulation();		// isSimulation 模拟
 
 	cout << "------------------是否模拟:" << isSimulation  << "-----------------" << endl;
 
-	isSimulation ? get_ball_buf = -4 : get_ball_buf = 2;
+	cout << "==================================参数整定===============================" << endl;
+	isSimulation ? get_ball_buf = -4 : get_ball_buf = 1;
 	isSimulation ? away_ball_dist_x = 20 : away_ball_dist_x = 13;
 	isSimulation ? away_ball_dist_y = 20 : away_ball_dist_y = 13;
 }
@@ -67,7 +68,7 @@ float ball_x_angle(const WorldModel* model){
 	return Maths::least_squares(ball_points);
 }
 
-//robot_id为拿球小车车号，receiver_id为接球小车车号
+//robot_id为拿球小车车号，receiver_id为朝向球员编号
 PlayerTask get_ball_plan(const WorldModel* model, int robot_id, int receiver_id){
 	//创建PlayerTask对象
 	PlayerTask task;
@@ -163,16 +164,17 @@ PlayerTask get_ball_plan(const WorldModel* model, int robot_id, int receiver_id)
 	float ball_player_dir_angle = (ball_pos - get_ball_player).angle() - dir;
 
 	//判断小球是否在吸球嘴附近
-	bool ball_beside_player_mouth = (ball_pos - get_ball_player).length() < 14 && fabs(ball_player_dir_angle) > 0 && fabs(ball_player_dir_angle) < PI / 6;
+	bool ball_beside_player_mouth = (ball_pos - get_ball_player).length() < get_ball_threshold && fabs(ball_player_dir_angle) > 0 && fabs(ball_player_dir_angle) < PI / 6;
 
 
 	cout << "--------------拿球球员编号" << get_ball_player << " ---------------------" << endl;
 	cout << "--------------球的位置"		<< ball_pos << " ---------------------" << endl;
-	cout << "--------------球的上一帧位置" << last_ball << " ---------------------" << endl;
+	//cout << "--------------球的上一帧位置" << last_ball.x << "   " << last_ball.y << " ---------------------" << endl;
+	//cout << "----------------球的上一帧位置" << last_ball.x << "    " << last_ball.y << "---------------------" << endl;
 	cout << "--------------持球球员角度" << ball_player_dir_angle << " ---------------------" << endl;
 
 	cout << "------------判断球在吸嘴附近" << ball_beside_player_mouth << " ---------------------" << endl;
-	cout << "=================================================== 球的位置到持球球员的距离小于14，拿球球员角度 pi/6 > dir > 0 ===================================================" << endl;
+	cout << "=================================================== 球的位置到持球球员的距离小于持球阈值，拿球球员角度 pi/6 > dir > 0 ===================================================" << endl;
 
 	if (receiver_id == robot_id){	// 如果传入的两个参数相同，则朝向球门GetBall拿球
 		cout << "=================================================== 朝向球门拿球 ===================================================" << endl;
@@ -203,7 +205,7 @@ PlayerTask get_ball_plan(const WorldModel* model, int robot_id, int receiver_id)
 				//task.needCb = true;
 				task.target_pos = ball_with_vel + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE + get_ball_buf, opp_goal2ball);
 
-				cout << "-----------------------------球员当前位置：" << get_ball_player << "---------------------" << endl;
+				//cout << "-----------------------------球员当前位置：" << get_ball_player << "---------------------" << endl;
 				cout << "-----------------------------球员移动目的地：" << task.target_pos << "---------------------" <<endl;
 			}else{							// 球员比球更接近对方球门
 				cout << "===================================================球员比球更接近对方球门===================================================" << endl;
@@ -258,7 +260,7 @@ PlayerTask get_ball_plan(const WorldModel* model, int robot_id, int receiver_id)
 			cout << "===================================================x轴方向 球比两球员离对方球门更近===================================================" << endl;
 			if (executer_onball_y_boundary_right){	// y轴方向 球员在球左侧
 				//设置task任务目标点坐标
-				task.target_pos.set(ball_with_vel.x + away_ball_dist_x, ball_with_vel.y + away_ball_dist_y;
+				task.target_pos.set(ball_with_vel.x + away_ball_dist_x, ball_with_vel.y + away_ball_dist_y);
 				cout << "===================================================y轴方向 球员在球的左侧===================================================" << endl;
 			}
 			else{
@@ -291,8 +293,8 @@ PlayerTask get_ball_plan(const WorldModel* model, int robot_id, int receiver_id)
 		task.needCb = true;	// 吸球
 		cout << "===================================================开启吸球===================================================" << endl;
 		
-		task.target_pos = ball_pos + Maths::polar2vector(10, anglemod(dir + PI));
-		cout << "-------------------------------" << "拿球球员移动目的点" << task.target_pos << "------------------------------------"<< endl;
+		task.target_pos = ball_pos + Maths::polar2vector(9.5, anglemod(dir + PI));
+//		cout << "-------------------------------" << "拿球球员移动目的点" << task.target_pos << "------------------------------------"<< endl;
 		
 	}
 	return task;

@@ -7,7 +7,7 @@
 #include "utils/PlayerTask.h"
 #include "utils/worldmodel.h"
 
-PlayerTask get_ball_plan(const WorldModel* model, int robot_id, int receiver_id);
+extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 
 void isSimulate(const WorldModel* model);
 bool toward_opp_goal(float dir);

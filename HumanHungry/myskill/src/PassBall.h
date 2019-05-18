@@ -8,7 +8,8 @@
 
 #define fast_pass 3
 
-float head_len = 7.0;
+// TODO: 球员的头部 部分宽度
+float head_len = 6.0;
 
 namespace{
 	bool isSimulation = false;
