@@ -68,6 +68,9 @@
     <ClCompile Include="src\utils\maths.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\Goalie_LMS.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="src\worldmodel_lib\worldmodel_lib.lib" />

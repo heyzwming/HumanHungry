@@ -12,7 +12,6 @@
 *															*
 ************************************************************/
 
-
 // TODO: Arc  弧线
 
 #include "NormalDef.h"
@@ -31,11 +30,11 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 
 
 	//area为枚举变量，根据不同的ball位置，设置不同的枚举值
-	/***********************************将球分成了左中右 (-200,-35/2) (-35/2,35/2) (35/2,200)*************************/
+	/***********************************将球的y轴分成了左中右 [-200,-35/2] [-35/2,35/2] [35/2,200]*************************/
 	PenaltyArea area;
-	if (ball_pos.y > arc_center_right.y)		// 球的y坐标 在 右弧线的右边
+	if (ball_pos.y > arc_center_right.y)		// 球的y坐标 在 右弧线圆心的右边
 		area = RightArc;
-	else if (ball_pos.y < arc_center_left.y)	// 左弧线的左边
+	else if (ball_pos.y < arc_center_left.y)	// 左弧线圆心的左边
 		area = LeftArc;
 	else
 		area = MiddleRectangle;

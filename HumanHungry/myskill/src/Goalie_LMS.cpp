@@ -48,18 +48,16 @@
 
 using namespace std;
 
-#define FRAME_NUMBER 8		// 对多少帧的球的坐标进行 线性拟合
-#define DEFENCE_POS_X -300
+#define FRAME_NUMBER 4		// 对多少帧的球的坐标进行 线性拟合
+#define DEFENCE_POS_X -290
 
 namespace{
-	float goalie_penalty_def_buf = 20;
+//	float goalie_penalty_def_buf = 20;
 }
 
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 
 // TODO: 怎么过滤 线性拟合的 噪声？（射门前的坐标 所 产生的噪声）
-
-// TODO: 使用文件流输出的方式查看debug的log信息
 
 #pragma region 获取球前frame帧下的坐标,返回存储坐标的vector<point2f>
 /*返回一个存储 球 二维坐标(浮点类型)的vector向量*/
@@ -70,12 +68,17 @@ vector<point2f> get_ball_points(const WorldModel* model,int frame){
 	ball_points.resize(frame);	// 数组的大小改为个frame元素
 
 	// 迭代 frame 次，将 frame 次获取到的球的坐标存入 ball_points 向量
-	for (int i = 0; i < frame; i++){
+	for (int i = 1; i <= frame; i = i + 3){
 		// get_ball_pos 获得小球当前图像帧坐标位置
 		// 重点：小球的坐标信息都以图像帧为最小单位从视觉机接收并存储，可以把球坐标看成是一个个数组，数组索引是图像帧号，数组元素是坐标信息
 		const point2f& temp_points = model->get_ball_pos(i);
 		cout << "++++++++++++++++++++++" << "point" << i << ":" << temp_points.x << "---------------" << temp_points.y << "+++++++++++++++++++++++" << endl;
-		ball_points.push_back(temp_points);
+		if ( temp_points.length() > 0){	// 该帧数据存在
+			ball_points.push_back(temp_points);
+		}
+		else{
+			ball_points.push_back(model->get_ball_pos(i - 1));
+		}
 	}
 	return ball_points;
 }
@@ -254,8 +257,6 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 	cout << "----------------------------------------ball_pos:"   << ball_pos   << "--------------------------------" << endl;
 	cout << "----------------------------------------last_ball:"  << last_ball  << "--------------------------------" << endl;
 	cout << "----------------------------------------playerdir:"  << player_dir << "--------------------------------" << endl;
-	cout << "----------------------------------------goal:"		  << goal		<< "--------------------------------" << endl;
-	cout << "----------------------------------------opp_goal:"	  << opp_goal	<< "--------------------------------" << endl;
 	/***********************************************************/
 
 	bool ball_inside_penalty = is_inside_penalty(ball_pos);
@@ -273,12 +274,21 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 
 	/**********************************************************/
 
-	if (ball_inside_penalty){	/* 判断球在禁区 */
+	if (ball_pos.Y() < -150)
+	{
+		task.orientate = (ball_pos - goalie_pos).angle();	// 朝向对方球门的方向
+		task.target_pos = goalie_pos;	//TODO:Problem
+	}
 
+
+
+	/**********************************************************/
+#pragma region 球在禁区
+	if (ball_inside_penalty){	/* 判断球在禁区 */
 		/* 如果球在禁区停止了，把球挑射除去 然后 return task */
 		if (!ball_is_moving){
-			task.orientate = (ball_pos - goalie_pos).angle();	// 朝向对方球门的方向
-			task.target_pos = ball_pos + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE - 2, task.orientate);	//TODO:Problem
+			task.orientate = (ball_pos - goalie_pos).angle();	// 朝向球的方向
+			task.target_pos = ball_pos + Maths::polar2vector(BALL_SIZE / 2 + MAX_ROBOT_SIZE - 5, task.orientate);	//TODO:Problem
 			task.kickPower = 127;		// 踢球力度
 			task.chipKickPower = 127;	// 挑球力度
 			task.needKick = true;		// 踢球执行开关
@@ -306,21 +316,23 @@ PlayerTask player_plan(const WorldModel* model, int robot_id)
 		// 如果吸到球  挑射鹅鹅鹅
 		// 判断小球在控球嘴上执行挑球（通过距离和方向判断）
 		// TODO: BALL_SIZE 是多少？球的实际直径为4.3cm   MAX_ROBOT_SIZE 为8.5cm   具体的值还需要考虑
-		if ((ball_pos - goalie_pos).length() < BALL_SIZE / 2 + MAX_ROBOT_SIZE + 2 && (anglemod(player_dir - (ball_pos - goalie_pos).angle()) < PI / 8))
-		{
+		if ((ball_pos - goalie_pos).length() < BALL_SIZE / 2 + MAX_ROBOT_SIZE + 2 && (anglemod(player_dir - (ball_pos - goalie_pos).angle()) < PI / 8)){		// 吸到球
 			task.kickPower = 127;		// 踢球力度
 			task.chipKickPower = 127;	// 挑球力度
 			task.needKick = true;		// 踢球执行开关
 			task.isChipKick = true;		// 挑球开关
 		}
-//		else{ // 没有吸到球  去到截球点
+		else{ // 没有吸到球  去到截球点
 			task.orientate = (ball_pos - goalie_pos).angle();
-			task.target_pos = def_goal;	
-			cout << "**************************ball in penalty!!球在禁区！！************************************" << endl;	
-			cout << "--------------------------kkkkkkkkkkk:"	<< F(0)				<< "--------------------------------"	<< endl;
-			cout << "--------------------------bbbbbbbbbbb:"	<< F(1)				<< "--------------------------------"	<< endl;
-			cout << "--------------------------机器人朝向:"		<< task.orientate	<< "--------------------------------"	<< endl;
-			cout << "--------------------------计算的防守点位:"	<< def_goal			<< "--------------------------------"	<< endl;
+			task.target_pos = def_goal;
+			cout << "**************************ball in penalty!!球在禁区！！************************************" << endl;
+			cout << "--------------------------kkkkkkkkkkk:" << F(0) << "--------------------------------" << endl;
+			cout << "--------------------------bbbbbbbbbbb:" << F(1) << "--------------------------------" << endl;
+			cout << "--------------------------机器人朝向:" << task.orientate << "--------------------------------" << endl;
+			cout << "--------------------------计算的防守点位:" << def_goal << "--------------------------------" << endl;
+		}
+#pragma endregion
+
 	}
 	else if (ball_inside_backcourt){	/* 判断球在后场 */
 		if (ball_is_moving){

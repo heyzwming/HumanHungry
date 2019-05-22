@@ -228,7 +228,7 @@ PlayerTask player_plan(const WorldModel* model, int robot_id){
 	}
 
 	//射门条件a:球是否在射门车车头方向，并且车头朝向对方球门
-	wait_touch_condition_a = ball_front_head&& toward_oppgoal;
+	wait_touch_condition_a = ball_front_head && toward_oppgoal;
 	//射门条件b:满足条件a的同时是否满足球在车头方向并朝车头运动
 	wait_touch_condition_b = ball_moving_to_head && wait_touch_condition_a;
 	//停球判断布尔变量

@@ -6,8 +6,6 @@ firstState = "Start",     -- 球已经发出来了
         return "Start"
     end,
     Kicker = task.KickerTask("onlyCb")    
-        
-
 },
 
 name = "onlyCb"

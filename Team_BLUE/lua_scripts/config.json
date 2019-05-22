@@ -37,6 +37,6 @@
         "GoalieSkill",
         "DefenderSkill"
     ],
-    "gTestPlay": "ReceiveBallTest",
-    "gTestPlayTable": "Ref/BackDef/ReceiveBallTest"
+    "gTestPlay": "test",
+    "gTestPlayTable": "Ref/BackDef/test"
 }

@@ -9,7 +9,7 @@ firstState = "Start",     -- 球已经发出来了
             return "Start"
         end
     end,
-    Kicker = task.KickerTask("GetBall2T")    
+    Kicker = task.KickerTask("GetBall2R")    
 },
 
 name = "GetBall2TTest"
