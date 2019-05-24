@@ -4,7 +4,6 @@
 #include "utils/PlayerTask.h"
 #include "utils/worldmodel.h"
 
-//extern "C"_declspec(dllexport) PlayerTask get_ball_2_ball_plan(const WorldModel* model, int robot_id);
 extern "C"_declspec(dllexport) PlayerTask player_plan(const WorldModel* model, int robot_id);
 #define frame_rate  60.0
 

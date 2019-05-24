@@ -1,3 +1,4 @@
+--desc: 
 
 gPlayTable.CreatePlay{
 
@@ -14,6 +15,7 @@ end,
 ["start"] = {
 	Kicker   = task.Stop("Kicker",1),
 	Receiver = task.Stop("Receiver",3) ,
+	Tier     = task.Stop("Tier",5),
 	Goalie   = task.Stop("Goalie",6)
 },
 

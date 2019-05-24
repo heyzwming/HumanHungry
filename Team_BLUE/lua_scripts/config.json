@@ -37,6 +37,6 @@
         "GoalieSkill",
         "DefenderSkill"
     ],
-    "gTestPlay": "test",
-    "gTestPlayTable": "Ref/BackDef/test"
+    "gTestPlay": "Ref_KickOff2019",
+    "gTestPlayTable": "Ref/BackDef/Ref_KickOff2019"
 }

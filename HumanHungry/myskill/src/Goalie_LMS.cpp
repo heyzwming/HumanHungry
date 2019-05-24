@@ -48,7 +48,7 @@
 
 using namespace std;
 
-#define FRAME_NUMBER 4		// 对多少帧的球的坐标进行 线性拟合
+#define FRAME_NUMBER 12		// 对多少帧的球的坐标进行 线性拟合
 #define DEFENCE_POS_X -290
 
 namespace{

@@ -103,6 +103,7 @@
     <ClInclude Include="src\utils\worldmodel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GetBall2Ball.cpp" />
     <ClCompile Include="src\Goalie_LMS.cpp" />
     <ClCompile Include="src\utils\maths.cpp" />
   </ItemGroup>

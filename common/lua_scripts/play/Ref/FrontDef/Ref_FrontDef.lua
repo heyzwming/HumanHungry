@@ -1,3 +1,4 @@
+--desc: 
 gPlayTable.CreatePlay{
 firstState = "doFrontDef",
 switch = function()
@@ -6,6 +7,7 @@ end,
 ["doFrontDef"] = {
 	Kicker  = task.RefDef("Kicker"),
 	Receive = task.RefDef("Receiver"),
+	Tier	= task.NormalDef("Tier"),
 	Goalie  = task.Goalie()
 },
 

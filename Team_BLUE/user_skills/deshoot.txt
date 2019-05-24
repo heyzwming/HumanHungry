@@ -1,0 +1,7 @@
+deshoot 施老师给的dll 
+
+测试成功
+
+感觉就是官方的shoot，能力不如shoot.dll  不建议使用这个deshoot
+
+且在施老师给的lua脚本里根本没用到这个deshoot

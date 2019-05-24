@@ -71,6 +71,9 @@
     <ClCompile Include="src\Goalie_LMS.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="src\GetBall2Ball.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="src\worldmodel_lib\worldmodel_lib.lib" />

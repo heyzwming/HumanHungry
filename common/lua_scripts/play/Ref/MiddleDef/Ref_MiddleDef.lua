@@ -1,13 +1,15 @@
+--desc: 
 gPlayTable.CreatePlay{
-firstState = "doMiddleDef",
+firstState = "doCornerDef",
 switch = function()
-	return "doMiddleDef"
+	return "doCornerDef"
 end,
-["doMiddleDef"] = {
-	Kicker  = task.RefDef("Kicker"),
-	Receive = task.RefDef("Receiver"),
+["doCornerDef"] = {
+	Kicker  = task.KickerTask("face2face_60"),
+	Receiver = task.ReceiverTask("face2ball_def_only02"),
+	Tier	= task.TierTask("def"),
 	Goalie  = task.Goalie()
 },
 
-name = "Ref_MiddleDef"
+name = "Ref_CornerDef_use"
 }
