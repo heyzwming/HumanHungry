@@ -1,59 +1,64 @@
 --desc:蓝队进攻， Receiver 抢球后判断如果离对方球门近则直接射门，否则传球给 Kicker  ， Kicker 射门
 
---local Receiver_POS = CGeoPoint:new_local(100,150)
---local KICKER_POS1 = CGeoPoint:new_local(-100,-150)
---local KICKER_POS2 = CGeoPoint:new_local(200,-150)
---local Tier_POS = CGeoPoint:new_local(-200,50)
-local Kickerdir2Tierdir = function()
-	return COurRole2RoleDir("Kicker", "Tier")
-end
-
-local Tier2Kickerdir = function()
-	return CRole2BallDir("Tier")
-end
-
-local Receiver2Kickerdir = function()
-	return COurRole2RoleDir("Receiver", "Kicker")
-end
-
-local Kickerdir2Receiverdir = function()
+local Kicker2Receiverdir = function()
 	return COurRole2RoleDir("Kicker", "Receiver")
 end
 
-local Tierdir2Receiverdir = function()
+local Tier2Receiverdir = function()
 	return COurRole2RoleDir("Tier", "Receiver")
 end
 
 gPlayTable.CreatePlay{
 
-firstState = "xy",
+firstState = "Start",
 
-["xy"] = {
+["Start"] = {
 	switch = function()
-		if CGetBallX() > 220 then
+		if CGetBallX() > 200 then
 			return "getshoot"
 		elseif CGetBallY() > 0 then
-			return "getball"
+			return "getballR"
 		else
-			return "getball2"
+			return "getballL"
 		end
 	end,
-	Kicker   = task.Stop("Kicker",1),
-	Receiver = task.Stop("Receiver",3) ,
-	Goalie   = task.Stop("Goalie",6),
+	Kicker   = task.Stop("Kicker", 1),
+	Receiver = task.Stop("Receiver", 3),
+	Tier	 = task.Stop("Tier", 5),
+	Goalie   = task.Stop("Goalie", 6),
 },
-
 
 ["getshoot"] = {
 	switch = function()
-		if CRole2TargetDist("Kicker")<10  and Cbuf_cnt(true, 50) then
+		-- 角色球员距离其目标点的距离
+		local x = 120
+		local y = 30
+
+		if CGetBallY > 0 then
+			y = 30
+		else y = -30
+		end
+
+		if CRole2TargetDist("Kicker") < 100  and Cbuf_cnt(true, 50) then
 			return "gshoot"
+		else return "Pass2Kicker"
 		end
 	end,
-	Receiver   = task.GetBall("Receiver", "Receiver"),
-	Kicker   = task.GotoPos("Kicker", 120,-30, Kickerdir2Receiverdir),
+	Receiver = task.ReceiverTask("GetBall2Receiver"),
+	Kicker   = task.GotoPos("Kicker", x, y, Kicker2Receiverdir),
+	Tier	 = task.TierTask("GoReceivePos"),
 	Goalie   = task.Goalie()
 },
+
+["Pass2Kicker"] = {
+	switch = function()
+		if CIsGetBall("Kicker")	then
+			return "Pass2Tier"
+		elseif CRole2TargetDist("Kicker") < 90   
+}
+
+
+["Pass2Tier"]
 
 ["gshoot"] = {
 	switch = function()
@@ -61,19 +66,20 @@ firstState = "xy",
 			return "finish"
 		end
 	end,
-	Kicker  = task.KickerTask("MarkingBallFake"),
-	Receiver   = task.ReceiverTask("shoot"),
+	Kicker   = task.KickerTask("MarkingBallFake"),
+	Receiver = task.ReceiverTask("shoot"),
+	Tier 	 = task.TierTask("GoReceivepos"),
 	Goalie   = task.goalie()
 },
 
-["getball"] = {
+["getballR"] = {
 	switch = function()
 		if CRole2TargetDist("Kicker") < 10 then
 			return "firstpass"
 		end
 	end,
 	Receiver   = task.GetBall("Receiver", "Kicker"),
-	Kicker   = task.GotoPos("Kicker", 120,-150, Kickerdir2Receiverdir),
+	Kicker   = task.GotoPos("Kicker", 120,-150, Kicker2Receiverdir),
 	Goalie   = task.Goalie()
 },
 
@@ -111,14 +117,14 @@ firstState = "xy",
 },
 
 
-["getball2"] = {
+["getballL"] = {
 	switch = function()
 		if CRole2TargetDist("Kicker") < 10  then
 			return "firstpass2"
 		end
 	end,
 	Receiver   = task.GetBall("Receiver", "Kicker"),
-	Kicker   = task.GotoPos("Kicker", 120,150, Kickerdir2Receiverdir),
+	Kicker   = task.GotoPos("Kicker", 120,150, Kicker2Receiverdir),
 	Goalie   = task.Goalie()
 },
 

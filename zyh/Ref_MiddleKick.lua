@@ -1,65 +1,111 @@
 
+------------------------------极坐标转直角坐标
+function Polar2Vector(length,dir)
+    -- math.cos()：传入弧度
+    -- math.rad(): 角度制转弧度制
+    return length * math.cos(math.rad(dir)),length * math.sin(math.rad(dir))
+end
 
+local GR = CIsGetBall("Receiver")
+local GK = CIsGetBall("Kicker")
+local GT = CIsGetBall("Tier") 
+local cx = nil
+local cy = nil
+local cxr = COurRole_x("Receiver")
+local cyr = COurRole_y("Receiver")
+local cxk = COurRole_x("Kicker")
+local cyk = COurRole_y("Kicker")
+local cxt = COurRole_x("Tier")
+local cyt = COurRole_y("Tier")
 
-opptable = CGetOppNums();
-function getnum(role)    --敌方球员dist<50个数
-	num = 0;
-	for i, val in pairs(opptable)do 
-		local val1 = tonumber(val)
-		if Opp2ourDist(role,val1) <50
-		num++;
-	end
-return num
+function RandPoint(role)
+
+	if GR then
+		cx = cxr
+		cy = cyr
+	elseif GK then
+		cx = cxk
+		cy = cyk
+	elseif GT then
+		cx = cxt
+		cy = cyt
+	else
+		cx = 100
+		cy = 100
+	end	
+	--and  isStopDir(role,i)
+	--for i=1,180,1 do
+	--	local x,y = Polar2Vector(50,i)
+	--	if (cx + x < 210) and math.abs(cy + y < 210) then
+	--		return (cx+ x ),(cy+ y )
+	--	end
+	--end
+	 return (cx+100),(cx+100)
 end
 
 
-function isBlocked(role)   --是否被敌方防守
-	if getnum(role)>0 then
+
+function RandPointShoot(role)
+	for i=-105,-180,-1 do
+		local x,y = Polar2Vector(100,i)
+		if  isStopDirtoGoal(i) == 0 then
+			return  x+300,0+y,(CRole2BallDir(role))
+		end
+	end
+	for i=105,180,1 do
+		local x,y = Polar2Vector(100,i)
+		if  isStopDirtoGoal(i) == 0 then
+			return  x+300,0+y,(CRole2BallDir(role))
+		end
+	end
+end
+
+
+function jiaoduzhuanhuan(id)
+	local dir1 = math.deg(math.atan(COppNum_x(id)/COppNum_y(id)))
+	return dir1
+end
+
+
+
+
+
+function  isStopDirtoGoal(dir)   
+	local flag = 0     
+	local opptable = CGetOppNums()                   --是否有阻挡
+	for i, val in pairs(opptable) do 
+		local val1 = tonumber(val)
+		if (jiaoduzhuanhuan(val1)-dir)<3 then
+		     flag = 1
+		end
+	end
+	if flag ==  1 then
 		return 1
 	else
 		return 0
 	end
-end
+end 
 
 
-function Opp2ourDist(role1,role2)   --距离函数
-	local role1_x = COurRole_x(role1)
-	local role1_y = COurRole_y(role1)
-	local role2_x = COppNum_x(role2)
-	local role2_y = COppNum_y(role2)
-	local dist = sqrt((role1_x-role2_x)*(role1_x-role2_x)+(role1_y-role2_y)*(role1_y-role2_y))
-	return  dist
-end
-
-
-
-ourtable = {"Kicker","Tier","Receiver","Goalie"}
-function MinOurDist(role)                             --最近传球人员
-	for i, val in pairs(table) do 
-		mindist = 9999， 
-		if COurRole2RoleDist(role,val) < mindist and (COurRole2RoleDist(role,val) == 0） then
-			mindist = COurRole2RoleDist(role,val)
-			minour = val
+function  isStopDir(role1,dir)   
+	local flag = 0    
+	local opptable = CGetOppNums()                      --是否有阻挡
+	for i, val in pairs(opptable)do 
+		local val1 = tonumber(val)
+		if (COppNum2BallDir(val1)-dir)<3 then
+			return 1
 		end
-		return minour
 	end
-end
-
-function getOppNum()                                  --拿球人员
-    local oppTable = CGetOppNums()      
-	for i,val in pairs(ourtable) do    
-        if COppIsGetBall(val) then    
-			break
-		end		
+	if flag ==  1 then
+		return 1
+	else
+		return 0
 	end
-	return val		
-end
-
-
+end 
 
 function  isStop(role1,role2)                           --是否有阻挡
-	dir1 = COurRole2RoleDir(role1,role2)
-	mindir = 180
+	local dir1 = COurRole2RoleDir(role1,role2)
+	local mindir = 180
 	for i, val in pairs(opptable)do 
 		local val1 = tonumber(val)
 		if COppNum2BallDir(val1)<mindir then
@@ -75,7 +121,7 @@ end
 
 
 function isStopToGoal(role)                                 ---射门阻挡
-	dir = CRole2OppGoalDir(role) 
+	local dir = CRole2OppGoalDir(role) 
 	for i, val in pairs(opptable)do 
 		local val1 = tonumber(val)
 		if COppNum2BallDir(val1) < dir then
@@ -86,125 +132,208 @@ function isStopToGoal(role)                                 ---射门阻挡
 end
 
 
+local  R2Tdir = function()
+	return COurRole2RoleDir("Tier","Receiver") 
+end
+--local dir =CRole2BallDir("Receiver")
+
+local dir1 = function()
+	return COurRole2RoleDir("Tier","Receiver")
+end
+
+-- local x,y = function()
+-- 	return RandPoint("Receiver")
+-- end
 
 
 
-
-function  isCeyi(role)                           ---特殊情况：进攻是出现大量防守需要侧移
-	dir1 = CRole2OppGoalDir(role)                --对方三球员全来防守
-	local i=0
-	for i, val in pairs(opptable)do 
-		local val1 = tonumber(val)
-		if abs(COppNum2BallDir(val1)-dir1) < 30 then
-			i++
-		end
-		if i==4 then
-			return true
-		else
-			return false
-		end
-	end
-end      
-
-
-
-["pretendShoot"] = {                                                 -------佯装射门
-			switch = function()
-				if isStopToGoal(getOppNum())   and then
-	  			 		return "shoot"
-   				end
-			end,
-
-			
-
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
+local x,y = RandPoint("Receiver")
 
 
 
 
 gPlayTable.CreatePlay{
-firstState = "GetBall",
+firstState = "Ready",
 
-["Start"] = {
+["Ready"] = {
 	switch = function()
-	     if CBall2RoleDist("Kicker") < 30 and then
-			return "PassBall"
+		--local x,y = RandPoint("Receiver")
+		local dir1 = COurRole2RoleDir("Kicker","Receiver")
+		if CBall2RoleDist("Receiver") < 30 then
+			return "FlatPassR2T"
 		end
 	end,
-	Kicker   = task.GetBall("Kicker"),
-	Tier     = task.GotoPos("Tier",-10,80,(CRole2BallDir("Tier"))),                        
-	Receiver = task.GotoPos("Receiver",-10,-80,(CRole2BallDir("Receiver"))),
-	Goalie   = task.Goalie()
+    --Kicker   = task.GoRecePos("Kicker"),
+    Kicker = task.GotoPos("Kicker",200,-100,dir1),
+    Receiver = task.GetBall("Receiver","Receiver"),
+	--Receiver = task.GotoPos("Receiver",200,100,CRole2BallDir("Kicker")),
+	Tier = task.GotoPos("Tier",x,y,R2Tdir),
+	Goalie = task.Goalie()
 },
 
-["PassBall"] = {
+-- ["KickerGetBall"] = {
+
+	
+-- 	switch = function()
+-- 		local x,y,z=RandPoint("Kicker")
+-- 		local x1,y1,z1=RandPointShoot("Tier")
+	
+-- 		if CIsGetBall("Kicker") and isStop("Kicker","Receiver")  then
+-- 			return "FlatPassK2R"
+-- 		end
+-- 	end,
+
+-- 		Kicker = task.GetBall("Kicker","Kicker"),
+-- 		Receiver   = task.GoRecePos("Receiver"),
+-- 		Tier = task.GotoPos("Tier",x1,y1,z1),
+-- 		Goalie = task.Goalie()
+-- },
+
+["FlatPassK2R"] = {
 	switch = function()
-		if  getnum("Tier") >=  getnum("Receiver")    then      --判断是否回传
-			return "PassBallback"
+		local x1,y1,z1=RandPointShoot("Tier")
+		if isStopToGoal("Receiver") == 0 and CBall2RoleDist("Receiver") < 10 then
+		 	return "Rshoot"
 		end
+
 		if CIsBallKick("Receiver") then
-			return "Shoot"
+			return "Rshoot"
+		end
+
+		if CIsBallKick("Kicker") then
+			return "FlatPassR2T"
 		end
 	end,
 
-
-	if getnum("Tier") >= getnum("Receiver") then					
-			Kicker	 = task.PassBall("Kicker","Receiver"),	     --有人阻挡则用跳球
-			Receiver = task.task.GoRecePos("Receiver")，
-			Tier   = task.GotoPos("Tier",100,80,(CRole2BallDir("Tier"))),
-			Goalie   = task.Goalie()
-	else
-			Kicker	 = task.PassBall("Kicker","Tier")	,
-			Receiver = task.task.GoRecePos("Tier")，
-			Tier   = task.GotoPos("Kicker",100,-80,(CRole2BallDir("Kicker"))),	
-			Goalie   = task.Goalie()
-	end     
-
+	--Kicker = ("FlatPass2Receiver"),
+	--Receiver = ReceiverTask("接球函数"),
+	Tier = task.GotoPos("Tier",x1,y1,z1),
+	Goalie = task.Goalie()
 },
 
 
-
-
-["PassBallback"] = {                          --回传  左右判断对方球员人数 往人少半场回传
+["FlatPassR2T"] = {
 	switch = function()
-		if CIsBallKick("Receiver") then
-			return "Shoot"
+		--local x,y,z=RandPoint("Kicker")
+		-- if isStopToGoal("Tier") == 0 and CBall2RoleDist("Tier") < 10 then
+		-- 	return "Tshoot"
+		-- end
+		if  CIsBallKick("Receiver") then
+			return "Tshoot"
+		end
+		-- if CIsBallKick("Receiver") then
+		-- 	return "FlatPassT2K"
+		-- end
+	end,
+
+	Kicker = task.GotoPos("Kicker",200,-100,CRole2BallDir("Receiver")),
+	Receiver = task.PassBall("Receiver","Tier"),
+	Tier = task.GoRecePos("Tier"),
+	--Receiver = ReceiverTask("FlatPass2Receiver"), 
+	--Tier = TierTask("接球函数"),
+	Goalie = task.Goalie()
+},
+
+["FlatPassT2K"] = {
+	switch = function()
+		local x1,y1,z1 =RandPointShoot("Receiver")
+		if isStopToGoal("Receiver") == 0 and CBall2RoleDist("Receiver") < 10 then
+			return "Kshoot"
+		end
+		if CIsBallKick("Tier") then
+			return "KickerGetBall"
 		end
 	end,
-	Kicker = task.PassBall("Kicker","Receiver"),       
-	Receiver = task.task.GoRecePos("Receiver")，
-	Tier   = task.GotoPos("Tier",100,80,(CRole2BallDir("Tier"))),
-	Goalie   = task.Goalie()
+	--Kicker = KickerTask("接球函数"),
+	Receiver = task.GotoPos("Receiver",x1,y1,z1 ),
+	--Tier = TierTask("FlatPass2Receiver"),
+	Goalie = task.Goalie()
+
 },
 
 
 
-["Shoot"] = {
+
+["Tshoot"]  = {
+	switch = function()
+		if CIsBallKick("Tier") then
+			return "finish"
+		end
+	end,
+	Kicker = task.RefDef("Kicker"),
+	Receiver = task.RefDef("Receiver"),
+	Tier = task.Shoot("Tier"),
+	Goalie = task.Goalie()
+
+},
+["Kshoot"]  = {
+	switch = function()
+		if CIsBallKick("Kicker") then
+			return "finish"
+		end
+	end,
+	Kicker =  task.Shoot("Kicker"),
+	Receiver = task.RefDef("Receiver"),
+	Tier = task.RefDef("Tier"),
+	Goalie = task.Goalie()
+
+},
+["Rshoot"]  = {
 	switch = function()
 		if CIsBallKick("Receiver") then
 			return "finish"
 		end
 	end,
-	Kicker = task.Shoot("Kicker"),
-	Receiver = task.RefDef("Receiver"),
+	Kicker = task.RefDef("Kicker"),
+	Receiver = task.Shoot("Receiver"),
+	Tier = task.RefDef("Tier"),
 	Goalie = task.Goalie()
+
 },
+	
 
 name = "Ref_MiddleKick"
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

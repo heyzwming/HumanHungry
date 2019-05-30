@@ -1,15 +1,4 @@
 
---祈祷收工
-
---加油，蔡徐坤！你是最棒的！就算要修改again，你也是最靓的篮球王子！
---坤坤放心飞，ikun永相随
---改代码的坤坤，才散发着迷人的魅力，才是当之无愧的九亿少女的梦！！
-
---Attack的部分交给小胡来改啦！Defence部分，小何要认真改好哦！
-
---5.20 22:11 现在开启自检模式，不许Say No，不许呕吐。对待自己的代码，要充满爱心。
---代码是我写的，我要，好好，操，我欣赏不来，我想死。
---不行，看完状态机。必须看完。看不完不是人。
 ------------------------------------全局Table---------------------------------------------
 OurNumTable = {["Kicker"] = 1, ["Receiver"] = 2, ["Tier"] = 3, ["Goalie"] = 4}
 OurTable = {[1] = "Kicker", [2] = "Receiver", [3] = "Tier", [4] = "Goalie"}
@@ -172,7 +161,7 @@ end
 ------------------------------------获取1号间谍的号码------------------------------------------
 --★
 Spy1ID = function()
-    local ourTable = {[1]="Kicker",[2]="Receiver",[3]="Tier",[4]="Goalie"}      
+    local ourTable = {[1] = "Kicker",[2] = "Receiver",[3] = "Tier",[4] = "Goalie"}      
 	for i,val in pairs(ourTable) do -- 遍历 表 oppTable里的所有 key 和 value    
         local num = i    
         if ourTable[num] == Spy1 then

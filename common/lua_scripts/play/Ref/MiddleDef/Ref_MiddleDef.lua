@@ -1,15 +1,16 @@
 --desc: 
+-- 如果我方拿球即return finish
 gPlayTable.CreatePlay{
-firstState = "doCornerDef",
+firstState = "doMiddleDef",
 switch = function()
-	return "doCornerDef"
+	return "doMiddleDef"
 end,
-["doCornerDef"] = {
-	Kicker  = task.KickerTask("face2face_60"),
+["doMiddleDef"] = {
+	Kicker   = task.KickerTask("face2face_60"),
 	Receiver = task.ReceiverTask("face2ball_def_only02"),
-	Tier	= task.TierTask("def"),
-	Goalie  = task.Goalie()
+	Tier	 = task.TierTask("def"),
+	Goalie   = task.Goalie()
 },
 
-name = "Ref_CornerDef_use"
+name = "Ref_MiddleDef"
 }

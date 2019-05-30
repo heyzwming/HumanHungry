@@ -1,8 +1,8 @@
 {
-    "IS_TEST_MODE": true,
-    "OPPONENT_NAME": "Other",
-    "gBayesPlayTable": "Nor/NormalPlayDefend",
-    "gNormalPlay": "NormalPlayDefend",
+    "IS_TEST_MODE": false,
+    "OPPONENT_NAME": "yz",
+    "gBayesPlayTable": "Nor/NormalPlayDefend_3v3",
+    "gNormalPlay": "NormalPlayDefend_3v3",
     "gPlayBotSkill": [
         "getball",
         "goalie",
@@ -19,8 +19,20 @@
         "penaltykick"
     ],
     "gRefPlayTable": [
+        "Ref/BackDef/Ref_BackDef",
+        "Ref/BackKick/Ref_BackKick",
+        "Ref/CornerDef/Ref_CornerDef",
+        "Ref/CornerKick/Ref_CornerKick_4v4",
+        "Ref/FrontDef/Ref_FrontDef",
+        "Ref/FrontKick/Ref_FrontKick_4v4",
+        "Ref/KickOff/Ref_KickOff",
+        "Ref/KickOffDef/Ref_KickOffDef",
+        "Ref/MiddleDef/Ref_MiddleDef",
+        "Ref/MiddleKick/Ref_MiddleKick",
+        "Nor/NormalPlayDefend_3v3",
+        "Ref/PenaltyDef/Ref_PenaltyDef",
+        "Ref/PenaltyKick/Ref_PenaltyKick",
         "Ref/GameStop/Ref_Stop",
-        "Nor/NormalPlayDefend",
         "Ref/Ref_Halt"
     ],
     "gRoleFixNum": {
@@ -37,6 +49,6 @@
         "GoalieSkill",
         "DefenderSkill"
     ],
-    "gTestPlay": "NormalPlayDefend_3v3",
-    "gTestPlayTable": "Ref/Others/NormalPlayDefend_3v3"
+    "gTestPlay": "",
+    "gTestPlayTable": ""
 }

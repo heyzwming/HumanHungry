@@ -1,13 +1,19 @@
+--desc: 黄队防守
 gPlayTable.CreatePlay{
 firstState = "doDef",
 
 switch = function()
-	return "doDef"
+	if CBall2RoleDist("Kicker") < 20 or CBall2RoleDist("Receiver") < 20 or CBall2RoleDist("Tier") < 20 then
+		return "finish"
+	else	
+		return "doDef"
+	end
 end,
 
 ["doDef"] = {
-	Kicker  = task.RefDef("Kicker"),
-	Receiver = task.RefDef("Receiver"),
+	Kicker  = task.KickerTask("face2facedef05"),
+	Receiver= task.ReceiverTask("face2ball_def_only02"),
+	Tier	= task.TierTask("Tdef_dev"),
 	Goalie  = task.Goalie()
 },
 

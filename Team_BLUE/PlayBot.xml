@@ -8,7 +8,7 @@
         <address>127.0.0.1</address>
         <frameRate>60.0</frameRate>
         <ourTeam>b</ourTeam>
-        <ourSide>l</ourSide>
+        <ourSide>r</ourSide>
         <isSimulation>1</isSimulation>
         <refbox_switch>0</refbox_switch>
         <vehicleForward>6</vehicleForward>
@@ -39,7 +39,7 @@
     </PathPlanner>
     <CCommControl>
         <COM_NUM>3</COM_NUM>
-        <COM_Freq>1</COM_Freq>
+        <COM_Freq>8</COM_Freq>
         <COM_RATE>115200</COM_RATE>
         <PARITY>0</PARITY>
         <PVERSION>2016</PVERSION>

@@ -70,7 +70,7 @@ firstState = "xy",
 	end,
 	Kicker   = task.KickerTask("receiveball"),
 	Receiver = task.ReceiverTask("passball"),
-		Tier     = task.TierTask("Tdef_dev"),
+	Tier     = task.TierTask("Tdef_dev"),
 	Goalie   = task.Goalie()
 },
 
@@ -82,7 +82,7 @@ firstState = "xy",
 	end,
 	Kicker   = task.KickerTask("receiveball"),
 	Receiver   = task.GotoPos("Receiver", 120, 100, Receiver2Kickerdir),
-		Tier     = task.TierTask("Tdef_dev"),
+	Tier     = task.TierTask("Tdef_dev"),
 	Goalie   = task.Goalie()
 },
 
@@ -96,7 +96,7 @@ firstState = "xy",
 	end,
 	Kicker   = task.GetBall("Kicker","Receiver"),
 	Receiver   = task.GotoPos("Receiver", 120, 100, Receiver2Kickerdir),
-		Tier     = task.TierTask("Tdef_dev"),
+	Tier     = task.TierTask("Tdef_dev"),
 	Goalie   = task.Goalie()
 },
 
