@@ -1,10 +1,8 @@
-# RoboCup
-
-HumanHungry!
+# HumanHungry!
 
 人类：饥肠辘辘
 
-# 2019年浙江省机器人竞赛，足球机器人竞赛
+# 2019年浙江省机器人竞赛
 
 
 # 工作流（Workflow）
